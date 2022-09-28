@@ -72,16 +72,12 @@ function createFloor() {
 
 function createSphere() {
     let radius = 4;
-    let pos = { x: 15, y: radius, z: -15 };
-
-    const axesHelper = new THREE.AxesHelper(51);
-    scene.add(axesHelper);
+    let pos = { x: 10, y: radius, z: 10 };
 
     sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(radius, 32, 32),
         new THREE.MeshPhongMaterial({ color: 0x43a1f4 }))
-    sphere.position.set(10, 4, 10)
-    //camera.position.set(100, 500, 100)
-    // camera.position.set(10,1,1)
+    sphere.position.set(pos.x,pos.y,pos.z)
+
     sphere.castShadow = true
     sphere.receiveShadow = true
     scene.add(sphere)
@@ -184,5 +180,7 @@ function createGui() {
 createFloor()
 createSphere()
 createGui()
+const axesHelper = new THREE.AxesHelper(51);
+scene.add(axesHelper);
 
 animate()
