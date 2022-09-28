@@ -11,19 +11,22 @@
     <article class="grid">
       <div>
         <hgroup>
-          <h1>Catmeme</h1>
+          <h1>Racoon meme</h1>
           <h2>A Cat Meme Generator from the makers of Catbase.</h2>
         </hgroup>
         <hgroup>
         </hgroup>
-        <form action="submit">
-          <label for="img">Select image:</label><input type="file" id="image" name="img" accept="image/*">
-           Top Text <input type="text" id="top_text" />
-           Botton Text <input type="text" id="bottom_text" />
-          <button type="submit">Make Meme</button>
+        <form action="">
+          <!--<label for="img">Select image:</label><input type="file" id="image" name="img" accept="image/*">-->
+          Image URL <input type="text" id="image" name = "img" />
+          Top Text <input type="text" id="top_text" />
+          Botton Text <input type="text" id="bottom_text" />
+          <button type="submit" class = "contrast" id = "submit">Make Meme</button>
         </form>
+        <canvas id='output' width=400 height=600></canvas>
       </div>
     </article>
+    <hr>
   </main><!-- ./ Main -->
     <script src="js/scripts.js">
     </script>
