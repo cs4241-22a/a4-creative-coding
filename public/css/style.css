@@ -1,0 +1,130 @@
+
+h1{
+    text-align: center;
+}
+
+h2{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+body {
+
+}
+
+input[type="text"], textarea {
+    height: 30px;
+}
+
+
+form{
+    display: inline-block;
+    margin-left: 15%;
+    margin-right: 15%;
+
+
+}
+
+::placeholder{
+    font-family: "Open Sans";
+}
+
+
+
+label {
+    display: inline-block;
+}
+
+
+table{
+  margin-left: auto;
+  margin-right: auto;
+  font-size:25px;
+  border-spacing: 20px;
+}
+
+
+hr.solid{
+    width:50%;
+    margin:0 auto;
+}
+
+
+button{
+    font-size: 25px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.button_subm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    width: 20%;
+    vertical-align: middle;
+
+}
+
+.button_acc{
+    font-size: 25px;
+    width: 125%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.button_help2{
+    font-size: 18px;
+    width: 10%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.button_edit{
+    font-size: 12px;
+    width: 100%;
+}
+
+.button_delete{
+    font-size: 12px;
+    width: 100%;
+}
+
+.button_help{
+    margin-left: auto;
+    margin-right: auto;
+}
+.button_help2{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.uploadbox{
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+img{
+
+}
+
+.carts {
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 0;
+  }
+
+  .bags {
+    display: block; 
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
