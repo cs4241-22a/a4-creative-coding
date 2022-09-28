@@ -38,11 +38,11 @@ export function animate() {
     requestAnimationFrame(animate);
 }
 
-// ambient light
+// ambient light -> no shadows
 let hemiLight = new THREE.AmbientLight(0xffffff, 0.20);
 scene.add(hemiLight);
 
-//Add directional light
+//directional light -> shadows
 let dirLight = new THREE.DirectionalLight(0xffffff, 1);
 dirLight.position.set(-30, 50, -30);
 scene.add(dirLight);
