@@ -1,6 +1,6 @@
 ## Music Visualizer
 
-Glitch: http://a4-charlieroberts.glitch.me
+Glitch: https://a4-kr0man0va.glitch.me/
 
 Goal: The goal of the project was to create a 2D audio visualizer for the chosen songs. Three songs were picked: Nyan Cat, O-Zone Dragostea Din Tei, and Disturbed The sound of Silence.
 
