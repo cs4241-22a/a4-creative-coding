@@ -174,6 +174,10 @@ function createGui() {
     const folderVel = gui.addFolder("velocity")
     folderVel.add(velocity, "x", -30, 30, 1,).name("X Velocity");
     folderVel.add(velocity, "z", -30, 30, 1,).name("Z Velocity");
+   
+    const folderScale = gui.addFolder("scale")
+    gui.add(sphere.scale, "x", -30, 30, 5,).name("X Position");
+    gui.add(sphere.scale, "z", -30, 30, 5,).name("Z Position");
 }
 
 
