@@ -1,0 +1,27 @@
+{
+    "name": "a4-creative-coding",
+    "version": "0.1.0",
+    "description": "WPI CS 4241 assignment",
+    "author": "Samara Holmes",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.0",
+        "cookie-parser": "^1.4.6",
+        "cookie-session": "^2.0.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.2",
+        "express": "^4.18.1",
+        "express-handlebars": "^6.0.6",
+        "express-session": "^1.17.3",
+        "hiq": "^2.0.0",
+        "mime": "^2.6.0",
+        "mongodb": "^4.9.1",
+        "morgan": "^1.10.0",
+        "node-statsd": "^0.1.1",
+        "passport": "^0.6.0",
+        "passport-github": "^1.1.0",
+        "response-time": "^2.3.2"
+    }
+}
