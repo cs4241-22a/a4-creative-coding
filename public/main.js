@@ -5,6 +5,8 @@ import { OrbitControls } from 'https://unpkg.com/three@0.127.0/examples/jsm/cont
 let sphere, velocity = Object(); 
 velocity.x = 1.4;
 velocity.z = 1.4;
+let radius = 5;
+
 // CAMERA
 const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1500);
 camera.position.set(130, 90, 0);
@@ -34,6 +36,15 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 export function animate() {
     dragObject();
+
+    //update boundingBox if object moves
+    boxRedBB.copy(boxRed.geometry.boundingBox).applyMatrix4(boxRed.matrixWorld);
+    boxGreenBB.copy(boxGreen.geometry.boundingBox).applyMatrix4(boxGreen.matrixWorld);
+    boxPinkBB.copy(boxPink.geometry.boundingBox).applyMatrix4(boxPink.matrixWorld);
+
+    //check if cubes or sphere touch each other
+    checkIntersecting()
+
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
 }
@@ -67,11 +78,12 @@ function createFloor() {
     scene.add(blockPlane);
 
     blockPlane.userData.ground = true
+
+    return blockPlane;
 }
 
 
 function createSphere() {
-    let radius = 4;
     let pos = { x: 10, y: radius, z: 10 };
 
     sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(radius, 32, 32),
@@ -85,6 +97,8 @@ function createSphere() {
 
     sphere.userData.draggable = true
     sphere.userData.name = 'SPHERE'
+    
+    return sphere
 }
 
 function createBox(x,z,color) {
@@ -101,7 +115,67 @@ function createBox(x,z,color) {
   
     box.userData.draggable = true
     box.userData.name = 'BOX'
+
+    return box
   }
+
+function createBoundingBox(box) {
+    let cubeBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+    cubeBB.setFromObject(box);
+    
+    return cubeBB;
+}
+
+function createBoundingSphere(sphere) {
+    let sphereBB = new THREE.Sphere(sphere.position, radius)
+
+    return sphereBB;
+}
+
+let red = false;
+let pink = false;
+let green = false;
+
+function checkIntersecting(){
+
+    // Checking if player sphere touches cubes
+    if(playerBB.intersectsBox(boxRedBB)){
+        boxRed.position.x -= 1;
+    } 
+
+    if(playerBB.intersectsBox(boxGreenBB)){
+        boxGreen.position.z -= 1;
+    } 
+
+    if(playerBB.intersectsBox(boxPinkBB)){
+        boxPink.position.z += 1;
+    }
+
+    if(pink && green && red){
+        console.log("WINNER WINNER CHICKEN DINNER")
+    }
+
+
+    //check if box touches plane else "fall"
+    if(!boxRedBB.intersectsBox(planeBB)){
+        boxRed.position.y -= 1;
+        boxRed.position.x -= 0.2;
+        red = true;
+    }
+    
+    if(!boxGreenBB.intersectsBox(planeBB)){
+        boxGreen.position.y -= 1;
+        boxGreen.position.z -= 0.2;
+        green = true;
+    }
+
+    if(!boxPinkBB.intersectsBox(planeBB)){
+        boxPink.position.y -= 1;
+        boxPink.position.z -= 0.2;
+        pink = true;
+    }
+
+}
 
 
 const raycaster = new THREE.Raycaster(); // create once
@@ -145,7 +219,6 @@ window.addEventListener('mousemove', event => {
 });
 
 window.addEventListener('keydown', (event) => {
-    console.log(event.key)
 
     let pressed = (event.key).toLowerCase()
     if (pressed === 'w') {
@@ -196,11 +269,20 @@ function createGui() {
 }
 
 
-createFloor()
-createSphere()
-createBox(-40, 15, 0xDC143C)
-createBox(10, 40, 0xfe4fe3)
-createBox(23, -30, 0x11e99a)
+let plane = createFloor()
+let planeBB = createBoundingBox(plane)
+
+let player = createSphere()
+let playerBB = createBoundingSphere(player)
+
+let boxRed = createBox(-40, 15, 0xDC143C)
+let boxRedBB = createBoundingBox(boxRed)
+let boxPink = createBox(10, 40, 0xfe4fe3)
+let boxPinkBB = createBoundingBox(boxPink)
+let boxGreen = createBox(23, -30, 0x11e99a)
+let boxGreenBB = createBoundingBox(boxGreen)
+
+
 createGui()
 const axesHelper = new THREE.AxesHelper(51);
 scene.add(axesHelper);
