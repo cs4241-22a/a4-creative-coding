@@ -1,0 +1,31 @@
+{
+  "name": "a4-creative-coding",
+  "version": "1.0.0",
+  "description": "Assignment 4 - Creative Coding: Interactive Multimedia Experience",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "devStart": "nodemon server.js"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tobias-mack/a4-creative-coding.git"
+  },
+  "keywords": [],
+  "author": "Tobias Mack",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tobias-mack/a4-creative-coding/issues"
+  },
+  "homepage": "https://github.com/tobias-mack/a4-creative-coding#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "three": "^0.144.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
