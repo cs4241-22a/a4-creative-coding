@@ -2,12 +2,33 @@ h1 {
   font-family: cooper-black-std, serif;
   font-weight: 400;
   font-style: normal;
+  color: white;
+  text-shadow: -1px 1px 0 #000,
+    1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000;
+  text-align: center;
+  position: relative;
+  color: #ffffff;
+  font-size: 45px;
 }
 
-body {
-  background-image: url(../assets/mysingingmonsters.jpg);
+.backgroundimg {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-p {
-  background-image: url(../assets/mysingingmonsters.jpg);
+.backgroundimg::before {
+  content: "";
+  background-image: url('/mysingingmonsters.jpg');
+  background-size: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.75;
 }
