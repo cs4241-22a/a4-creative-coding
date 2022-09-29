@@ -1,27 +1,20 @@
-import { Pane } from "tweakpane";
-
-class GameOfLife {
+export class GameOfLife {
 
     constructor(startingPercent, delay, width, height) {
         this.startingPercent = startingPercent
         this.delay = delay
-        this.running = false
-
-        // Set up pane
-        const pane = new Pane({
-            container: document.getElementById('sidebar'),
-        });
+        this.running = true
 
         // Determine heights
         this.canvas = document.getElementById('canvas')
         this.canvasContext = this.canvas.getContext("2d")
-        this.CELL_WIDTH = this.canvas.scrollWidth / width
-        this.CELL_HEIGHT = this.canvas.scrollHeight / height
+        this.canvas.width = Math.round(this.canvas.scrollWidth)
+        this.canvas.height = Math.round(this.canvas.scrollHeight)
+        this.CELL_WIDTH = Math.round(this.canvas.scrollWidth) / width
+        this.CELL_HEIGHT = Math.round(this.canvas.scrollHeight) / height
 
         // Create arrays
-        this.current = Array.from({length: height}, () => {
-            Array.from({ length:width }, () => false)
-        })
+        this.current = Array.from(Array(height), () => Array.from(Array(width), () => false))
         this.next = this.current
     }
 
@@ -36,6 +29,7 @@ class GameOfLife {
     }
 
     async run() {
+        this.generateStartingBoard()
         while (this.running) {
             this.iterate()
             await new Promise(r => setTimeout(r, 1000 * this.delay))
@@ -43,9 +37,12 @@ class GameOfLife {
     }
 
     iterate() {
-        // Update next array
+        // Update next array and paint from previous
+        this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height)
         for (let row = 0; row < this.current.length; row++) {
             for (let col = 0; col < this.current[0].length; col++) {
+                this.canvasContext.fillStyle = this.current[row][col] ? "#000000" : "#FFFFFF"
+                this.canvasContext.fillRect(col * this.CELL_WIDTH, row * this.CELL_HEIGHT, this.CELL_WIDTH, this.CELL_HEIGHT);
                 this.updateCell(row, col)
             }
         }
