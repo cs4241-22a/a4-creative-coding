@@ -1,8 +1,8 @@
 export class GameOfLife {
-
-    constructor(startingPercent, delay, width, height) {
+    constructor(startingPercent, delay, width, height, fun) {
         this.startingPercent = startingPercent
         this.delay = delay
+        this.fun = fun
         this.running = true
 
         // Determine heights
@@ -12,6 +12,16 @@ export class GameOfLife {
         this.canvas.height = Math.round(this.canvas.scrollHeight)
         this.CELL_WIDTH = Math.round(this.canvas.scrollWidth) / width
         this.CELL_HEIGHT = Math.round(this.canvas.scrollHeight) / height
+        this.canvas.addEventListener('mousedown', (e) => {
+            this.adding = true
+            this.addNewCells(this.canvas, e)
+        })
+        this.canvas.addEventListener('mouseup', (e) => this.adding = false)
+        this.canvas.addEventListener('mousemove', (e) => {
+            if (this.adding) {
+                this.addNewCells(this.canvas, e)
+            }
+        })
 
         // Create arrays
         this.current = Array.from(Array(height), () => Array.from(Array(width), () => false))
@@ -29,6 +39,7 @@ export class GameOfLife {
     }
 
     async run() {
+        this.running = true
         this.generateStartingBoard()
         while (this.running) {
             this.iterate()
@@ -36,12 +47,26 @@ export class GameOfLife {
         }
     }
 
+    reset() {
+        this.running = false
+        this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.canvasContext.fillStyle = "#000000"
+        this.canvasContext.font = "30px Arial"
+        this.canvasContext.fillText("Welcome to John Conway's Game of Life", 10, 50)
+        this.canvasContext.fillText("Interactions:", 10, 150)
+        this.canvasContext.font = "20px Arial"
+        this.canvasContext.fillText("1) Change the parameters in the bottom right and press Run", 10, 200)
+        this.canvasContext.fillText("2) While running, click and drag your mouse on the screen to add new shapes.", 10, 225)
+    }
+
     iterate() {
         // Update next array and paint from previous
         this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height)
         for (let row = 0; row < this.current.length; row++) {
             for (let col = 0; col < this.current[0].length; col++) {
-                this.canvasContext.fillStyle = this.current[row][col] ? "#000000" : "#FFFFFF"
+                // Background color is white, cell color is black unless fun option is specified, in which case it is a random color
+                let randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
+                this.canvasContext.fillStyle = !this.current[row][col] ? "#FFFFFF" : this.fun ? randomColor : "#000000"
                 this.canvasContext.fillRect(col * this.CELL_WIDTH, row * this.CELL_HEIGHT, this.CELL_WIDTH, this.CELL_HEIGHT);
                 this.updateCell(row, col)
             }
@@ -122,5 +147,12 @@ export class GameOfLife {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    addNewCells(canvas, event) {
+        const rect = canvas.getBoundingClientRect()
+        const x = event.clientX - rect.left
+        const y = event.clientY - rect.top
+        this.current[Math.floor(y / this.CELL_HEIGHT)][Math.floor(x / this.CELL_WIDTH)] = true
     }
 }
