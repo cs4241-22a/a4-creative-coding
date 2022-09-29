@@ -240,7 +240,5 @@ let boxGreenBB = createBoundingBox(boxGreen)
 
 
 createGui()
-const axesHelper = new THREE.AxesHelper(51);
-scene.add(axesHelper);
 
 animate()
