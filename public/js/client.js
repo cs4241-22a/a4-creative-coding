@@ -5,7 +5,8 @@ const PARAMS = {
     Width: 150,
     Height: 150,
     Delay: 0.05,
-    Fun: false
+    Fun: false,
+    "Show Grid": false
 }
 
 const pane = new Tweakpane.Pane({
@@ -16,32 +17,46 @@ const pane = new Tweakpane.Pane({
 pane.addInput(PARAMS, 'Life Starting Percentage',
     {min: 0, max: 100, step: 1})
 pane.addInput(PARAMS, 'Width',
-    {min: 25, max: 400, step: 25})
+    {min: 25, max: 300, step: 25})
 pane.addInput(PARAMS, 'Height',
-    {min: 25, max: 400, step: 25})
+    {min: 25, max: 300, step: 25})
 pane.addInput(PARAMS, 'Delay',
     {min: 0, max: 2, step: 0.01})
 pane.addInput(PARAMS, 'Fun')
+pane.addInput(PARAMS, 'Show Grid')
 pane.addSeparator()
-const button = pane.addButton({
+const runButton = pane.addButton({
     title: 'Run'
 })
+const pauseButton = pane.addButton({
+    title: 'Pause',
+    disabled: true
+})
 
-let gameOfLife = new GameOfLife(PARAMS["Life Starting Percentage"], PARAMS.Delay, PARAMS.Width, PARAMS.Height, PARAMS.Fun)
+let gameOfLife = new GameOfLife(PARAMS["Life Starting Percentage"], PARAMS.Delay, PARAMS.Width, PARAMS.Height, PARAMS.Fun, PARAMS["Show Grid"])
 gameOfLife.reset()
 
 let running = false
-button.on('click', () => {
+runButton.on('click', () => {
     // Stop previously running game of life
     if (running) {
-        button.title = 'Run'
+        runButton.title = 'Run'
         running = false
+        pauseButton.title = 'Pause'
+        pauseButton.disabled = true
         gameOfLife.reset()
     } else {
-        button.title = 'Stop'
+        runButton.title = 'Stop'
         running = true
-        gameOfLife = new GameOfLife(PARAMS["Life Starting Percentage"], PARAMS.Delay, PARAMS.Width, PARAMS.Height, PARAMS.Fun)
+        pauseButton.disabled = false
+        gameOfLife = new GameOfLife(PARAMS["Life Starting Percentage"], PARAMS.Delay, PARAMS.Width, PARAMS.Height, PARAMS.Fun, PARAMS["Show Grid"])
         gameOfLife.run()
     }
+})
+
+pauseButton.on('click', () => {
+    gameOfLife.togglePause()
+    if (gameOfLife.isPaused()) pauseButton.title = 'Unpause'
+    else pauseButton.title = 'Pause'
 })
 
