@@ -7,5 +7,13 @@
 <body>
 <h1><%= title %></h1>
 <p>Welcome to <%= title %></p>
+
+<audio src="/media/angel-juan.mp3"></audio> <!--Expose track to DOM-->
+
+<button data-playing="false" role="switch" aria-checked="false" id="play-pause">
+    <span>Play/Pause</span>
+</button>
+
+<script src='/scripts/audio.js'></script>
 </body>
 </html>
