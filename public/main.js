@@ -130,8 +130,14 @@ function createBoundingSphere(sphere) {
 }
 
 function showWinMsg() {
-    const button = document.getElementById("reload")
-    button.style.visibility = 'visible';
+    const buttonW = document.getElementById("win")
+    buttonW.style.visibility = 'visible';
+}
+
+
+function showLooseMsg() {
+    const buttonL = document.getElementById("loose")
+    buttonL.style.visibility = 'visible';
 }
 
 function reloadSite() {
@@ -202,6 +208,11 @@ function checkIntersecting() {
         }
     }
 
+    //check if sphere touches plane 
+    if (!playerBB.intersectsBox(planeBB)) {
+        sphere.position.y -= 1;
+        showLooseMsg()
+    }
 }
 
 
@@ -224,7 +235,8 @@ window.addEventListener('keydown', (event) => {
 
 })
 
-document.getElementById("reload").addEventListener("click", reloadSite, false);
+document.getElementById("win").addEventListener("click", reloadSite, false);
+document.getElementById("loose").addEventListener("click", reloadSite, false);
 
 
 
