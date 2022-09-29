@@ -211,8 +211,8 @@ window.addEventListener('keydown', (event) => {
 
 function createGui() {
     const gui = new dat.GUI();
-    gui.add(sphere.position, "x", -30, 30, 5,).name("X Position");
-    gui.add(sphere.position, "z", -30, 30, 5,).name("Z Position");
+    gui.add(sphere.position, "x", -40, 40, 5,).name("X Position");
+    gui.add(sphere.position, "z", -40, 40, 5,).name("Z Position");
     gui.add(sphere.material, "wireframe");
 
     const folderVel = gui.addFolder("velocity")
