@@ -41,11 +41,29 @@ audioElement.addEventListener('ended', () => {
 // Visualizations:
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Basic_concepts_behind_Web_Audio_API#visualizations
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API
-
-const gainNode = audioContext.createGain();
-track.connect(gainNode).connect(audioContext.destination);
-
-// https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getFloatFrequencyData
+//
+// const gainNode = audioContext.createGain();
+// track.connect(gainNode).connect(audioContext.destination);
+//
+// // https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getFloatFrequencyData
 const analyzer = audioContext.createAnalyser();
 const dataArray = new Float32Array(analyzer.frequencyBinCount);
 analyzer.getFloatFrequencyData(dataArray);
+const audioSourceNode = audioContext.createMediaElementSource(audioElement);
+
+//Set up audio node network
+audioSourceNode.connect(analyzer);
+analyzer.connect(audioContext.destination);
+
+function draw() {
+    requestAnimationFrame(draw);
+
+    if (playButton.dataset.playing === 'false') {
+        return;
+    }
+    //Get spectrum data
+    analyzer.getFloatFrequencyData(dataArray);
+    console.log(dataArray[0]);
+}
+
+draw();
