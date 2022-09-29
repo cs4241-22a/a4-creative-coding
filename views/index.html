@@ -11,64 +11,74 @@
     <h1>A Simple Audio Visualizer</h1>
     <h2>Click the button below to play the song</h2>
     <button id="play">PLAY</button>
-    <button id="pause">PAUSE</button>
     <script>
       const start = function() {
-  document.body.innerHTML = ''
-  const canvas = document.createElement( 'canvas' )
-  document.body.appendChild( canvas )
-  canvas.width = canvas.height = 512
-  const ctx = canvas.getContext( '2d' )
+        document.body.innerHTML = ''
+        const canvas = document.createElement( 'canvas' )
+        document.body.appendChild( canvas )
+        canvas.width = canvas.height = 624
+        const ctx = canvas.getContext( '2d' )
 
-  // audio init
-  const audioCtx = new AudioContext()
-  const audioElement = document.createElement( 'audio' )
-  canvas.appendChild( audioElement )
+        // audio init
+        const audioCtx = new AudioContext()
+        const audioElement = document.createElement( 'audio' )
+        canvas.appendChild( audioElement )
 
-  // audio graph setup
-  const analyser = audioCtx.createAnalyser()
-  analyser.fftSize = 1024 // 512 bins
-  const player = audioCtx.createMediaElementSource( audioElement )
-  player.connect( audioCtx.destination )
-  player.connect( analyser )
+        const PARAMS = {
+          background_color: "black",
+          stretch: 1,
+          count: 1,
+          blur: 1,
+        }
+        
+        const pane = new Tweakpane.Pane()
 
-  // make sure, for this example, that your audiofle is accesssible
-  // from your server's root directory... here we assume the file is
-  // in the ssame location as our index.html file
-  audioElement.src = './ufo ufo - _Strange Clouds_.mp3'
-  audioElement.play()
-  
-  const results = new Uint8Array( analyser.frequencyBinCount )
+        pane.addInput(PARAMS, 'background_color')
+        pane.addInput(PARAMS, 'stretch')
+        pane.addInput(PARAMS, 'count')
+        pane.addInput(PARAMS, 'blur')
 
-  draw = function() {
-    // temporal recursion, call tthe function in the future
-    window.requestAnimationFrame( draw )
-    
-    // fill our canvas with a black box
-    // by doing this every frame we 'clear' the canvas
-    ctx.fillStyle = 'black' 
-    ctx.fillRect( 0,0,canvas.width,canvas.height )
-    
-    // set the color to white for drawing our visuaization
-    //ctx.fillStyle = 'white' 
-    
-    analyser.getByteFrequencyData( results )
-    
-    for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
-      let r = (i * results[i]) / 5;
-      let g = i;
-      let b = results[i] / 5;
-      ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
-      ctx.fillRect( results[i] , i,  1,  1)
-      ctx.fillRect(canvas.width-results[i] , i,  1,  1)
-    }
-  }
+        // audio graph setup
+        const analyser = audioCtx.createAnalyser()
+        analyser.fftSize = 2048 // 512 bins
+        const player = audioCtx.createMediaElementSource( audioElement )
+        player.connect( audioCtx.destination )
+        player.connect( analyser )
 
-  draw()
-}
+        // make sure, for this example, that your audiofle is accesssible
+        // from your server's root directory... here we assume the file is
+        // in the ssame location as our index.html file
+        audioElement.src = './ufo ufo - _Strange Clouds_.mp3'
+        audioElement.play()
 
-window.onload = ()=> document.querySelector('button').onclick = start
+        const results = new Uint8Array( analyser.frequencyBinCount )
+
+        draw = function() {
+          // temporal recursion, call tthe function in the future
+          window.requestAnimationFrame( draw )
+          
+          // fill our canvas with a black box
+          // by doing this every frame we 'clear' the canvas
+          ctx.fillStyle = PARAMS.background_color.toString()
+          ctx.fillRect( 0,0,canvas.width,canvas.height )
+      
+          analyser.getByteFrequencyData( results )
+          
+          for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+            let r = (i * results[i]) / PARAMS.count;
+            let g = i;
+            let b = results[i] / -PARAMS.count;
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
+            ctx.fillRect( results[i], i,  PARAMS.blur,  PARAMS.stretch)
+            ctx.fillRect((canvas.width-results[i]), i,  PARAMS.blur,  PARAMS.stretch)
+          }
+        }
+        draw()
+      }
+
+      window.onload = ()=> document.querySelector('button').onclick = start
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
   </body>
 </html>
