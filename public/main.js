@@ -2,7 +2,7 @@ import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.127.0/examples/jsm/controls/OrbitControls.js';
 //import { GLTFLoader } from 'https://unpkg.com/three@0.127.0/examples/jsm/loaders/GLTFLoader.js';
 
-let sphere, velocity = Object(); 
+let sphere, velocity = Object();
 velocity.x = 1.4;
 velocity.z = 1.4;
 let radius = 5;
@@ -93,20 +93,20 @@ function createSphere() {
 
     sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(radius, 32, 32),
         new THREE.MeshPhongMaterial({ color: 0x43a1f4 }))
-    sphere.position.set(pos.x,pos.y,pos.z)
+    sphere.position.set(pos.x, pos.y, pos.z)
 
     sphere.castShadow = true
     sphere.receiveShadow = true
     scene.add(sphere)
-    
+
     return sphere
 }
 
-function createBox(x,z,color) {
+function createBox(x, z, color) {
     let scale = { x: 6, y: 6, z: 6 }
     let pos = { x: x, y: scale.y / 2, z: z }
-  
-    let box = new THREE.Mesh(new THREE.BoxBufferGeometry(), 
+
+    let box = new THREE.Mesh(new THREE.BoxBufferGeometry(),
         new THREE.MeshPhongMaterial({ color: color }));
     box.position.set(pos.x, pos.y, pos.z);
     box.scale.set(scale.x, scale.y, scale.z);
@@ -115,12 +115,12 @@ function createBox(x,z,color) {
     scene.add(box)
 
     return box
-  }
+}
 
 function createBoundingBox(box) {
     let cubeBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
     cubeBB.setFromObject(box);
-    
+
     return cubeBB;
 }
 
@@ -130,64 +130,60 @@ function createBoundingSphere(sphere) {
     return sphereBB;
 }
 
-function checkIntersecting(){
+function checkIntersecting() {
 
     // Checking if player sphere touches cubes
-    if(playerBB.intersectsBox(boxRedBB)){
+    if (playerBB.intersectsBox(boxRedBB)) {
         boxRed.position.x -= 1;
-    } 
+    }
 
-    if(playerBB.intersectsBox(boxGreenBB)){
+    if (playerBB.intersectsBox(boxGreenBB)) {
         boxGreen.position.z -= 1;
-    } 
+    }
 
-    if(playerBB.intersectsBox(boxPinkBB)){
+    if (playerBB.intersectsBox(boxPinkBB)) {
         boxPink.position.z += 1;
     }
 
-    if(pink && green && red){
+
+    //Check if all cubes are off the platform
+    if (pink && green && red) {
         console.log("WINNER WINNER CHICKEN DINNER")
+        pink = green = red = false
     }
 
 
     //check if box touches plane else "fall"
-    if(!boxRedBB.intersectsBox(planeBB)){
+    if (!boxRedBB.intersectsBox(planeBB)) {
         boxRed.position.y -= 1;
         boxRed.position.x -= 0.2;
-        red = true;
+        if (boxRed.position.y > -5) {
+            red = true;
+        }
     }
-    
-    if(!boxGreenBB.intersectsBox(planeBB)){
+
+    if (!boxGreenBB.intersectsBox(planeBB)) {
         boxGreen.position.y -= 1;
         boxGreen.position.z -= 0.2;
-        green = true;
+        if (boxGreen.position.y > -5) {
+            green = true;
+        }
     }
 
-    if(!boxPinkBB.intersectsBox(planeBB)){
+    if (!boxPinkBB.intersectsBox(planeBB)) {
         boxPink.position.y -= 1;
         boxPink.position.z -= 0.2;
-        pink = true;
+        if (boxPink.position.y > -5) {
+            pink = true;
+        }
     }
 
 }
 
 
-const raycaster = new THREE.Raycaster(); // create once
-const moveMouse = new THREE.Vector2();   // create once
-
-function intersect(pos) {
-    raycaster.setFromCamera(pos, camera);
-    return raycaster.intersectObjects(scene.children);
-}
 
 
 //EVENT LISTENERS
-
-
-window.addEventListener('mousemove', event => {
-    moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-});
 
 window.addEventListener('keydown', (event) => {
 
@@ -218,7 +214,7 @@ function createGui() {
     const folderVel = gui.addFolder("velocity")
     folderVel.add(velocity, "x", -30, 30, 1,).name("X Velocity");
     folderVel.add(velocity, "z", -30, 30, 1,).name("Z Velocity");
-   
+
     const folderScale = gui.addFolder("scale")
     folderScale.add(sphere.scale, "x", -30, 30, 5,).name("X Position");
     folderScale.add(sphere.scale, "z", -30, 30, 5,).name("Z Position");
