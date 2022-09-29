@@ -37,6 +37,9 @@ scene.background = new THREE.Color(0xbfd1e5);
 // CONTROLS
 const controls = new OrbitControls(camera, renderer.domElement);
 
+
+
+
 export function animate() {
 
     //update boundingBox if object moves
