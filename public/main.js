@@ -6,6 +6,9 @@ let sphere, velocity = Object();
 velocity.x = 1.4;
 velocity.z = 1.4;
 let radius = 5;
+let red = false;
+let pink = false;
+let green = false;
 
 // CAMERA
 const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1500);
@@ -35,7 +38,6 @@ scene.background = new THREE.Color(0xbfd1e5);
 const controls = new OrbitControls(camera, renderer.domElement);
 
 export function animate() {
-    dragObject();
 
     //update boundingBox if object moves
     boxRedBB.copy(boxRed.geometry.boundingBox).applyMatrix4(boxRed.matrixWorld);
@@ -93,10 +95,6 @@ function createSphere() {
     sphere.castShadow = true
     sphere.receiveShadow = true
     scene.add(sphere)
-
-
-    sphere.userData.draggable = true
-    sphere.userData.name = 'SPHERE'
     
     return sphere
 }
@@ -112,9 +110,6 @@ function createBox(x,z,color) {
     box.castShadow = true;
     box.receiveShadow = true;
     scene.add(box)
-  
-    box.userData.draggable = true
-    box.userData.name = 'BOX'
 
     return box
   }
@@ -131,10 +126,6 @@ function createBoundingSphere(sphere) {
 
     return sphereBB;
 }
-
-let red = false;
-let pink = false;
-let green = false;
 
 function checkIntersecting(){
 
@@ -179,9 +170,7 @@ function checkIntersecting(){
 
 
 const raycaster = new THREE.Raycaster(); // create once
-const clickMouse = new THREE.Vector2();  // create once
 const moveMouse = new THREE.Vector2();   // create once
-var draggable;
 
 function intersect(pos) {
     raycaster.setFromCamera(pos, camera);
@@ -189,29 +178,8 @@ function intersect(pos) {
 }
 
 
-
-
 //EVENT LISTENERS
 
-window.addEventListener('click', event => {
-    if (draggable != null) {
-        console.log(`dropping draggable ${draggable.userData.name}`)
-        draggable = null
-        return;
-    }
-
-    // THREE RAYCASTER
-    clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    const found = intersect(clickMouse);
-    if (found.length > 0) {
-        if (found[0].object.userData.draggable) {
-            draggable = found[0].object
-            console.log(`found draggable ${draggable.userData.name}`)
-        }
-    }
-})
 
 window.addEventListener('mousemove', event => {
     moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -237,21 +205,6 @@ window.addEventListener('keydown', (event) => {
 
 
 //FUNCTIONS
-function dragObject() {
-    if (draggable != null) {
-        const found = intersect(moveMouse);
-        if (found.length > 0) {
-            for (let i = 0; i < found.length; i++) {
-                if (!found[i].object.userData.ground)
-                    continue
-
-                let target = found[i].point;
-                draggable.position.x = target.x
-                draggable.position.z = target.z
-            }
-        }
-    }
-}
 
 function createGui() {
     const gui = new dat.GUI();
