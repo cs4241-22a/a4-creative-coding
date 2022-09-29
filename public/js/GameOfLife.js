@@ -54,10 +54,10 @@ export class GameOfLife {
         this.running = false
         this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height)
         this.canvasContext.fillStyle = "#000000"
-        this.canvasContext.font = "30px Arial"
+        this.canvasContext.font = "30px Roboto"
         this.canvasContext.fillText("Welcome to John Conway's Game of Life", 10, 50)
         this.canvasContext.fillText("Interactions:", 10, 150)
-        this.canvasContext.font = "20px Arial"
+        this.canvasContext.font = "20px Roboto"
         this.canvasContext.fillText("1) Change the parameters in the bottom right and press Run.", 10, 200)
         this.canvasContext.fillText("2) Click and drag your mouse on the screen to add new cells.", 10, 225)
         this.canvasContext.fillText("3) Click or drag while holding control to remove cells.", 10, 250)

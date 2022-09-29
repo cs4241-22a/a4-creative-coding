@@ -1,4 +1,5 @@
 html, body {
+    font-family: 'Roboto', sans-serif;
     height: 100%;
     width: 100%;
     margin: 0;
@@ -24,5 +25,13 @@ canvas {
     margin: 0;
     padding: 0 15px 0 15px;
     align-self: center;
-    background-color: grey;
+    background-color: #4169E1;
+}
+
+h1, p, figcaption, li {
+    color: white;
+}
+
+a {
+    color: black;
 }

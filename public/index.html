@@ -8,13 +8,16 @@
     <script src="js/client.js" type="module" defer></script>
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
 <canvas id="canvas">
 </canvas>
 <div id="sidebar">
     <h1 style="text-align: center;">John Conway's Game of Life</h1>
-    <p>An infinite <small>(disclaimer: this one is not infinite)</small> grid of cells that can either be alive or dead.
+    <p>Conway's Game of Life is an infinite <small>(disclaimer: this one is not infinite)</small> grid of cells that can either be alive or dead.
         These cells can survive, die, or multiply, all based on a few rules.
         The rules are simple:</p>
     <ol>
@@ -26,7 +29,7 @@
 
     <p>
         Depending on the initial conditions of the cells, various patterns are formed.
-        Some patterns are stable (like a 2x2 block) while others oscillate (like a 3x1 line). Some are even cooler, and
+        Some patterns are stable (like a 2x2 block) while others oscillate (like a 3x1 line, which flips from horizontal to vertical and back). Some are even cooler, and
         are called spaceships. They translate themselves across the board. More information about this can be found <a
             href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Examples_of_patterns">here</a>.
     </p>
