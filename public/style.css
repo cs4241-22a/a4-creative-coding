@@ -6,9 +6,9 @@ body {
 	position: absolute;
 	top: 10px;
 	width: 25%;
-	text-align: center;
-	z-index: 100;
-	display:block;
+    text-align: left;
+    z-index: 100;
+    margin-left: 100px;
 }
 
 #buttons {
