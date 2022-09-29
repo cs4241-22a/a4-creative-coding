@@ -11,6 +11,10 @@ const track = audioContext.createMediaElementSource(audioElement)
 track.connect(audioContext.destination);
 
 
+//      --------------
+//      MEDIA CONTROLS
+//      --------------
+
 // play/pause functionality
 const playButton = document.querySelector('#play-pause'); // Select our play button
 playButton.addEventListener('click', () => {
@@ -38,17 +42,17 @@ audioElement.addEventListener('ended', () => {
 }, false);
 
 
-// Visualizations:
+//      --------------
+//      VISUALIZATIONS
+//      --------------
+
+//  Some Sources:
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Basic_concepts_behind_Web_Audio_API#visualizations
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API
-//
-// const gainNode = audioContext.createGain();
-// track.connect(gainNode).connect(audioContext.destination);
-//
-// // https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getFloatFrequencyData
-const analyzer = audioContext.createAnalyser();
-const dataArray = new Float32Array(analyzer.frequencyBinCount);
-analyzer.getFloatFrequencyData(dataArray);
+// https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getFloatFrequencyData
+
+const analyzer = audioContext.createAnalyser(); // create analyzer node
+const dataArray = new Float32Array(analyzer.frequencyBinCount); // new float array of equal length as the number of data values we have to play with for the visualization.
 const audioSourceNode = audioContext.createMediaElementSource(audioElement);
 
 //Set up audio node network
@@ -56,14 +60,17 @@ audioSourceNode.connect(analyzer);
 analyzer.connect(audioContext.destination);
 
 function draw() {
-    requestAnimationFrame(draw);
+    requestAnimationFrame(draw); // re-call draw for the next frame
 
+    // don't waste time drawing next frame if audio is paused
     if (playButton.dataset.playing === 'false') {
+        // todo, pause here and await a callback to resume?
         return;
     }
+
     //Get spectrum data
-    analyzer.getFloatFrequencyData(dataArray);
-    console.log(dataArray[0]);
+    analyzer.getFloatFrequencyData(dataArray); // put the current frequency data into dataArray
+    console.log(dataArray[0]); // todo, temp demo
 }
 
 draw();
