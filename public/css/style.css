@@ -85,6 +85,17 @@ button{
     display: block;
 }
 
+.font_arial{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.font_impact{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+}
+
+.font_comicsans{
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', sans-serif;
+
 .button_help2{
     font-size: 18px;
     width: 10%;

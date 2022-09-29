@@ -29,8 +29,10 @@ function create_meme(bottom_text, top_text, base_img){
     let ctx = canvas.getContext('2d');
     ctx.fillStyle = '#fff';
     ctx.fillRect(0,0,509,609);
-    const font_size = document.querySelector('#font_size').value;
-    ctx.font = ''+ font_size +'px Arial';
+    const font_size =  document.querySelector('#font_size').value;
+    const font_family = document.getElementById("font").value;
+    console.log(font_family);
+    ctx.font = ''+ font_size +'px ' + font_family + '';
     ctx.fillStyle = "black";
     ctx.textAlign = 'center';
     ctx.fillText(top_text, 200, 50);
@@ -49,6 +51,9 @@ top_text_chk.onchange = submit;
 
 const slider = document.querySelector('#font_size')
 slider.onchange = submit;
+
+const font = document.getElementById("font")
+font.onchange = submit;
 
 //const button = document.querySelector('#submit')
 //button.onclick = submit;

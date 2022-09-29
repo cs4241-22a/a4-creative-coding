@@ -11,7 +11,7 @@
     <article class="grid">
       <div>
         <hgroup>
-          <h1>Racoon meme</h1>
+          <h1>Cat Meme-ify</h1>
           <h2>A Cat Meme Generator from the makers of Catbase.</h2>
         </hgroup>
         <hgroup>
@@ -21,6 +21,14 @@
           Image URL <input type="text" id="image" name = "img" />
           Top Text <input type="text" id="top_text" />
           Botton Text <input type="text" id="bottom_text" />
+
+          <label for="font" id="select_font">Select Font:</label>
+          <select id="font">
+          <option value="Arial" class = "font_arial" id = "Arial">Arial</option>
+          <option value="Impact" class = "font_impact" id = "Impact">Impact</option>
+          <option value="Comic Sans MS" class = "font_comicsans" id = "Comic Sans MS">Comic Sans</option>
+          </select>
+
           <label for="font_size">Font Size:</label>
           <input type="range" id="font_size" name="font_size" min="8" max="30">
           <!--<button type="submit" class = "contrast" id = "submit">Make Meme</button>-->
@@ -28,7 +36,6 @@
         <canvas id='output' width=400 height=600 class = "ctr_canvas"></canvas>
       </div>
     </article>
-    <hr>
   </main><!-- ./ Main -->
     <script src="js/scripts.js">
     </script>
