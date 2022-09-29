@@ -9,10 +9,29 @@
   </head>
   <body>
     <h1>A Simple Audio Visualizer</h1>
-    <h2>Click the button below to play the song</h2>
-    <button id="play">PLAY</button>
+    <h2>Select one of the radio buttons below, then press start to play the song</h2>
+    <p>Once you hit play, there will be 4 options to control.
+      <ul>Background Color : Controls the background color of the visualizer</ul>
+      <ul>Stretch : Controls the height of the visualizer audio bars</ul>
+      <ul>Count : Controls the shade of the audio bars</ul>
+      <ul>Blur : Controls the width of the visualizer audio bars</ul>
+    </p>
+    <form>
+      <input type="radio" name="type" id="OneBar">
+      <label for="OneBar">One Bar</label>
+      <input type="radio" name="type" id="TwoBars">
+      <label for="TwoBars">Two Bars</label>
+      <input type="radio" name="type" value="Circle" id="Circle">
+      <label for="Circle">Circle</label>
+      <button id="start">Start</button>
+    </form>
+    
     <script>
       const start = function() {
+        let btnTwoBars = document.getElementById("TwoBars")
+        let btnOneBar = document.getElementById("OneBar")
+        let btnCircle = document.getElementById("Circle")
+        
         document.body.innerHTML = ''
         const canvas = document.createElement( 'canvas' )
         document.body.appendChild( canvas )
@@ -53,9 +72,9 @@
 
         const results = new Uint8Array( analyser.frequencyBinCount )
 
-        draw = function() {
+        drawTwoBar = function() {
           // temporal recursion, call tthe function in the future
-          window.requestAnimationFrame( draw )
+          window.requestAnimationFrame( drawTwoBar )
           
           // fill our canvas with a black box
           // by doing this every frame we 'clear' the canvas
@@ -63,7 +82,6 @@
           ctx.fillRect( 0,0,canvas.width,canvas.height )
       
           analyser.getByteFrequencyData( results )
-          
           for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
             let r = (i * results[i]) / PARAMS.count;
             let g = i;
@@ -73,10 +91,71 @@
             ctx.fillRect((canvas.width-results[i]), i,  PARAMS.blur,  PARAMS.stretch)
           }
         }
-        draw()
+
+        drawOneBar = function() {
+          // temporal recursion, call tthe function in the future
+          window.requestAnimationFrame( drawOneBar )
+          
+          // fill our canvas with a black box
+          // by doing this every frame we 'clear' the canvas
+          ctx.fillStyle = PARAMS.background_color.toString()
+          ctx.fillRect( 0,0,canvas.width,canvas.height )
+      
+          analyser.getByteFrequencyData( results )
+            for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+            let r = (i * results[i]) / PARAMS.count*2;
+            let g = i*PARAMS.count;
+            let b = results[i] / -PARAMS.count*4;
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
+            ctx.fillRect( i, results[i],  PARAMS.blur,  PARAMS.stretch)
+            }
+        }
+
+        drawCircle = function() {
+          // temporal recursion, call tthe function in the future
+          window.requestAnimationFrame( drawCircle )
+          
+          // fill our canvas with a black box
+          // by doing this every frame we 'clear' the canvas
+          ctx.fillStyle = PARAMS.background_color.toString()
+          ctx.fillRect( 0,0,canvas.width,canvas.height )
+      
+          analyser.getByteFrequencyData( results )
+          var centerX = canvas.width / 2;
+          var centerY = canvas.height / 2;
+          var radius = 1;
+          for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+            let r = (i * results[i]) / PARAMS.count*2;
+            let g = i*PARAMS.count;
+            let b = results[i] / -PARAMS.count*4;
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
+            ctx.fill()
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius*results[i], 0, 2 * Math.PI, false);
+            ctx.stroke();
+          }
+        }
+
+        if (btnOneBar.checked)
+        {
+          console.log("One Bar")
+          drawOneBar()
+        }
+        else if (btnTwoBars.checked)
+        {
+          console.log("Two Bars")
+          drawTwoBar()
+        }
+        else if(btnCircle.checked)
+        {
+          console.log("Circle")
+          drawCircle()
+        }
+        
+        
       }
 
-      window.onload = ()=> document.querySelector('button').onclick = start
+      window.onload = ()=> document.getElementById('start').onclick = start
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
