@@ -29,7 +29,8 @@ function create_meme(bottom_text, top_text, base_img){
     let ctx = canvas.getContext('2d');
     ctx.fillStyle = '#fff';
     ctx.fillRect(0,0,509,609);
-    ctx.font = '25px Arial';
+    const font_size = document.querySelector('#font_size').value;
+    ctx.font = ''+ font_size +'px Arial';
     ctx.fillStyle = "black";
     ctx.textAlign = 'center';
     ctx.fillText(top_text, 200, 50);
@@ -37,8 +38,20 @@ function create_meme(bottom_text, top_text, base_img){
     ctx.drawImage(base_img, 0, 100, new_width, new_height);
 }
 
-const button = document.querySelector('#submit')
-button.onclick = submit
+const image_chk = document.querySelector('#image')
+image_chk.onchange = submit;
+
+const bottom_text_chk = document.querySelector('#bottom_text')
+bottom_text_chk.onchange = submit;
+
+const top_text_chk = document.querySelector('#top_text')
+top_text_chk.onchange = submit;
+
+const slider = document.querySelector('#font_size')
+slider.onchange = submit;
+
+//const button = document.querySelector('#submit')
+//button.onclick = submit;
 
 window.onload = function () {
     console.log("Loaded and ready to go!!!!")

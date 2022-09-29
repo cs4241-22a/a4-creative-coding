@@ -21,9 +21,11 @@
           Image URL <input type="text" id="image" name = "img" />
           Top Text <input type="text" id="top_text" />
           Botton Text <input type="text" id="bottom_text" />
-          <button type="submit" class = "contrast" id = "submit">Make Meme</button>
+          <label for="font_size">Font Size:</label>
+          <input type="range" id="font_size" name="font_size" min="8" max="30">
+          <!--<button type="submit" class = "contrast" id = "submit">Make Meme</button>-->
         </form>
-        <canvas id='output' width=400 height=600></canvas>
+        <canvas id='output' width=400 height=600 class = "ctr_canvas"></canvas>
       </div>
     </article>
     <hr>
