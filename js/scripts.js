@@ -1,9 +1,14 @@
-import Tweakpane from 'tweakpane';
 console.log("script is connected");
 
-const pane = new Tweakpane({
+const pane = new Tweakpane.Pane({
     container: document.querySelector('#container'),
 });
+
+const f1 = pane.addFolder({
+    title: 'Monster 1',
+});
+
+f1.addInput()
 
 const PARAMS = {
     factor: 123,
