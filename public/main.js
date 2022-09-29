@@ -1,6 +1,5 @@
 import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.127.0/examples/jsm/controls/OrbitControls.js';
-//import { GLTFLoader } from 'https://unpkg.com/three@0.127.0/examples/jsm/loaders/GLTFLoader.js';
 
 let sphere, velocity = Object();
 velocity.x = 1.4;
@@ -130,6 +129,30 @@ function createBoundingSphere(sphere) {
     return sphereBB;
 }
 
+function showWinMsg() {
+    const button = document.getElementById("reload")
+    button.style.visibility = 'visible';
+}
+
+function reloadSite() {
+    location.reload();
+}
+
+function createGui() {
+    const gui = new dat.GUI();
+    gui.add(sphere.position, "x", -40, 40, 5,).name("X Position");
+    gui.add(sphere.position, "z", -40, 40, 5,).name("Z Position");
+    gui.add(sphere.material, "wireframe");
+
+    const folderVel = gui.addFolder("velocity")
+    folderVel.add(velocity, "x", -30, 30, 1,).name("X Velocity");
+    folderVel.add(velocity, "z", -30, 30, 1,).name("Z Velocity");
+
+    const folderScale = gui.addFolder("scale")
+    folderScale.add(sphere.scale, "x", -30, 30, 5,).name("X Position");
+    folderScale.add(sphere.scale, "z", -30, 30, 5,).name("Z Position");
+}
+
 function checkIntersecting() {
 
     // Checking if player sphere touches cubes
@@ -150,6 +173,7 @@ function checkIntersecting() {
     if (pink && green && red) {
         console.log("WINNER WINNER CHICKEN DINNER")
         pink = green = red = false
+        showWinMsg()
     }
 
 
@@ -200,27 +224,11 @@ window.addEventListener('keydown', (event) => {
 
 })
 
+document.getElementById("reload").addEventListener("click", reloadSite, false);
 
 
 
-//FUNCTIONS
-
-function createGui() {
-    const gui = new dat.GUI();
-    gui.add(sphere.position, "x", -40, 40, 5,).name("X Position");
-    gui.add(sphere.position, "z", -40, 40, 5,).name("Z Position");
-    gui.add(sphere.material, "wireframe");
-
-    const folderVel = gui.addFolder("velocity")
-    folderVel.add(velocity, "x", -30, 30, 1,).name("X Velocity");
-    folderVel.add(velocity, "z", -30, 30, 1,).name("Z Velocity");
-
-    const folderScale = gui.addFolder("scale")
-    folderScale.add(sphere.scale, "x", -30, 30, 5,).name("X Position");
-    folderScale.add(sphere.scale, "z", -30, 30, 5,).name("Z Position");
-}
-
-
+//init creation
 let plane = createFloor()
 let planeBB = createBoundingBox(plane)
 
