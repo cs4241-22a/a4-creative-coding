@@ -7,3 +7,5 @@ Requirements:
 
 
 Using the Web Audio API to play, and get data/nodes for a song, and use these nodes with some Three.js algo to generate shapes. Maybe look at PlexAmp or VLC visualizers for inspo.
+
+started with https://expressjs.com/en/starter/generator.html
