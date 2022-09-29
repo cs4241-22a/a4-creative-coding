@@ -7,7 +7,7 @@ velocity.x = 1.4;
 velocity.z = 1.4;
 // CAMERA
 const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1500);
-camera.position.set(150, 150, 0);
+camera.position.set(130, 90, 0);
 camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 // RENDERER
@@ -44,7 +44,7 @@ scene.add(hemiLight);
 
 //directional light -> shadows
 let dirLight = new THREE.DirectionalLight(0xffffff, 1);
-dirLight.position.set(-30, 50, -30);
+dirLight.position.set(50, 70, -40);
 scene.add(dirLight);
 dirLight.castShadow = true;
 dirLight.shadow.mapSize.width = 2048;
@@ -87,6 +87,21 @@ function createSphere() {
     sphere.userData.name = 'SPHERE'
 }
 
+function createBox(x,z,color) {
+    let scale = { x: 6, y: 6, z: 6 }
+    let pos = { x: x, y: scale.y / 2, z: z }
+  
+    let box = new THREE.Mesh(new THREE.BoxBufferGeometry(), 
+        new THREE.MeshPhongMaterial({ color: color }));
+    box.position.set(pos.x, pos.y, pos.z);
+    box.scale.set(scale.x, scale.y, scale.z);
+    box.castShadow = true;
+    box.receiveShadow = true;
+    scene.add(box)
+  
+    box.userData.draggable = true
+    box.userData.name = 'BOX'
+  }
 
 
 const raycaster = new THREE.Raycaster(); // create once
@@ -176,13 +191,16 @@ function createGui() {
     folderVel.add(velocity, "z", -30, 30, 1,).name("Z Velocity");
    
     const folderScale = gui.addFolder("scale")
-    gui.add(sphere.scale, "x", -30, 30, 5,).name("X Position");
-    gui.add(sphere.scale, "z", -30, 30, 5,).name("Z Position");
+    folderScale.add(sphere.scale, "x", -30, 30, 5,).name("X Position");
+    folderScale.add(sphere.scale, "z", -30, 30, 5,).name("Z Position");
 }
 
 
 createFloor()
 createSphere()
+createBox(-40, 15, 0xDC143C)
+createBox(10, 40, 0xfe4fe3)
+createBox(23, -30, 0x11e99a)
 createGui()
 const axesHelper = new THREE.AxesHelper(51);
 scene.add(axesHelper);
