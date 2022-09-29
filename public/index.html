@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Conway's Game Of Life</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple TODO list website.">
+    <script src="js/client.js" type="module" defer></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+<canvas id="canvas">
+</canvas>
+<div id="sidebar">
+    <h1 style="text-align: center;">John Conway's Game of Life</h1>
+    <p>Conway's Game of Life is an infinite <small>(disclaimer: this one is not infinite)</small> grid of cells that can either be alive or dead.
+        These cells can survive, die, or multiply, all based on a few rules.
+        The rules are simple:</p>
+    <ol>
+        <li>Each alive cell with one or no neighbors (includes diagonals) dies, as if by solitude.</li>
+        <li>Each alive cell with four or more neighbors dies, as if by overpopulation.</li>
+        <li>Each alive cell with two or three neighbors survives.</li>
+        <li>Each dead cell with three neighbors becomes populated, as if by reproduction.</li>
+    </ol>
+
+    <p>
+        Depending on the initial conditions of the cells, various patterns are formed.
+        Some patterns are stable (like a 2x2 block) while others oscillate (like a 3x1 line, which flips from horizontal to vertical and back). Some are even cooler, and
+        are called spaceships. They translate themselves across the board. More information about this can be found <a
+            href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Examples_of_patterns">here</a>.
+    </p>
+
+    <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Gospers_glider_gun.gif"
+             alt="Animated gif image of some patterns in Conway's Game of Life" style="display: block; margin-left: auto; margin-right: auto">
+        <figcaption style="text-align: center;"><i>A single Gosper's glider gun creating gliders, as shown on Wikipedia</i></figcaption>
+    </figure>
+</div>
+</body>

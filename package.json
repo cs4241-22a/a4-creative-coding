@@ -1,0 +1,16 @@
+{
+  "name": "cs4241-assignment4",
+  "version": "0.1.0",
+  "description": "WPI CS 4241 fourth assignment: A visualization of John Conway's Game of Life!",
+  "author": "Jonathan Metcalf",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "engines": {
+    "node": "12.x"
+  }
+}

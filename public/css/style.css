@@ -1,0 +1,37 @@
+html, body {
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+}
+
+canvas {
+    outline: black 2px solid;
+    width: 75%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar {
+    width: 25%;
+    height: 100%;
+    margin: 0;
+    padding: 0 15px 0 15px;
+    align-self: center;
+    background-color: #4169E1;
+}
+
+h1, p, figcaption, li {
+    color: white;
+}
+
+a {
+    color: black;
+}
