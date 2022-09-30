@@ -1,0 +1,30 @@
+* {
+  font-family: monospace;
+}
+
+body {
+  background-color: #0A0B37;
+  color: #FF61C7;
+}
+
+button {
+  font-size: 16px;
+  border-radius: 3px;
+  background-color: #E68E35;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #F4FF62;
+}
+
+#button-group {
+  display: block;
+  width: 50%;
+}
+
+#paneDiv {
+  position: absolute;
+  right: 0px;
+  width: 250px;
+}

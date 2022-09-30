@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assingment 4</title>
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://glitch.com/edit/favicon-app.ico"
+      type="image/x-icon"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- Import Tweakpane -->
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
+
+    <script src="/client.js" defer></script>
+  </head>
+  <body>
+    <div id="paneDiv">
+      <b>Red:</b> Change red value for the total RGB value used by the
+      visualizer<br />
+      <b>Blue:</b> Change red value for the total RGB value used by the
+      visualizer<br />
+      <b>Green:</b> Change red value for the total RGB value used by the
+      visualizer<br />
+      <b>Background:</b> Set the background color for the site with a hex
+      value<br />
+      <b>Height:</b> Increase the height of the visualizer lines<br />
+      <b>Width:</b> Increase the width of the visualizer lines
+    </div>
+    <main id="startButtons">
+      <h1>Choose a Song:</h1>
+      <div id="button-group">
+        <p>
+          Choose a song below to see its visualizer. Once you pick a song you
+          can use the Visualizer Controls to the right of the screen. Experiment
+          with the different options to change qualities of the visualizer.
+        </p>
+        <button
+          onclick="visualizer('https://cdn.glitch.global/b2d56def-db45-4b0a-8189-9c468f0b4716/buckethead.mp3?v=1664295544104')"
+        >
+          Buckethead - Watching the Boats With My Dad
+        </button>
+        <button
+          onclick="visualizer('https://cdn.glitch.me/b2d56def-db45-4b0a-8189-9c468f0b4716/kiki.wav?v=1664290812393')"
+        >
+          Joe Hisaishi - Mother's Broom
+        </button>
+        <button
+          onclick="visualizer('https://cdn.glitch.me/b2d56def-db45-4b0a-8189-9c468f0b4716/seetheworld.wav?v=1664302839703')"
+        >
+          Pat Metheny - See the World
+        </button>
+        <button
+          onclick="visualizer('https://cdn.glitch.me/b2d56def-db45-4b0a-8189-9c468f0b4716/anotherstar.wav?v=1664290753339')"
+        >
+          Stevie Wonder - Another Star
+        </button>
+      </div>
+    </main>
+  </body>
+</html>
