@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Music Visualizer</title>
+    <link rel="stylesheet" href="./style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nabla&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nabla&family=Squada+One&display=swap" rel="stylesheet">
+  </head>
+  <body id="body1">
+    <div id="strip">
+        <h1>Music Visualizer</h1>
+    </div>
+    <div id="block">
+        <h2>Instructions</h2>
+        <p>- Press the button to start application.</p>
+        <p>- Control the pane on the top right to change song, color, and volume.</p>
+        <p>- Enjoy the music!</p>
+        <div class="wrap">
+            <button class="glow-on-hover" type="button">
+                <p>Press to start</p>
+            </button>
+        </div>
+    </div>
+  </body>
+
+  <script>
+
+    const start = function() {
+
+        const vars = {
+            song: 'music/NyanCat.mp3',
+            audio_color: '#e9d598',
+            background_color: '#423f35',
+            volume: 0.5
+        };
+
+        document.body.innerHTML = ''
+        const canvas = document.createElement( 'canvas' )
+        document.body.appendChild( canvas )
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        const ctx = canvas.getContext( '2d' )
+
+        const audioCtx = new AudioContext()
+        const audioElement = document.createElement( 'audio' )
+        document.body.appendChild( audioElement )
+
+        audioElement.src = vars.song
+
+        const pane = new Tweakpane.Pane();
+
+        pane.addInput(vars, 'song', {
+        options: {
+        'Nyan Cat': 'music/NyanCat.mp3',
+        'Dragostea Din Tei': 'music/O-Zone_Dragostea_Din_Tei.mp3',
+        "The Sound of Silence": "music/Disturbed_The_Sound_Of_Silence.mp3"
+        }
+        }).on("change", (ev) => {
+            audioElement.src = ev.value
+            if (playing) {
+                playB.title = 'Play'
+                playing = false
+            }
+        });
+
+        pane.addInput(vars, 'audio_color');
+        pane.addInput(vars, 'background_color');
+        pane.addInput(vars, 'volume', {
+            min: 0,
+            max: 1,
+        });
+
+        const playB = pane.addButton({
+            title: "Play"
+        })
+
+        let playing = false
+
+        playB.on("click", () => {
+            if(playing) {
+                playing = false
+                audioElement.pause()
+                playB.title = "Play"
+            }
+            else {
+                playing = true
+                audioElement.play()
+                playB.title = "Pause"
+            }
+        })
+
+        const analyser = audioCtx.createAnalyser()
+        analyser.fftSize = 512
+        const player = audioCtx.createMediaElementSource( audioElement )
+        player.connect( audioCtx.destination )
+        player.connect( analyser )
+
+        const results = new Uint8Array( analyser.frequencyBinCount )
+
+        draw = function() {
+
+            window.requestAnimationFrame( draw )
+
+            canvas.width = window.innerWidth
+            canvas.height = window.innerHeight
+
+            ctx.fillStyle = vars.background_color.toString() 
+            ctx.fillRect( 0,0,canvas.width,canvas.height )
+
+            ctx.fillStyle = vars.audio_color.toString()
+
+            analyser.getByteFrequencyData( results )
+
+            audioElement.volume = vars.volume
+
+            const barWidth = (canvas.width / analyser.frequencyBinCount) * 2.5;
+            let barHeight;
+            let x = 0;
+
+            for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+                barHeight = results[i] * 4;
+
+                oColor = d3.color(vars.audio_color.toString());
+                dColor = oColor.darker(250/barHeight)
+
+                ctx.fillStyle = dColor;
+                ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight);
+
+                x += barWidth + 1;
+            }
+
+    }
+
+    draw()
+
+  }
+
+  window.onload = ()=> document.querySelector('button').onclick = start
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
+  <script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
+
+</html>
