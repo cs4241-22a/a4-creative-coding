@@ -1,0 +1,67 @@
+
+/*A material design style button taken from this codepen: (https://codepen.io/sebj54/pen/ogvzdr)*/
+
+.mtl-btn {
+	position: relative;
+
+	display: block;
+	margin: 10px auto;
+	padding: 0;
+
+	overflow: hidden;
+
+	border-width: 0;
+	outline: none;
+	outline: none;
+	border-radius: 4px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+
+	background-color: #e38d21;
+	color: #ecf0f1;
+
+	transition: background-color .3s;
+
+	padding: 10px 20px;
+}
+
+.mtl-btn:hover, .mtl-btn:focus {
+	background-color: #b26f1b;
+}
+
+.mtl-btn > * {
+	position: relative;
+}
+
+.mtl-btn span {
+	display: block;
+	padding: 12px 24px;
+}
+
+.mtl-btn:before {
+	content: "";
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+
+	display: block;
+	width: 0;
+	padding-top: 0;
+
+	border-radius: 100%;
+
+	background-color: rgba(236, 240, 241, .3);
+
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.mtl-btn:active:before {
+	width: 120%;
+	padding-top: 120%;
+
+	transition: width .2s ease-out, padding-top .2s ease-out;
+}

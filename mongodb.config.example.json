@@ -1,0 +1,5 @@
+{
+  "username": "myusername",
+  "password": "mypassword",
+  "host": "canvas.asi8sd.mongodb.net/?retryWrites=true&w=majority"
+}
