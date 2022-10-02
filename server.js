@@ -1,6 +1,5 @@
 const express = require( 'express' ),
           app = express(),
-       cookie = require( 'cookie-session' ),
       favicon = require( 'serve-favicon' ),
         bodyp = require( 'body-parser' ),
          path = require( 'path' );
