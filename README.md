@@ -50,12 +50,16 @@ Do the following to complete this assignment:
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## Simple Audio Spectrum Visualizer
 
-your hosting link e.g. http://a4-charlieroberts.glitch.me
+https://a4-rvrx.glitch.me/
 
 Include a very brief summary of your project here. Images are encouraged when needed, along with concise, high-level text. Be sure to include:
+- The goal is to show a visualization of the audio frequencies in the song I am playing
+- Challenges:
+  - I took some time to get WebAudio up and running (I started before we went over it in class)
+  - I originally wanted to do something with lyrics, but struggled to find a free API with 'subtitle' style lyrics (e.g. with time-mappings)
+- **Instructions**: Open up the webpage, press the 'play/pause' button. EZPZ
 
-- the goal of the application
-- challenges you faced in realizing the application
-- the instructions you present in the website should be clear enough to use the application, but if you feel any need to provide additional instructions please do so here.
+## Technical Stuff
+- Used WebAudio API for data and Three.js for 3D.
