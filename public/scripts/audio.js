@@ -101,7 +101,6 @@ function animate() {
             console.log(dataArray[i * 100]);
         }
 
-        cubeArray[9].scale.set(5,1,1);
 
 
         renderer.render( scene, camera );
