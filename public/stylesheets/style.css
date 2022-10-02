@@ -12,3 +12,7 @@ a {
 .animate__animated.animate__fadeIn {
   --animate-duration: 2s;
 }
+
+.text-faded {
+  opacity: 0.50;
+}
