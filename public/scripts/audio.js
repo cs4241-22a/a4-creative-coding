@@ -88,17 +88,12 @@ function animate() {
         // todo, pause here and await a callback to resume?
         //Get spectrum data
         analyzer.getFloatFrequencyData(dataArray); // put the current frequency data into dataArray
-        console.log(dataArray);
 
         for (let i = 0; i < cubeArray.length; i++) {
             if (PARAMS.rotation) {
                 cubeArray[i].rotation.x += PARAMS.rotational_speed;
             }
             cubeArray[i].scale.set( 1, 1, (Math.abs(dataArray[i*100])/10)-5 );
-            console.log("cube" + i)
-            console.log(cubeArray[i].scale);
-            console.log("data");
-            console.log(dataArray[i * 100]);
         }
 
 
