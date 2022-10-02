@@ -3,3 +3,18 @@ body {
     background-size: 100% auto;
     background-repeat: no-repeat;
 }
+
+.column {
+    float: left;
+    width: 25%;
+  }
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.powerButton a:hover{
+    fill: black;
+}
