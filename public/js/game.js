@@ -1,5 +1,3 @@
-//this script is loaded in the index.html file
-// generates a random tree when the spacebar is pressed
 let canvas, ctx;
 let lenCoeff = 0.8;
 let widthCoeff = 0.8;
@@ -10,6 +8,17 @@ let widthStd = 0.05;
 let startWidth = 10;
 let startLength = 100;
 let seed = 0;
+let numTrees = 3;
+let trees = [];
+
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+let moonLoc = new Point(100, 100);
 
 window.onload = function () {
   //get the canvas element
@@ -17,41 +26,99 @@ window.onload = function () {
   //get the 2d context
   ctx = canvas.getContext("2d");
   //set the canvas width and height
-  canvas.width = 800;
+  canvas.width = 1200;
   canvas.height = 600;
-  //set the canvas background color
-  ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  resetBackground();
 
   //seed
   Math.seedrandom(seed);
-  //draw the tree
-  let tree = new Tree(
-    new Point(canvas.width / 2, canvas.height),
-    startLength,
-    -Math.PI / 2,
-    startWidth
-  );
-  tree.draw();
+  //draw a bunch of trees
+
+  genTrees();
+  drawTrees();
+  drawFog();
 
   //add a key listener
   window.addEventListener("keydown", (event) => {
     if (event.code === "Space") {
-      Math.seedrandom(++seed);
+      seed = Math.random() * 100000;
+      Math.seedrandom(seed);
 
       //clear the canvas
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      //draw the tree
-      let tree = new Tree(
-        new Point(canvas.width / 2, canvas.height),
-        100,
-        -Math.PI / 2,
-        10
-      );
-      tree.draw();
+      resetBackground();
+
+      trees = [];
+      genTrees();
+      drawTrees();
+      drawFog();
     }
   });
+};
+
+const drawFog = () => {
+  //add a grey fog effect using gradient to the bottom of the canvas
+  let gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  gradient.addColorStop(0.25, "rgba(0,0,0,0)");
+  gradient.addColorStop(1, "rgba(0,0,0,.25)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+};
+
+const resetBackground = () => {
+  //set the canvas background color
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  //create a "moon" in the corner
+  ctx.fillStyle = "white";
+  ctx.beginPath();
+  ctx.ellipse(moonLoc.x, moonLoc.y, 50, 50, 0, 0, 2 * Math.PI);
+  ctx.fill();
+
+  drawStars();
+
+  //draw shadow
+  ctx.shadowColor = "black";
+  ctx.shadowBlur = 50;
+  ctx.shadowOffsetX = 5;
+  ctx.shadowOffsetY = 5;
+  ctx.fillStyle = "black";
+};
+
+const genTrees = () => {
+  for (let i = 0; i < numTrees; i++) {
+    let tree = new Tree(
+      new Point(Math.random() * canvas.width, canvas.height),
+      startLength,
+      -Math.PI / 2,
+      startWidth
+    );
+    trees.push(tree);
+  }
+};
+
+const drawTrees = () => {
+  trees.forEach(async (tree) => {
+    tree.draw();
+  });
+};
+
+const drawStars = () => {
+  for (let i = 0; i < 100; i++) {
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.ellipse(
+      Math.random() * canvas.width,
+      Math.random() * canvas.height,
+      Math.random() * 2,
+      Math.random() * 2,
+      0,
+      0,
+      2 * Math.PI
+    );
+    ctx.fill();
+  }
 };
 
 const getNormalDist = (mean, std) => {
@@ -63,13 +130,6 @@ const getNormalDist = (mean, std) => {
   num = num * std + mean;
   return num;
 };
-
-class Point {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
 
 class Branch {
   constructor(start, length, angle, stroke) {
@@ -104,7 +164,7 @@ class Branch {
     ctx.translate(this.end.x, this.end.y);
     ctx.rotate(this.angle);
     //draw oval
-    ctx.ellipse(0, 0, this.stroke, this.stroke * 2, 0, 0, 2 * Math.PI);
+    ctx.ellipse(0, 0, this.length, this.stroke * 2, 0, 0, 2 * Math.PI);
     ctx.stroke();
 
     ctx.fill();
@@ -124,7 +184,7 @@ class Branch {
   }
 
   draw() {
-    if (this.stroke < 2) {
+    if (this.length < 20) {
       //leaf
       this.drawLeaf();
     } else {
