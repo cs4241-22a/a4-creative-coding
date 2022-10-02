@@ -72,7 +72,7 @@ document.body.appendChild( renderer.domElement );
 const cubeArray = new Array(10);
 for (let i = 0; i < 10; i++) {
     const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    const material = new THREE.MeshBasicMaterial( { color: 0x8E7CC3 } );
     const cube = new THREE.Mesh( geometry, material );
     scene.add( cube );
     cube.position.x = -5 + i;
@@ -126,7 +126,7 @@ cameraZInput.on('change', function(ev) {
 });
 
 pane.addInput(PARAMS, 'rotational_speed', {min: 0.005, max: 1.50, step: 0.005})
-const rotationInput = pane.addInput(PARAMS, 'rotation');
+pane.addInput(PARAMS, 'rotation');
 
 
 animate();
