@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script>
+    <script src="https://unpkg.com/three@latest/examples/js/controls/ArcballControls.js"></script>
+    <meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+    <div id="container" style="width:300px;" >
+      
+    </div>
+  
+		<script src="three.js"></script>
+  <script  type="module">
+ 
+     
+    </script>
+
+    
+		<script >
+     
+  	const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+		renderer = new THREE.WebGLRenderer( { antialias: true } );
+				
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+   window.addEventListener( 'resize', onWindowResize );
+      function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			const geo = new THREE.BoxGeometry(1, 1, 1 );
+			let material = new THREE.MeshBasicMaterial({ color: 0x00ff });
+			const cube = new THREE.Mesh( geo, material );
+			scene.add( cube );
+
+			camera.position.z = 5;
+
+			function animate() {
+			requestAnimationFrame( animate);
+      
+			
+			
+				
+				cube.rotation 
+        cube.material
+        cube.mesh
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+ 
+ 
+const pane =  new Tweakpane.Pane();
+
+// `min` and `max`: slider
+
+      // pane.addInput(material.color, 'colr',{
+      //   color: 0x00ff, 
+      // });
+// pane.addInput(material.color,'y',
+//   {min: 0, max: 100, step: 10}
+// );
+
+// `options`: list
+
+
+
+const f1 = pane.addFolder({
+  title: 'rotate',
+});
+f1.addInput(cube.rotation, 'x',{
+  min:-10,
+  max:10,
+  step:.1,
+})
+f1.addInput(cube.rotation, 'y',{
+  min:-10,
+  max:10,
+  step:.1,
+})
+f1.addInput(cube.rotation, 'z',{
+  min:-10,
+  max:10,
+  step:.1,
+})
+
+      const f2 = pane.addFolder({
+  title: 'scale'
+});
+f2.addInput(cube.scale, 'x',{
+  min:.1,
+  max:10,
+  step:.1,
+})
+      f2.addInput(cube.scale, 'y',{
+  min:.1,
+  max:10,
+  step:.1,
+})
+      
+ f2.addInput(cube.scale, 'z',{
+  min:.1,
+  max:10,
+  step:.1,
+})
+      
+    
+  const f3 = pane.addFolder({
+  title: 'camera',
+});    
+        f3.addInput(camera.position, 'x',{
+         min:-50,
+  max:50,
+  step:.1,
+      })
+        f3.addInput(camera.position, 'y',{
+         min:-50,
+  max:50,
+  step:.1,
+      })
+        f3.addInput(camera.position, 'z',{
+         min:-50,
+  max:50,
+  step:.1,
+      })
+      const f4 = pane.addFolder({
+  title: 'color',
+});
+      const color = f4.addInput({ shape:'#ff0000'},'shape',{
+  view:'color' // show values as hex
+})
+color.on( 'change', v=> {
+  material.color = new THREE.Color( v.value )
+})
+       const colorb = f4.addInput({ background:'#ff0000'},'background',{
+  view:'color' // show values as hex
+})
+      colorb.on( 'change', v=> {
+  scene.background = new THREE.Color( v.value )
+})
+      const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+scene.add( light );
+
+ 
+ 
+		</script>
+    
+	</body>
+</html>
