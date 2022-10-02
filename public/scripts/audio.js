@@ -91,7 +91,9 @@ function animate() {
         console.log(dataArray);
 
         for (let i = 0; i < cubeArray.length; i++) {
-            cubeArray[i].rotation.x += 0.01;
+            if (PARAMS.rotation) {
+                cubeArray[i].rotation.x += PARAMS.rotational_speed;
+            }
             cubeArray[i].scale.set( 1, 1, (Math.abs(dataArray[i*100])/10)-5 );
             console.log("cube" + i)
             console.log(cubeArray[i].scale);
@@ -105,4 +107,26 @@ function animate() {
         renderer.render( scene, camera );
     }
 }
+
+
+//      ----------
+//      TWEAK-PANE
+//      ----------
+const pane = new Tweakpane.Pane();
+
+const PARAMS = {
+    CamZ: 5,
+    rotation: true,
+    rotational_speed: 0.01,
+};
+
+const cameraZInput = pane.addInput(PARAMS, 'CamZ', {min: 0, max: 100, step: 0.5});
+cameraZInput.on('change', function(ev) {
+    camera.position.z = ev.value;
+});
+
+pane.addInput(PARAMS, 'rotational_speed', {min: 0.005, max: 1.50, step: 0.005})
+const rotationInput = pane.addInput(PARAMS, 'rotation');
+
+
 animate();
