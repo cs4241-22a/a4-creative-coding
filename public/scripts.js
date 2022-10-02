@@ -1,14 +1,12 @@
 let     audio = new Audio(),
        source = null,
      analyzer = null;
-    audio.src = "./public/source.m4a";
+    audio.src = "./public/source.mp3";
 const context = new (window.AudioContext || window.webkitAudioContext)(),
     container = document.getElementById( "container" ),
        canvas = document.getElementById( "canvas" );
 canvas.width  = window.innerWidth;
 canvas.height = window.innerHeight;
-
-audio.play();
 source = context.createMediaElementSource( audio );
 analyzer = context.createAnalyser();
 source.connect( analyzer );
@@ -33,3 +31,8 @@ function animate()
     }
     requestAnimationFrame(animate);
 }
+window.onload = function()
+{
+    audio.play();
+    animate();
+};
