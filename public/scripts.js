@@ -31,8 +31,13 @@ function animate()
     }
     requestAnimationFrame(animate);
 }
-window.onload = function()
+function starter()
 {
     audio.play();
     animate();
+}
+window.onload = function()
+{
+    const start = document.getElementById( "start" );
+    start.onclick = starter;
 };
