@@ -1,0 +1,35 @@
+{
+  "name": "a4-noah-goodman",
+  "version": "0.0.1",
+  "description": "A simple Node app built on Express, instantly up and running.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cookie-session": "^2.0.0",
+    "ejs": "^3.1.8",
+    "express": "^4.16.4",
+    "express-handlebars": "^6.0.6",
+    "express-sslify": "x",
+    "helmet": "x",
+    "lowdb": "^3.0.0",
+    "mongodb": "x",
+    "serve-favicon": "x",
+    "three": "x",
+    "tweakpane": "x"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ],
+  "devDependencies": {
+    "@tweakpane/core": "^1.1.0"
+  }
+}
