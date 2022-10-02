@@ -1,21 +1,25 @@
-let     audio = new Audio(),
-       source = null,
-     analyzer = null;
-    audio.src = "/source.mp3";
-const context = new (window.AudioContext || window.webkitAudioContext)(),
-    container = document.getElementById( "container" ),
-       canvas = document.getElementById( "canvas" );
-canvas.width  = window.innerWidth;
-canvas.height = window.innerHeight;
-source = context.createMediaElementSource( audio );
-analyzer = context.createAnalyser();
-source.connect( analyzer );
-analyzer.connect( context.destination );
-
-analyzer.fftSize = 128;
-const buflen = analyzer.frequencyBinCount,
-        data = new Uint8Array( buflen ),
-    barwidth = canvas.width / buflen;
+function starter()
+{
+        let     audio = new Audio(),
+        source = null,
+        analyzer = null;
+        audio.src = "/source.mp3";
+    const context = new (window.AudioContext || window.webkitAudioContext)(),
+        container = document.getElementById( "container" ),
+        canvas = document.getElementById( "canvas" );
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    source = context.createMediaElementSource( audio );
+    analyzer = context.createAnalyser();
+    source.connect( analyzer );
+    analyzer.connect( context.destination );
+    analyzer.fftSize = 128;
+    const buflen = analyzer.frequencyBinCount,
+            data = new Uint8Array( buflen ),
+        barwidth = canvas.width / buflen;
+    audio.play();
+    animate();
+}
 
 function animate()
 {
@@ -30,11 +34,6 @@ function animate()
         x += barwidth;
     }
     requestAnimationFrame(animate);
-}
-function starter()
-{
-    audio.play();
-    animate();
 }
 window.onload = function()
 {
