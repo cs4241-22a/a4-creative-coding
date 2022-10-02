@@ -1,4 +1,5 @@
 import './style.css'
+import model from '/models/Ferrari.stl'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js'
@@ -72,7 +73,7 @@ document.body.appendChild(effect.domElement)
 document.getElementById("ascii").style.whiteSpace = "prewrap"
 
 stlLoader.load(
-    '/models/Ferrari.stl',
+    model,
     function (geometry) {
 
         myMesh.material = material;
