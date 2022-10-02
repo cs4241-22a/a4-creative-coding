@@ -1,7 +1,7 @@
 let     audio = new Audio(),
        source = null,
      analyzer = null;
-    audio.src = "./public/source.mp3";
+    audio.src = "/source.mp3";
 const context = new (window.AudioContext || window.webkitAudioContext)(),
     container = document.getElementById( "container" ),
        canvas = document.getElementById( "canvas" );
