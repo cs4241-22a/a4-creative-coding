@@ -9,13 +9,16 @@
   </head>
   <body>
 
-    <div id="top">
+    <div id="top" data-html2canvas-ignore="true">
       <input id="file-selector" name="files[]" style="display:none;" type="file">
       <input type="button" id="input-button" value="Upload STL" accept=".stl" onclick="document.getElementById('file-selector').click();">
       <input id="rotateButton" type="button" value="Rotate">
       <input id="newASCII" size="12" type="text" placeholder="Custom Text" onkeydown="return (event.keyCode!=13);">
       <input id="updateASCII" type="button" value="Update ASCII">
       <input id="resetASCII" type="button" value="Reset ASCII">
+      <input id="screenshotButton" type="button" value="Screenshot">
+      <input id="clipboardButton" type="button" value="Copy to Clipboard">
+      <input id="downloadButton" type="button" value="Download Text">
     </div>
 
     <div id="app"></div>

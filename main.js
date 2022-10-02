@@ -148,13 +148,17 @@ stlLoader.load(
     }
 )
 
-
+//Rotate button
 document.getElementById('rotateButton').addEventListener('click', rotateMode);
 
 function rotateMode() {
     rotateModel = !rotateModel
 }
 
+
+document.getElementById('updateASCII').addEventListener('click', updateASCII);
+
+//Change ASCII characters
 function updateASCII() {
 
   document.body.removeChild(effect.domElement)
@@ -170,6 +174,8 @@ function updateASCII() {
 
 }
 
+
+//Resetting the ASCII
 document.getElementById('resetASCII').addEventListener('click', resetASCII);
 
 function resetASCII() {
@@ -187,6 +193,54 @@ function resetASCII() {
 }
 
 window.addEventListener('resize', onWindowResize);
+
+
+//Screenshot
+document.getElementById('screenshotButton').addEventListener('click', screenshot);
+
+function screenshot() {
+    var container = document.body; // full page 
+    html2canvas(container).then(function (canvas) {
+        var link = document.createElement("a");
+        document.body.appendChild(link);
+        link.download = "ASCII.jpg";
+        link.href = canvas.toDataURL("image/jpg");
+        console.log(link.href);
+        link.click();
+    });
+}
+
+//Downloading the ASCII as txt
+document.getElementById('downloadButton').addEventListener('click', function () {
+    var text = document.getElementsByTagName("table")[0].innerText
+    var filename = "ASCII.txt";
+    download(filename, text);
+});
+
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+//Copyint ASCII to clipboard
+document.getElementById("clipboardButton").addEventListener("click", function () {
+    const textArea = document.createElement("textarea");
+    textArea.textContent = document.getElementsByTagName("td")[0].innerText;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    window.alert("ASCII copied to clipboard");
+}, false);
+
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
