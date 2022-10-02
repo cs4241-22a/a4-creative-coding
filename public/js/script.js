@@ -24,6 +24,7 @@ const app = {
       0.1,
       1000
     );
+    
     app.camera.position.z = 3;
     app.camera.add(listener);
 
@@ -32,13 +33,10 @@ const app = {
 
     document.body.appendChild(app.renderer.domElement);
 
-    const light = new THREE.PointLight( 0xff0000, 1, 100 );
-    light.position.set( 50, 50, 50 );
-    app.scene.add( light );
-
     app.cube = app.makeCube();
 
     app.render = app.render.bind(app);
+    
     if (app.audioCtx == null) {
       const audioCtx = new AudioContext();
       const audioElement = document.createElement("audio");
@@ -70,8 +68,8 @@ const app = {
 
     const cube = new THREE.Mesh(geometry, material);
     app.scene.add(cube);
+    
     const pane = new Tweakpane.Pane();
-
     const color = pane.addInput({ color: "#b2b2b2" }, "color", {
       view: "color", // show values as hex
     });
@@ -105,10 +103,12 @@ const app = {
     z.on("change", (z) => {
       cube.scale.z = z.value;
     });
+    
     const wireframe = pane.addInput({ wireframe: true }, "wireframe");
     wireframe.on("change", (w) => {
       material.wireframe = w.value;
     });
+    
     return cube;
   },
 
@@ -128,13 +128,10 @@ const start = document.getElementById("start");
 start.addEventListener("click", app.init);
 
 function changeHandler({ target }) {
-  // Make sure we have files to use
   if (!target.files.length) return;
 
-  // Create a blob that we can use as an src for our audio element
   const urlObj = URL.createObjectURL(target.files[0]);
 
-  // Create an audio element
   app.audioCtx = new AudioContext();
   const audioElement = document.createElement("audio");
   audioElement.controls = true;
