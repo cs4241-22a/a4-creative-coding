@@ -11,8 +11,14 @@ svg.appendChild( rct )
 document.body.innerHTML = ''
 document.body.appendChild( svg )
 
+var pokemon= []
+
+const margin = { top: 50, right: 50, bottom: 50, left: 50 },
+    height = 300,
+    width = 300
+
 window.onload = function() {
-    fetch( "pokedex.json" )
+    fetch( "https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json" )
       .then( data => data.json() )
       .then( jsonData => {
         d3.select( 'body' )

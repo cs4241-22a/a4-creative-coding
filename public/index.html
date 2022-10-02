@@ -7,11 +7,30 @@
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <script src='script.js'></script>
     </head>
-    <body>
-        <div>
-            <svg>
-                <rect fill='red' x='0' y='0' width='50' height='50' />
-              </svg>
+    <body style="background-image: url('pokedex.jpg');">
+        <div class='container-box' style='text-align: center; background-color: rgba(77, 154, 160, 0.479);'>
+        <div class='pokemonlist'>
+            <h2 style='text-align: center;'> Gen 1 Pokédex for Pokemon GO</h2>
+        </div>
+        <div class='col'></div>
+        <div class='col-pokédex'>
+            <div class='pokédex'>
+                <svg width="1000" height="850">
+                    <rect fill='red' x='0' y='200' rx='20' ry='50' width='300' height='400' />
+                    <circle cx="50" cy="250" r="20" stroke="black" fill="cyan" stroke-width="2"/>
+                    <line x1="90" y1="300" y2="300"stroke="black" stroke-width="3"></line>
+                    <polyline points="90 300, 95 285, 120 285, 140 250, 210 250, 300 250"
+                        stroke="black" fill="transparent" stroke-width="5"/>
+                </svg>
+            </div>
+        </div>
+        <div class='col-pokémon-data'>
+        <div class="row">
+            <h2>Pokémon Data</h2>
+        </div>
+        <div class="row">
+            <svg></svg>
+        </div>
         </div>
     </body>
 </html>
