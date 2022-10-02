@@ -59,18 +59,50 @@ const audioSourceNode = audioContext.createMediaElementSource(audioElement);
 audioSourceNode.connect(analyzer);
 analyzer.connect(audioContext.destination);
 
-function draw() {
-    requestAnimationFrame(draw); // re-call draw for the next frame
 
-    // don't waste time drawing next frame if audio is paused
-    if (playButton.dataset.playing === 'false') {
-        // todo, pause here and await a callback to resume?
-        return;
-    }
+// Setup three.js scene/renderer/camera
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-    //Get spectrum data
-    analyzer.getFloatFrequencyData(dataArray); // put the current frequency data into dataArray
-    console.log(dataArray[0]); // todo, temp demo
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+// for each bin...
+const cubeArray = new Array(10);
+for (let i = 0; i < 10; i++) {
+    const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    const cube = new THREE.Mesh( geometry, material );
+    scene.add( cube );
+    cube.position.x = -5 + i;
+    cubeArray[i] = cube
 }
 
-draw();
+camera.position.z = 5;
+
+function animate() {
+    requestAnimationFrame( animate );
+
+    if (playButton.dataset.playing === 'true') {
+        // todo, pause here and await a callback to resume?
+        //Get spectrum data
+        analyzer.getFloatFrequencyData(dataArray); // put the current frequency data into dataArray
+        console.log(dataArray);
+
+        for (let i = 0; i < cubeArray.length; i++) {
+            cubeArray[i].rotation.x += 0.01;
+            cubeArray[i].scale.set( 1, 1, (Math.abs(dataArray[i*100])/10)-5 );
+            console.log("cube" + i)
+            console.log(cubeArray[i].scale);
+            console.log("data");
+            console.log(dataArray[i * 100]);
+        }
+
+        cubeArray[9].scale.set(5,1,1);
+
+
+        renderer.render( scene, camera );
+    }
+}
+animate();
