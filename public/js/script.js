@@ -33,6 +33,10 @@ const app = {
 
     document.body.appendChild(app.renderer.domElement);
 
+    const light = new THREE.PointLight( 0xff0000, 1, 100 );
+    light.position.set( 50, 50, 50 );
+    app.scene.add( light );
+    
     app.cube = app.makeCube();
 
     app.render = app.render.bind(app);
