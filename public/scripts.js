@@ -1,9 +1,7 @@
+let     audio = new Audio(), source = null, analyzer = null;
+    audio.src = "/source.mp3";
 function starter()
 {
-        let     audio = new Audio(),
-        source = null,
-        analyzer = null;
-        audio.src = "/source.mp3";
     const context = new (window.AudioContext || window.webkitAudioContext)(),
         container = document.getElementById( "container" ),
         canvas = document.getElementById( "canvas" );
@@ -37,6 +35,6 @@ function animate()
 }
 window.onload = function()
 {
-    const start = document.getElementById( "start" );
-    start.onclick = starter;
+    const startbutton = document.getElementById( "startbutton" );
+    startbutton.onclick = starter;
 };
