@@ -79,6 +79,17 @@ for (let i = 0; i < 10; i++) {
     cubeArray[i] = cube
 }
 
+// for each bin...
+const cubeArraySet2 = new Array(10);
+for (let i = 0; i < 10; i++) {
+    const geometry = new THREE.BoxGeometry( 2, 2, 2 );
+    const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF } );
+    const cube = new THREE.Mesh( geometry, material );
+    scene.add( cube );
+    cube.position.x = +10 + i;
+    cubeArraySet2[i] = cube
+}
+
 camera.position.z = 5;
 
 function animate() {
@@ -94,6 +105,13 @@ function animate() {
                 cubeArray[i].rotation.x += PARAMS.rotational_speed;
             }
             cubeArray[i].scale.set( 1, 1, (Math.abs(dataArray[i*100])/10)-5 );
+        }
+
+        for (let i = 0; i < cubeArraySet2.length; i++) {
+            if (PARAMS.rotation) {
+                cubeArraySet2[i].rotation.x += PARAMS.rotational_speed;
+            }
+            cubeArraySet2[i].scale.set( 1, 1, (Math.abs(dataArray[(i*100-99)])/10)-5 );
         }
 
 
@@ -112,11 +130,27 @@ const PARAMS = {
     CamZ: 5,
     rotation: true,
     rotational_speed: 0.01,
+    colorSet1: 0x8E7CC3,
+    colorSet2: 0xFFFFFF,
 };
 
 const cameraZInput = pane.addInput(PARAMS, 'CamZ', {min: 0, max: 100, step: 0.5});
 cameraZInput.on('change', function(ev) {
     camera.position.z = ev.value;
+});
+
+const colorSet1Input = pane.addInput(PARAMS, 'colorSet1', {view: 'color'});
+colorSet1Input.on('change', function(ev) {
+    for (let i = 0; i < cubeArray.length; i++) {
+        cubeArray[i].material.color.setHex(ev.value)
+    }
+});
+
+const colorSet2Input = pane.addInput(PARAMS, 'colorSet2', {view: 'color'});
+colorSet2Input.on('change', function(ev) {
+    for (let i = 0; i < cubeArraySet2.length; i++) {
+        cubeArraySet2[i].material.color.setHex(ev.value)
+    }
 });
 
 pane.addInput(PARAMS, 'rotational_speed', {min: 0.005, max: 1.50, step: 0.005})
