@@ -1,17 +1,55 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <style> body { margin:0 } </style>
     <script src="js/script.js" type="module"></script>
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js"></script>
-
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-
-  <title>Creatvive Coding</title>
-  <div>
-    <button id="playButton">Visualize!</button>
-  </div>
-
+    <title>Audio 3D Visualizer</title>
+    <h1 id="title">3D Audio Visualizer</h1>
+    <div class="d-flex justify-content-center">
+      <label for="audio-upload" id="audio-label" style="color: white"
+        >Upload an audio file:</label
+      >
+    </div>
+    <div class="d-flex justify-content-center">
+      <input
+        id="audio-upload"
+        style="color: white; background-color: #737377; border-radius: 1rem"
+        type="file"
+         accept=".wav,.mp3,.mp4"
+      />
+    </div>
+    <div class="d-flex justify-content-center">
+      <button
+        id="start"
+        class="btn text-center"
+        style="
+          left: 50%;
+          margin-top: 0;
+          background: white;
+          color: black;
+          width: 10rem;
+          height: 5rem;
+          font-size: 1.5rem;
+          margin: 1rem;
+        "
+      >
+        Start
+      </button>
+    </div>
   </body>
 </html>
