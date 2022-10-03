@@ -62,11 +62,11 @@ function readcolors()
     tbl.innerHTML += '<input type="text" id="c2" value"' + colors[2] + '"></th><th>';
     tbl.innerHTML += '<input type="text" id="c3" value"' + colors[3] + '"></th><th>';
     tbl.innerHTML += '<input type="text" id="c4" value"' + colors[4] + '"></th></tr>';
-    colors[0] = document.getElementById( "c0" ).textContent;
-    colors[1] = document.getElementById( "c1" ).textContent;
-    colors[2] = document.getElementById( "c2" ).textContent;
-    colors[3] = document.getElementById( "c3" ).textContent;
-    colors[4] = document.getElementById( "c4" ).textContent;
+    colors[0] = document.getElementById( "c0" ).value;
+    colors[1] = document.getElementById( "c1" ).value;
+    colors[2] = document.getElementById( "c2" ).value;
+    colors[3] = document.getElementById( "c3" ).value;
+    colors[4] = document.getElementById( "c4" ).value;
     grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
                 grd.addColorStop( 0.00, colors[0] );
                 grd.addColorStop( 0.25, colors[1] );
