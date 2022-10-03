@@ -11,7 +11,7 @@ let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
 source.connect( analyzer );
 analyzer.connect( context.destination );
-analyzer.fftSize = 128;
+analyzer.fftSize = 256;
 let buflen = analyzer.frequencyBinCount,
 data = new Uint8Array( buflen ),
 barwidth = canvas.width / buflen;
