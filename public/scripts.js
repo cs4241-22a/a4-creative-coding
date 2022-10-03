@@ -57,8 +57,8 @@ function animate()
         analyzer.getByteFrequencyData( data );
         for ( let i = 0 ; i < buflen ; i++ )
         {
-            barheight = data[i]*2.5;
-            let grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
+            let barheight = data[i]*2.5,
+            grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
             grd.addColorStop( 0.00, "#080806" );
             grd.addColorStop( 0.25, "#977A74" );
             grd.addColorStop( 0.50, "#EBE84D" );
