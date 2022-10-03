@@ -4,6 +4,15 @@
     padding: 0;
     box-sizing: border-box;
 }
+body
+{
+    background: "favicon.ico";
+    animation: scrolling 5s linear infinite;
+}
+@keyframes scrolling
+{
+    from { background-position: 0 0; } to { background-position: 105% 105%;}
+}
 #vis
 {
     position: absolute;
