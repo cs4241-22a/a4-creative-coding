@@ -50,7 +50,6 @@ control.addEventListener('click', () =>
         console.log('pause');
     }
 }, false );
-
 function animate()
 {
     if( control.dataset.state === 'on' )
@@ -95,12 +94,12 @@ function readvals()
     }
     audio.volume = volume;
     audio.playbackRate = speed;
-    grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
-                grd.addColorStop( 0.00, colors[0] );
-                grd.addColorStop( 0.25, colors[1] );
-                grd.addColorStop( 0.50, colors[2] );
-                grd.addColorStop( 0.75, colors[3] );
-                grd.addColorStop( 1.00, colors[4] );
+    let grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
+        grd.addColorStop( 0.00, colors[0] );
+        grd.addColorStop( 0.25, colors[1] );
+        grd.addColorStop( 0.50, colors[2] );
+        grd.addColorStop( 0.75, colors[3] );
+        grd.addColorStop( 1.00, colors[4] );
     return grd;
 }
 window.onload = function() { animate(); }
