@@ -43,6 +43,7 @@ control.addEventListener('click', () =>
 
 function animate()
 {
+    let grd = readcolors();
     if( control.dataset.state === 'on' )
     {
         var x = 0;
@@ -51,7 +52,7 @@ function animate()
         for ( let i = 0 ; i < buflen ; i++ )
         {
             let barheight = data[i]*2.5;
-            ctx.fillStyle = readcolors();
+            ctx.fillStyle = grd;
             ctx.fillRect( x, canvas.height - barheight, barwidth, barheight );
             x += barwidth;
         }
