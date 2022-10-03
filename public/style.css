@@ -20,7 +20,7 @@ body { animation: scrolling 5s linear infinite; }
     vertical-align: middle;
     font-family: 'Source Code Pro', monospace;
     z-index: 10;
-    transform: translate(0,100%);
+    transform: translate(0,200px);
     background-color: rgba(150,150,150,.3)
 }
 button
@@ -33,8 +33,7 @@ button
 #colortable
 {
     margin: auto;
-    width: 25%;
-    transform: translate(0,160%)
+    width: 210px;
+    transform: translate(0,225px)
 }
-tr { width: 210px; height: 25px; }
 td { width: 210px; height: 25px; }
