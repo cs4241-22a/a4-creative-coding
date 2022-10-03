@@ -53,10 +53,8 @@ audioElement.addEventListener('ended', () => {
 
 const analyzer = audioContext.createAnalyser(); // create analyzer node
 const dataArray = new Float32Array(analyzer.frequencyBinCount); // new float array of equal length as the number of data values we have to play with for the visualization.
-const audioSourceNode = audioContext.createMediaElementSource(audioElement);
-
 //Set up audio node network
-audioSourceNode.connect(analyzer);
+track.connect(analyzer);
 analyzer.connect(audioContext.destination);
 
 
