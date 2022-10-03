@@ -1,12 +1,12 @@
-let     audio = new Audio(), context = null, source = null, analyzer = null, buflen = null, data = null, barwidth = null;
+let     audio = new Audio(), analyzer = null, buflen = null, data = null, barwidth = null;
     audio.src = "/source.mp3";
 const canvas = document.getElementById( "canvas" );
 function starter()
 {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
-    context = new (window.AudioContext || window.webkitAudioContext)();
-    source = context.createMediaElementSource( audio );
+    const context = new ( window.AudioContext || window.webkitAudioContext )();
+    let source = context.createMediaElementSource( audio );
     analyzer = context.createAnalyser();
     source.connect( analyzer );
     analyzer.connect( context.destination );
