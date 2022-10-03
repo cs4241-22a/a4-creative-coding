@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 5.0" />
+    <link rel="stylesheet" href="/node_modules/hiq/dist/hiq.css">
+    <link rel="stylesheet" href="/node_modules/hiq/dist/hiq.min.css">
+    <link href="/pico.min.css" rel = "stylesheet">
+  </head>
+  <body>
+    <h1>A Simple Audio Visualizer</h1>
+    <h2>Select one of the radio buttons below, then press start to play the song</h2>
+    <p>Once you hit play, there will be 4 options to control.
+      <ul>Background Color : Controls the background color of the visualizer</ul>
+      <ul>Stretch : Controls the height of the visualizer audio bars</ul>
+      <ul>Count : Controls the shade of the audio bars</ul>
+      <ul>Blur : Controls the width of the visualizer audio bars</ul>
+      <ul>Radius : Controls radius of the circle</ul>
+    </p>
+    <form>
+      <input type="radio" name="type" id="OneBar">
+      <label for="OneBar">One Bar</label>
+      <input type="radio" name="type" id="TwoBars">
+      <label for="TwoBars">Two Bars</label>
+      <input type="radio" name="type" value="Circle" id="Circle">
+      <label for="Circle">Circle</label>
+      <input type="radio" name="type" value="Circle2" id="Circle2">
+      <label for="Circle2">Circle2</label>
+      <button id="start">Start</button>
+    </form>
+    
+    <script>
+      const start = function() {
+        let btnTwoBars = document.getElementById("TwoBars")
+        let btnOneBar = document.getElementById("OneBar")
+        let btnCircle = document.getElementById("Circle")
+        let btnCircle2 = document.getElementById("Circle2")
+
+        document.body.innerHTML = ''
+        const canvas = document.createElement( 'canvas' )
+        document.body.appendChild( canvas )
+        canvas.width = canvas.height = 624
+        const ctx = canvas.getContext( '2d' )
+
+        // audio init
+        const audioCtx = new AudioContext()
+        const audioElement = document.createElement( 'audio' )
+        canvas.appendChild( audioElement )
+
+        const PARAMS = {
+          background_color: "black",
+          stretch: 1,
+          count: 1,
+          blur: 1,
+          radius: 1
+        }
+        
+        const pane = new Tweakpane.Pane()
+
+        pane.addInput(PARAMS, 'background_color')
+        pane.addInput(PARAMS, 'stretch')
+        pane.addInput(PARAMS, 'count')
+        pane.addInput(PARAMS, 'blur')
+        pane.addInput(PARAMS, 'radius')
+
+        // audio graph setup
+        const analyser = audioCtx.createAnalyser()
+        analyser.fftSize = 2048 // 512 bins
+        const player = audioCtx.createMediaElementSource( audioElement )
+        player.connect( audioCtx.destination )
+        player.connect( analyser )
+
+        // make sure, for this example, that your audiofle is accesssible
+        // from your server's root directory... here we assume the file is
+        // in the ssame location as our index.html file
+        audioElement.src = './ufo ufo - _Strange Clouds_.mp3'
+        audioElement.play()
+
+        const results = new Uint8Array( analyser.frequencyBinCount )
+
+        drawTwoBar = function() {
+          // temporal recursion, call tthe function in the future
+          window.requestAnimationFrame( drawTwoBar )
+          
+          // fill our canvas with a black box
+          // by doing this every frame we 'clear' the canvas
+          ctx.fillStyle = PARAMS.background_color.toString()
+          ctx.fillRect( 0,0,canvas.width,canvas.height )
+      
+          analyser.getByteFrequencyData( results )
+          for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+            let r = (i * results[i]) / PARAMS.count;
+            let g = i;
+            let b = results[i] / -PARAMS.count;
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
+            ctx.fillRect( results[i], i,  PARAMS.blur,  PARAMS.stretch)
+            ctx.fillRect((canvas.width-results[i]), i,  PARAMS.blur,  PARAMS.stretch)
+          }
+        }
+
+        drawOneBar = function() {
+          // temporal recursion, call tthe function in the future
+          window.requestAnimationFrame( drawOneBar )
+          
+          // fill our canvas with a black box
+          // by doing this every frame we 'clear' the canvas
+          ctx.fillStyle = PARAMS.background_color.toString()
+          ctx.fillRect( 0,0,canvas.width,canvas.height )
+      
+          analyser.getByteFrequencyData( results )
+            for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+            let r = (i * results[i]) / PARAMS.count*2;
+            let g = i*PARAMS.count;
+            let b = results[i] / -PARAMS.count*4;
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
+            ctx.fillRect( i, results[i],  PARAMS.blur,  PARAMS.stretch)
+            }
+        }
+
+        drawCircle = function() {
+          // temporal recursion, call tthe function in the future
+          window.requestAnimationFrame( drawCircle )
+          
+          // fill our canvas with a black box
+          // by doing this every frame we 'clear' the canvas
+          ctx.fillStyle = PARAMS.background_color.toString()
+          ctx.fillRect( 0,0,canvas.width,canvas.height )
+      
+          analyser.getByteFrequencyData( results )
+          var centerX = canvas.width / 2;
+          var centerY = canvas.height / 2;
+          var radius = 1;
+          for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+            let r = (i * results[i]) / PARAMS.count*2;
+            let g = i*PARAMS.count;
+            let b = results[i] / -PARAMS.count*4;
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
+            ctx.fill()
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius*results[i], 0, 2 * Math.PI, false);
+            ctx.stroke();
+          }
+        }
+
+        drawCircle2 = function() {
+          // temporal recursion, call tthe function in the future
+          window.requestAnimationFrame( drawCircle2 )
+
+          ctx.fillStyle = PARAMS.background_color.toString()
+          ctx.fillRect( 0,0,canvas.width,canvas.height )
+          var centerX = canvas.width / 2;
+          var centerY = canvas.height / 2;
+          analyser.getByteFrequencyData( results )
+          for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+            ctx.save()
+            ctx.translate(centerX, centerY)
+            ctx.rotate(2 * Math.PI * i / results[i])
+
+            let r = (i * results[i]) / PARAMS.count*2;
+            let g = i*PARAMS.count;
+            let b = results[i] / -PARAMS.count*4;
+            
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
+            ctx.fillRect(PARAMS.radius, PARAMS.radius, PARAMS.blur, results[i]*PARAMS.stretch)
+            ctx.restore()
+          }
+        }
+
+        if (btnOneBar.checked)
+        {
+          console.log("One Bar")
+          drawOneBar()
+        }
+        else if (btnTwoBars.checked)
+        {
+          console.log("Two Bars")
+          drawTwoBar()
+        }
+        else if(btnCircle.checked)
+        {
+          console.log("Circle")
+          drawCircle()
+        }
+        else if(btnCircle2.checked)
+        {
+          console.log("Circle2")
+          drawCircle2()
+        }
+        
+        
+      }
+
+      window.onload = ()=> document.getElementById('start').onclick = start
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
+  </body>
+</html>
