@@ -2,8 +2,7 @@ const express = require( 'express' ),
           app = express(),
       favicon = require( 'serve-favicon' ),
         bodyp = require( 'body-parser' ),
-         path = require( 'path' ),
-        THREE = require( 'three' );
+         path = require( 'path' );
 app.use( bodyp.json() );
 app.use( favicon( path.join( __dirname, 'public', 'favicon.ico' ) ) );
 app.use( express.static( path.join( __dirname + '/public' ) ) );
