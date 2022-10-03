@@ -57,11 +57,11 @@ function animate()
 function readcolors()
 {
     tbl.innerHTML  = '<tr><th>';
-    tbl.innerHTML += '<input type="text" id="c0" value"' + colors[0] + '"></th><th>';
-    tbl.innerHTML += '<input type="text" id="c1" value"' + colors[1] + '"></th><th>';
-    tbl.innerHTML += '<input type="text" id="c2" value"' + colors[2] + '"></th><th>';
-    tbl.innerHTML += '<input type="text" id="c3" value"' + colors[3] + '"></th><th>';
-    tbl.innerHTML += '<input type="text" id="c4" value"' + colors[4] + '"></th></tr>';
+    tbl.innerHTML += '<input type="text" id="c0" value"' + colors[0] + '">' + colors[0] + '</th><th>';
+    tbl.innerHTML += '<input type="text" id="c1" value"' + colors[1] + '">' + colors[1] + '</th><th>';
+    tbl.innerHTML += '<input type="text" id="c2" value"' + colors[2] + '">' + colors[2] + '</th><th>';
+    tbl.innerHTML += '<input type="text" id="c3" value"' + colors[3] + '">' + colors[3] + '</th><th>';
+    tbl.innerHTML += '<input type="text" id="c4" value"' + colors[4] + '">' + colors[4] + '</th></tr>';
     colors[0] = document.getElementById( "c0" ).value;
     colors[1] = document.getElementById( "c1" ).value;
     colors[2] = document.getElementById( "c2" ).value;
