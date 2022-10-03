@@ -5,7 +5,7 @@ const canvas  = document.getElementById( "canvas" ),
       context = new window.AudioContext(),
           ctx = canvas.getContext('2d');
 canvas.width  = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.height = window.innerHeight*.75;
 audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
 let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
