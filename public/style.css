@@ -7,9 +7,13 @@
 #vis
 {
     position: absolute;
+    top: 0;
+    left: 0;
 }
 #meta
 {
+    position: absolute;
+    top: 100;
     text-align: center;
     vertical-align: middle;
     font-family: 'Source Code Pro', monospace;
