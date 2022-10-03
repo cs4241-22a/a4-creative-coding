@@ -14,17 +14,13 @@ source.connect( analyzer );
 analyzer.connect( context.destination );
 analyzer.fftSize = 128;
 let buflen = analyzer.frequencyBinCount,
-data = new Uint8Array( buflen )
+data = new Uint8Array( buflen ),
 barwidth = canvas.width / buflen;
 
 control.addEventListener('click', () => 
 {
-    if( context.state === 'suspended' )
-    {
-        context.resume();
-        console.log('resume');
-    }
-    else if( control.dataset.state === 'off' )
+    if( context.state === 'suspended' ) { context.resume(); }
+    if( control.dataset.state === 'off' )
     {
         audio.play();
         control.dataset.state = 'on';
@@ -44,13 +40,13 @@ function animate()
     {
         var ctx = canvas.getContext('2d');
         x = 0;
-        canvas.clearRect( 0, 0, canvas.width, canvas.height );
+        ctx.clearRect( 0, 0, canvas.width, canvas.height );
         analyzer.getByteFrequencyData( data );
         for ( let i = 0 ; i < buflen ; i++ )
         {
             barheight = data[i];
-            canvas.fillStyle = "white";
-            canvas.fillRect( x, canvas.height - barheight, barwidth, barheight );
+            ctx.fillStyle = "white";
+            ctx.fillRect( x, canvas.height - barheight, barwidth, barheight );
             x += barwidth;
         }
     }
