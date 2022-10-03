@@ -1,14 +1,11 @@
 let     audio = new Audio();
-     audio.src = "/source.mp3";
-const   canvas = document.getElementById( "canvas" ),
-       cubevas = document.getElementById( "cubevas" ),
-       control = document.getElementById( "playbutton" ),
-       context = new window.AudioContext(),
-           ctx = canvas.getContext('2d');
- canvas.width  = window.innerWidth;
- canvas.height = window.innerHeight;
-cubevas.width  = window.innerWidth;
-cubevas.height = window.innerHeight;
+    audio.src = "/source.mp3";
+const  canvas = document.getElementById( "canvas" ),
+      control = document.getElementById( "playbutton" ),
+      context = new window.AudioContext(),
+          ctx = canvas.getContext('2d');
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
 audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
 let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
@@ -45,17 +42,6 @@ control.addEventListener('click', () =>
     }
 }, false );
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 25, window.innerWidth/window.innerHeight, 0.1, 1000 );
-var renderer = new THREE.WebGLRenderer( { alpha: true } );
-renderer.setSize( window.innerWidth, window.innerHeight );
-cubevas.appendChild( renderer.domElement );
-var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
-var cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
-camera.position.z = 3;
-
 function animate()
 {
     if( control.dataset.state === 'on' )
@@ -65,15 +51,11 @@ function animate()
         analyzer.getByteFrequencyData( data );
         for ( let i = 0 ; i < buflen ; i++ )
         {
-            let barheight = data[i]*2.5,
+            let barheight = data[i]*2.5;
             ctx.fillStyle = grd;
             ctx.fillRect( x, canvas.height - barheight, barwidth, barheight );
             x += barwidth;
         }
-        cube.rotation.x += 0.10;
-        cube.rotation.y += 0.10;
-        cube.rotation.z += 0.10;
-        renderer.render( scene, camera );
     }
     requestAnimationFrame(animate);
 }
