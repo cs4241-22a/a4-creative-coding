@@ -12,12 +12,6 @@ body { animation: scrolling 5s linear infinite; }
     top: 0;
     left: 0;
 }
-#cubevas
-{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
 #meta
 {
     position: relative;
@@ -38,6 +32,6 @@ button
 #canvas { position: absolute; }
 #colortable
 {
-    position: absolute;
-    
+    margin: auto;
+    width: 25%;
 }
