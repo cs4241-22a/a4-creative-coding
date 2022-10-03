@@ -4,9 +4,8 @@
     padding: 0;
     box-sizing: border-box;
 }
-body { animation: scrolling2 5s linear infinite; }
-@keyframes scrolling { from { background-position: 0 0; } to { background-position: -159% 159%;} }
-@keyframes scrolling2 { from { transform: translate(0 0); } to { transform: translate( -500px -500px ); } }
+body { animation: scrolling 5s linear infinite; }
+@keyframes scrolling { from { background-position: 0 0; } to { background-position: -500px -500px;} }
 #vis
 {
     position: absolute;

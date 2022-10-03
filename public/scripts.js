@@ -19,6 +19,13 @@ let buflen = analyzer.frequencyBinCount,
 data = new Uint8Array( buflen ),
 barwidth = canvas.width / buflen;
 
+grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
+            grd.addColorStop( 0.00, "#080806" );
+            grd.addColorStop( 0.25, "#977A74" );
+            grd.addColorStop( 0.50, "#EBE84D" );
+            grd.addColorStop( 0.75, "#EA3522" );
+            grd.addColorStop( 1.00, "#397326" );
+
 control.addEventListener('click', () => 
 {
     if( context.state === 'suspended' ) { context.resume(); }
@@ -26,12 +33,14 @@ control.addEventListener('click', () =>
     {
         audio.play();
         control.dataset.state = 'on';
+        control.innerHTML = 'pause!';
         console.log('play');
     }
     else if( control.dataset.state === 'on' )
     {
         audio.pause();
         control.dataset.state = 'off';
+        control.innerHTML = 'play!'
         console.log('pause');
     }
 }, false );
@@ -51,19 +60,12 @@ function animate()
 {
     if( control.dataset.state === 'on' )
     {
-        var ctx = canvas.getContext('2d'),
-        x = 0;
+        var x = 0;
         ctx.clearRect( 0, 0, canvas.width, canvas.height );
         analyzer.getByteFrequencyData( data );
         for ( let i = 0 ; i < buflen ; i++ )
         {
             let barheight = data[i]*2.5,
-            grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
-            grd.addColorStop( 0.00, "#080806" );
-            grd.addColorStop( 0.25, "#977A74" );
-            grd.addColorStop( 0.50, "#EBE84D" );
-            grd.addColorStop( 0.75, "#EA3522" );
-            grd.addColorStop( 1.00, "#397326" );
             ctx.fillStyle = grd;
             ctx.fillRect( x, canvas.height - barheight, barwidth, barheight );
             x += barwidth;
