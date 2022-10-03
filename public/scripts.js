@@ -93,7 +93,7 @@ function readvals()
         tbl.innerHTML  = '';
     }
     audio.volume = volume;
-    audio.playbackRate = speed;
+    audio.playbackRate = speed.valueOf;
     let grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
         grd.addColorStop( 0.00, colors[0] );
         grd.addColorStop( 0.25, colors[1] );
