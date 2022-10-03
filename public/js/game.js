@@ -7,7 +7,7 @@ let lenStd = 0.05;
 let widthStd = 0.05;
 let startWidth = 10;
 let startLength = 100;
-let seed = 0;
+let seed = 61;
 let numTrees = 3;
 let trees = [];
 let drawShadows = false;
@@ -30,44 +30,38 @@ window.onload = function () {
   canvas.width = 1200;
   canvas.height = 800;
 
-  //set on input listeners
-  let seedElt = window.document.getElementById("seed");
-  seedElt.oninput = (event) => {
-    seed = event.target.value;
-    //render the scene
-    Math.seedrandom(seed);
-
-    resetBackground();
-
+  const renderScene = () => {
     trees = [];
+    Math.seedrandom(seed);
+    resetBackground();
     genTrees();
     drawTrees();
     drawFog();
   };
 
-  resetBackground();
+  //set on input listeners
+  let seedElt = window.document.getElementById("seed");
 
-  //seed
-  Math.seedrandom(seed);
-  //draw a bunch of trees
+  let fancyRender = window.document.getElementById("generate");
+  fancyRender.addEventListener("click", () => {
+    drawShadows = true;
+    renderScene();
+    drawShadows = false;
+  });
 
-  genTrees();
-  drawTrees();
-  drawFog();
+  seedElt.oninput = (event) => {
+    seed = event.target.value;
+    renderScene();
+  };
+
+  renderScene();
 
   //add a key listener
   window.addEventListener("keydown", (event) => {
     if (event.code === "Space") {
-      seed = Math.random() * 100000;
-      Math.seedrandom(seed);
-
-      //clear the canvas
-      resetBackground();
-
-      trees = [];
-      genTrees();
-      drawTrees();
-      drawFog();
+      seed = Math.floor(Math.random() * 100000);
+      seedElt.value = seed;
+      renderScene();
     }
   });
 };
@@ -82,6 +76,20 @@ const drawFog = () => {
 };
 
 const resetBackground = () => {
+  //draw shadow
+  if (drawShadows) {
+    ctx.shadowColor = "black";
+    ctx.shadowBlur = 50;
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 5;
+    ctx.fillStyle = "black";
+  } else {
+    ctx.shadowColor = "none";
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.fillStyle = "white";
+  }
   //set the canvas background color
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -93,15 +101,6 @@ const resetBackground = () => {
   ctx.fill();
 
   drawStars();
-
-  //draw shadow
-  if (drawShadows) {
-    ctx.shadowColor = "black";
-    ctx.shadowBlur = 50;
-    ctx.shadowOffsetX = 5;
-    ctx.shadowOffsetY = 5;
-    ctx.fillStyle = "black";
-  }
 };
 
 const genTrees = () => {
