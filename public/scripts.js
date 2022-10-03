@@ -3,7 +3,8 @@ let     audio = new Audio();
 const  canvas = document.getElementById( "canvas" ),
       control = document.getElementById( "playbutton" ),
       context = new window.AudioContext(),
-          ctx = canvas.getContext('2d');
+          ctx = canvas.getContext('2d'),
+          tbl = document.getElementById( 'colors' );
 canvas.width  = window.innerWidth;
 canvas.height = window.innerHeight;
 audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
@@ -13,15 +14,9 @@ source.connect( analyzer );
 analyzer.connect( context.destination );
 analyzer.fftSize = 256;
 let buflen = analyzer.frequencyBinCount,
-data = new Uint8Array( buflen ),
-barwidth = canvas.width / buflen;
-
-grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
-            grd.addColorStop( 0.00, "#080806" );
-            grd.addColorStop( 0.25, "#977A74" );
-            grd.addColorStop( 0.50, "#EBE84D" );
-            grd.addColorStop( 0.75, "#EA3522" );
-            grd.addColorStop( 1.00, "#397326" );
+      data = new Uint8Array( buflen ),
+  barwidth = canvas.width / buflen,
+    colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ];
 
 control.addEventListener('click', () => 
 {
@@ -52,11 +47,32 @@ function animate()
         for ( let i = 0 ; i < buflen ; i++ )
         {
             let barheight = data[i]*2.5;
-            ctx.fillStyle = grd;
+            ctx.fillStyle = readcolors();
             ctx.fillRect( x, canvas.height - barheight, barwidth, barheight );
             x += barwidth;
         }
     }
     requestAnimationFrame(animate);
+}
+function readcolors()
+{
+    tbl.innerHTML  = '<tr><th>';
+    tbl.innerHTML += '<input type="text" id="c0" value"' + colors[0] + '"></th><th>';
+    tbl.innerHTML += '<input type="text" id="c1" value"' + colors[1] + '"></th><th>';
+    tbl.innerHTML += '<input type="text" id="c2" value"' + colors[2] + '"></th><th>';
+    tbl.innerHTML += '<input type="text" id="c3" value"' + colors[3] + '"></th><th>';
+    tbl.innerHTML += '<input type="text" id="c4" value"' + colors[4] + '"></th></tr>';
+    colors[0] = document.getElementById( "c0" );
+    colors[1] = document.getElementById( "c1" );
+    colors[2] = document.getElementById( "c2" );
+    colors[3] = document.getElementById( "c3" );
+    colors[4] = document.getElementById( "c4" );
+    grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
+                grd.addColorStop( 0.00, colors[0] );
+                grd.addColorStop( 0.25, colors[1] );
+                grd.addColorStop( 0.50, colors[2] );
+                grd.addColorStop( 0.75, colors[3] );
+                grd.addColorStop( 1.00, colors[4] );
+    return grd;
 }
 window.onload = function() { animate(); }
