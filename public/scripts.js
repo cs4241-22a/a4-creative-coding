@@ -1,10 +1,10 @@
 let     audio = new Audio(), context = null, source = null, analyzer = null, buflen = null, data = null, barwidth = null;
     audio.src = "/source.mp3";
 const canvas = document.getElementById( "canvas" );
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 function starter()
 {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
     context = new (window.AudioContext || window.webkitAudioContext)();
     source = context.createMediaElementSource( audio );
     analyzer = context.createAnalyser();
