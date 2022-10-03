@@ -69,7 +69,7 @@ function readcolors()
 {
     if( control.dataset.state === 'off' )
     {
-        tbl.innerHTML  = '<td><input type="color" id="c0" value="' + colors[0] + '" style="width:210px; height:25px; text-align:center;">/td>';
+        tbl.innerHTML  = '<td><input type="color" id="c0" value="' + colors[0] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c2" value="' + colors[2] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c1" value="' + colors[1] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c3" value="' + colors[3] + '" style="width:210px; height:25px; text-align:center;"></td>';
