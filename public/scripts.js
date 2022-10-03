@@ -16,7 +16,7 @@ let buflen = analyzer.frequencyBinCount,
       data = new Uint8Array( buflen ),
   barwidth = canvas.width / buflen,
     volume = 1,
-     speed = 1,
+     speed = 1.0,
     colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ],
        grd = readvals();
 
@@ -84,7 +84,7 @@ function readvals()
     if( control.dataset.state === 'on' )
     {
            volume = document.getElementById( "vl" ).value / 10;
-            speed = document.getElementById( "sp" ).value +  0;
+            speed = document.getElementById( "sp" ).value + 0.0;
         colors[0] = document.getElementById( "c0" ).value;
         colors[1] = document.getElementById( "c1" ).value;
         colors[2] = document.getElementById( "c2" ).value;
