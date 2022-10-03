@@ -4,7 +4,7 @@ const  canvas = document.getElementById( "canvas" ),
       control = document.getElementById( "playbutton" ),
       context = new window.AudioContext(),
           ctx = canvas.getContext('2d'),
-          tbl = document.getElementById( 'colors' );
+          tbl = document.getElementById( 'inputtbl' );
 canvas.width  = window.innerWidth;
 canvas.height = window.innerHeight;
 let source = context.createMediaElementSource( audio ),
@@ -15,14 +15,16 @@ analyzer.fftSize = 512;
 let buflen = analyzer.frequencyBinCount,
       data = new Uint8Array( buflen ),
   barwidth = canvas.width / buflen,
-    colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ];
+    volume = 1;
+    colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ],
+       grd = readvals();
 
 audio.addEventListener('ended', () =>
 {
     document.body.style = 'animation-play-state: paused;';
     control.dataset.state = 'off';
     control.innerHTML = 'play again?';
-    readcolors();
+    grd = readvals();
     console.log('ended');
 }, false );
 control.addEventListener('click', () => 
@@ -34,7 +36,7 @@ control.addEventListener('click', () =>
         audio.play();
         control.dataset.state = 'on';
         control.innerHTML = 'pause!';
-        readcolors();
+        grd = readvals();
         console.log('play');
     }
     else if( control.dataset.state === 'on' )
@@ -43,7 +45,7 @@ control.addEventListener('click', () =>
         audio.pause();
         control.dataset.state = 'off';
         control.innerHTML = 'play!'
-        readcolors();
+        grd = readvals();
         console.log('pause');
     }
 }, false );
@@ -65,11 +67,12 @@ function animate()
     }
     requestAnimationFrame(animate);
 }
-function readcolors()
+function readvals()
 {
     if( control.dataset.state === 'off' )
     {
-        tbl.innerHTML  = '<td><input type="color" id="c0" value="' + colors[0] + '" style="width:210px; height:25px; text-align:center;"></td>';
+        tbl.innerHTML  = '<td><input type="range" id="vl" value="' + volume    + '" min="0" max="10" step="1"><label for="volume">volume:<label></td>'
+        tbl.innerHTML += '<td><input type="color" id="c0" value="' + colors[0] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c2" value="' + colors[2] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c1" value="' + colors[1] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c3" value="' + colors[3] + '" style="width:210px; height:25px; text-align:center;"></td>';
@@ -77,11 +80,12 @@ function readcolors()
     }
     if( control.dataset.state === 'on' )
     {
-        colors[0] = document.getElementById( "c0" ).value;
-        colors[1] = document.getElementById( "c1" ).value;
-        colors[2] = document.getElementById( "c2" ).value;
-        colors[3] = document.getElementById( "c3" ).value;
-        colors[4] = document.getElementById( "c4" ).value;
+        audio.volume = document.getElementById( "vl" ).value / 10;
+           colors[0] = document.getElementById( "c0" ).value;
+           colors[1] = document.getElementById( "c1" ).value;
+           colors[2] = document.getElementById( "c2" ).value;
+           colors[3] = document.getElementById( "c3" ).value;
+           colors[4] = document.getElementById( "c4" ).value;
         tbl.innerHTML  = '';
     }
     grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
@@ -92,4 +96,4 @@ function readcolors()
                 grd.addColorStop( 1.00, colors[4] );
     return grd;
 }
-window.onload = function() { readcolors(); animate(); }
+window.onload = function() { readvals(); animate(); }
