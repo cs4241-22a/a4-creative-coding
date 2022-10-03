@@ -16,8 +16,7 @@ analyzer.fftSize = 256;
 let buflen = analyzer.frequencyBinCount,
       data = new Uint8Array( buflen ),
   barwidth = canvas.width / buflen,
-    colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ]
-showcolors = true;
+    colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ];
 
 control.addEventListener('click', () => 
 {
@@ -28,7 +27,6 @@ control.addEventListener('click', () =>
         control.dataset.state = 'on';
         control.innerHTML = 'pause!';
         readcolors();
-        showcolors = false;
         console.log('play');
     }
     else if( control.dataset.state === 'on' )
@@ -36,7 +34,7 @@ control.addEventListener('click', () =>
         audio.pause();
         control.dataset.state = 'off';
         control.innerHTML = 'play!'
-        showcolors = true;
+        readcolors();
         console.log('pause');
     }
 }, false );
@@ -61,7 +59,7 @@ function animate()
 function readcolors()
 {
     tbl.innerHTML = '';
-    if( showcolors )
+    if( control.dataset.state === 'off' )
     {
         tbl.innerHTML += '<tr><td>';
         tbl.innerHTML += '<input type="text" id="c0" value="' + colors[0] + '"></td><td>';
