@@ -34,4 +34,7 @@ button
 {
     margin: auto;
     width: 25%;
+    transform: translate(0,160%)
 }
+tr { width: 210px; height: 25px; }
+td { width: 210px; height: 25px; }
