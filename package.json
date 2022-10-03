@@ -1,0 +1,25 @@
+{
+  "name": "hw4-webware",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^3.1.4"
+  },
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "gamecontroller.js": "^1.5.0",
+    "grunt": "^1.5.3",
+    "javascript-boilerplate": "^1.2.0",
+    "path": "^0.12.7",
+    "stats.js": "^0.17.0",
+    "three": "^0.145.0"
+  }
+}
