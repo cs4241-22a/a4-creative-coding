@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CS4241 Assignment 4</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body style="background-image: url('pokedex.jpg'); background-size: cover; height: 100%;">
+        <div class="container-box" style="text-align: center; background-color: rgba(77, 154, 160, 0.479);">
+            <div class="row">            
+                <div class="pokemonlist">
+                    <h2 style="text-align: center;"> Gen 1 Pokédex for Pokémon GO</h2>
+                    <audio controls loop id="audio" src="https://vgmsite.com/soundtracks/pokemon-go-ost/mvlslckwny/Gotcha.mp3"></audio>
+                </div>
+            </div>
+            <div class="row">
+              <button onclick="showHideInstruct()">Instructions</button>
+                <div id="instructions" style="display: none">
+                    <p style="text-align: center;"> To get started, please press the cyan power button found on the pokédex. </p>
+                    <p style="text-align: center;"> The black screen is where you will encounter a new pokémon that appear next to the pokédex. </p>
+                    <p style="text-align: center;"> Click on the green buton to see the information of the mysterious pokémon. </p>
+                    <p style="text-align: center;"> This is simply a pokédex that you can cycle through to the next pokémon in the pokédex </p>
+                    <p style="text-align: center;"> using the blue previous button and yellow next button.</p>
+                    <p style="text-align: center;"> The purple M button will take you to the last entry of the pokédex where you will find Mew.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column" style="margin: auto;">
+                    <div class="pokédex">
+                        <svg width="500" height="600">
+                            <rect fill="red" x="90" y="100" rx="20" ry="50" width="300" height="425" />
+                            <circle id="powerButton" onclick="powerOn()" cx="150" cy="150" r="20" stroke="black" fill="cyan" stroke-width="2" />
+                            <line x1="90" y1="200" x2="190" y2="200" stroke="black" stroke-width="5" />
+                            
+                            <circle id="infoButton" onclick="itsThatPokemonData()" cx="300" cy="180" r="20" stroke="white" fill="green" stroke-width="2"/>
+                            <polyline onclick="itsThatPokemonData()" points="290 180, 300 190, 310 170"
+                                stroke="black" fill="transparent" stroke-width="3"/>
+                            
+                                <circle id="prevButton" onclick="prevPokemon()" cx="255" cy="180" r="20" stroke="white" fill="blue" stroke-width="2"/>
+                            <polyline onclick="prevPokemon()" points="260 170, 260 190, 245 180, 260 170"
+                                stroke="black" fill="white" stroke-width="3"/>
+
+                            <polyline points="190 200, 195 185, 220 185, 240 150, 310 150, 390 150"
+                                stroke="black" fill="transparent" stroke-width="5"/>
+                            
+                                <circle id="nextButton" onclick="nextPokemon()" cx="345" cy="180" r="20" stroke="white" fill="yellow" stroke-width="2"/>
+                            <polyline onclick="nextPokemon()" points="340 170, 340 190, 355 180, 340 170"
+                                stroke="black" fill="white" stroke-width="3"/>
+                            
+                            <rect fill="white" x="120" y="225" rx="20" width="240" height="230"/>
+                            <rect id="innerScreen" onclick="whoseThatPokemon()" fill="black" x="140" y="250" rx="20" width="200" height="180"/>
+                            <circle onclick="whoseThatPokemon()" cx="240" cy="350" r="50" stroke="white" fill="rgba(237,110,77,255)" stroke-width="2"/>
+                            <circle onclick="whoseThatPokemon()" cx="240" cy="360" r="17" stroke="black" stroke-width="2" fill="white" />
+                            <circle onclick="whoseThatPokemon()" cx="240" cy="350" r="20"  fill="rgba(237,110,77,255)" />
+                            <circle onclick="whoseThatPokemon()" cx="240" cy="350" r="20" stroke="black" fill="rgba(237,110,77,255)" />
+                            <circle onclick="whoseThatPokemon()" cx="240" cy="345" r="23"  fill="rgba(237,110,77,255)" />
+                            <ellipse onclick="whoseThatPokemon()" cx="215" cy="325" rx="10" ry="30" fill="white" />
+                            <ellipse onclick="whoseThatPokemon()" cx="265" cy="325" rx="10" ry="30" fill="white" />
+                            <ellipse onclick="whoseThatPokemon()" cx="215" cy="325" rx="5" ry="25" fill="rgba(126,206,195,255)" />
+                            <ellipse onclick="whoseThatPokemon()" cx="265" cy="325" rx="5" ry="25" fill="rgba(126,206,195,255)" />
+
+                            <circle id="lastButton" onclick="lastPokemon()" cx="345" cy="485" r="20" stroke="white" fill="purple" stroke-width="2"/>
+                            <polyline onclick="lastPokemon()" points="335 495, 340 475, 345 485, 350 475 , 355 495"
+                                stroke="black" fill="transparent" stroke-width="3"/>
+                        </svg>
+                        <script>d3.selectAll("p").style("color", "blue");</script>
+                    </div>
+                </div>
+                <div class="column">
+                    <p id="pokeImg" style="float: right;"></p>
+                </div>
+                <div class="column">
+                    <div id="pokemonName" class="pokémon-name">
+                        <h2>Pokémon</h2>
+                    </div>
+                </div>
+                <div class="column">
+                    <div id="pokemonType" class="pokémon-type">
+                        <h2>Pokémon Type</h2>
+                    </div>
+                </div>
+                <div class="column">
+                    <div id="pokeDataList" class="pokémon-data">
+                        <h2>Pokémon Data</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
