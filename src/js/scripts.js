@@ -1,4 +1,4 @@
-import { ArcRotateCamera, Engine, HemisphericLight, MeshBuilder, Scene, Vector3 } from "babylonjs";
+import { ArcRotateCamera, Engine, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from "babylonjs";
 // create the canvas html element and attach it to the webpage
 var canvas = document.createElement("canvas");
 canvas.style.width = "100%";
@@ -8,10 +8,12 @@ document.body.appendChild(canvas);
 // initialize babylon scene and engine
 const engine = new Engine(canvas, true);
 const scene = new Scene(engine);
+// let up: BABYLON.Vector4 = BABYLON.Quaternion.FromEulerVector(BABYLON.Vector3.Up());
 const camera = new ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, Vector3.Zero(), scene);
 camera.attachControl(canvas, true);
 const light1 = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
 const sphere = MeshBuilder.CreateSphere("sphere", { diameter: 1 }, scene);
+const plane = MeshBuilder.CreatePlane("Plane", { size: 2, sideOrientation: Mesh.DOUBLESIDE }, scene);
 // hide/show the Inspector
 window.addEventListener("keydown", (ev) => {
     // Shift+Ctrl+Alt+I
@@ -24,6 +26,7 @@ window.addEventListener("keydown", (ev) => {
         }
     }
 });
+canvas.addEventListener("scroll", ev => ev.preventDefault());
 // run the main render loop
 engine.runRenderLoop(() => {
     scene.render();

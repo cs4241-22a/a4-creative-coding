@@ -10,11 +10,13 @@ document.body.appendChild(canvas);
 // initialize babylon scene and engine
 const engine = new Engine(canvas, true);
 const scene = new Scene(engine);
+// let up: BABYLON.Vector4 = BABYLON.Quaternion.FromEulerVector(BABYLON.Vector3.Up());
 
 const camera: ArcRotateCamera = new ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, Vector3.Zero(), scene);
 camera.attachControl(canvas, true);
 const light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
 const sphere: Mesh = MeshBuilder.CreateSphere("sphere", { diameter: 1 }, scene);
+const plane: Mesh = MeshBuilder.CreatePlane("Plane", {size: 2, sideOrientation: Mesh.DOUBLESIDE}, scene);
 
 // hide/show the Inspector
 window.addEventListener("keydown", (ev) => {
@@ -27,6 +29,8 @@ window.addEventListener("keydown", (ev) => {
 		}
 	}
 });
+
+canvas.addEventListener("scroll", ev => ev.preventDefault());
 
 // run the main render loop
 engine.runRenderLoop(() => {
