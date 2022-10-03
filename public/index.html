@@ -15,45 +15,103 @@
                 </div>
             </div>
             <div class='row'>
-                <div class='column'>
+                <div class='column' style="margin: auto;">
                     <div class='pokédex'>
-                        <svg width="500" height="500">
-                            <rect fill='red' x='100' y='100' rx='20' ry='50' width='300' height='400' />
+                        <svg width="500" height="600">
+                            <rect fill='red' x='90' y='100' rx='20' ry='50' width='300' height='425' />
                             <circle id="powerButton" onClick="powerOn()" cx="150" cy="150" r="20" stroke="black" fill="cyan" stroke-width="2"/>
-                            <line x1="100" y1="200" x2='190' y2="200"stroke="black" stroke-width="5"></line>
-                            <polyline points="190 200, 195 185, 220 185, 240 150, 310 150, 400 150"
+                            <line x1="90" y1="200" x2='190' y2="200"stroke="black" stroke-width="5"></line>
+                            
+                            <circle id="infoButton" onClick="itsThatPokemonData()" cx="300" cy="180" r="20" stroke="white" fill="green" stroke-width="2"/>
+                            <polyline onClick="itsThatPokemonData()" points="290 180, 300 190, 310 170"
+                                stroke="black" fill="transparent" stroke-width="3"/>
+                            
+                                <circle id="prevButton" onClick="prevPokemon()" cx="255" cy="180" r="20" stroke="white" fill="blue" stroke-width="2"/>
+                            <polyline onClick="prevPokemon()" points="260 170, 260 190, 245 180, 260 170"
+                                stroke="black" fill="white" stroke-width="3"/>
+
+                            <polyline points="190 200, 195 185, 220 185, 240 150, 310 150, 390 150"
                                 stroke="black" fill="transparent" stroke-width="5"/>
-                            <rect fill='white' x='130' y='225' rx='20' width='240' height='230'/>
-                            <rect id="innerScreen" onClick="whoseThatPokemon(), whenClicked()" fill='black' x='150' y='250' rx='20' width='200' height='180'/>
+                            
+                                <circle id="nextButton" onClick="nextPokemon()" cx="345" cy="180" r="20" stroke="white" fill="yellow" stroke-width="2"/>
+                            <polyline onClick="nextPokemon()" points="340 170, 340 190, 355 180, 340 170"
+                                stroke="black" fill="white" stroke-width="3"/>
+                            
+                            <rect fill='white' x='120' y='225' rx='20' width='240' height='230'/>
+                            <rect id="innerScreen" onClick="whoseThatPokemon()" fill='black' x='140' y='250' rx='20' width='200' height='180'/>
+                            <circle onClick="whoseThatPokemon()" cx="240" cy="350" r="50" stroke="white" fill="rgba(237,110,77,255)" stroke-width="2"/>
+                            <circle onClick="whoseThatPokemon()" cx="240" cy="360" r="17" stroke="black" stroke-width="2" fill="white" />
+                            <circle onClick="whoseThatPokemon()" cx="240" cy="350" r="20"  fill="rgba(237,110,77,255)" />
+                            <circle onClick="whoseThatPokemon()" cx="240" cy="350" r="20" stroke="black" fill="rgba(237,110,77,255)" />
+                            <circle onClick="whoseThatPokemon()" cx="240" cy="345" r="23"  fill="rgba(237,110,77,255)" />
+                            <ellipse onClick="whoseThatPokemon()" cx="215" cy="325" rx="10" ry="30" fill="white" />
+                            <ellipse onClick="whoseThatPokemon()" cx="265" cy="325" rx="10" ry="30" fill="white" />
+                            <ellipse onClick="whoseThatPokemon()" cx="215" cy="325" rx="5" ry="25" fill="rgba(126,206,195,255)" />
+                            <ellipse onClick="whoseThatPokemon()" cx="265" cy="325" rx="5" ry="25" fill="rgba(126,206,195,255)" />
+
+                            <circle id="lastButton" onClick="lastPokemon()" cx="345" cy="485" r="20" stroke="white" fill="purple" stroke-width="2"/>
+                            <polyline onClick="lastPokemon()" points="335 495, 340 475, 345 485, 350 475 , 355 495"
+                                stroke="black" fill="transparent" stroke-width="3"/>
                         </svg>
                         
                         <script>
+                            var counter = 0;
                             function powerOn(){
+                                counter = 0;
                                 const textLine = document.createElement("p");
-                                alert(textLine.innerHTML = "Welcome to the Kanto Region, please select tap the black screen "
+                                alert(textLine.innerHTML = "Welcome to the Kanto Region Pokédex, please click the black screen (Rotom) "
                                 + "to get started.")
                             }
 
-                            function whoseThatPokemon(){
-                                var counter = 0;
-                                const pokeName = document.createElement("p");
-                                const pokeData = document.createElement("p");
-                                const pokePic = document.createElement("img");
-
-                                pokeName.innerHTML = pokemonList[counter].name;
-                                pokeData.innerHTML = "Candy Needed to Evolve: " + pokemonList[counter].candy_count;
-                                pokePic.src = pokemonList[counter].img;
-
-                                document.getElementById("pokemonName").appendChild(pokeName);
-                                document.getElementById("pokeDataList").appendChild(pokeData);
-                                document.getElementById("pokeImg").appendChild(pokePic); 
-                                alert("Who is that Pokemon?")  
+                            function prevPokemon(){
+                                if ((document.getElementById("prevButton").click = true) && (document.getElementById("innerScreen").click = true) && (counter > 0)){
+                                    counter--;
+                                    alert("You are going back a Pokémon entry in the Pokédex.\nClick the black screen (Rotom) when ready.");
+                                } else
+                                    alert("There's no Pokémon before this.");
                             }
 
-                            function whenClicked(){
-                                if (document.getElementById("innerScreen").click){
+                            function lastPokemon(){
+                                if ((document.getElementById("lastButton").click = true) && (document.getElementById("innerScreen").click = true)){
+                                    alert("You are going to the last Pokémon entry in the Pokédex.\nClick the black screen (Rotom) when ready.");
+                                    counter = 150
+                                } else
+                                    alert("There's no Pokémon after this.");
+                            }
+
+                            function nextPokemon(){
+                                if ((document.getElementById("nextButton").click = true) && (document.getElementById("innerScreen").click = true) && (counter < 152)){
                                     counter++;
+                                    alert("You are going to No. " + (counter+1) + " in the Pokédex.\nClick the black screen (Rotom) when ready.");
+                                } else
+                                    alert("There's no Pokémon beyond this point yet");
+                            }
+
+                            function whoseThatPokemon(){
+                                const pokePic = document.createElement("img");
+                                pokePic.src = pokemonList[counter].img;
+                                document.getElementById("pokeImg").appendChild(pokePic); 
+                                alert("Click on the green circle when the pokémon appears!");
+                            }
+                            
+                            function itsThatPokemonData(){
+                                alert("Who's that Pokemon?");
+                                var candyCost;
+                                const pokeName = document.createElement("p");
+                                const pokeType = document.createElement("p");
+                                const pokeData = document.createElement("p");
+                                
+                                pokeName.innerHTML = pokemonList[counter].id + "." + pokemonList[counter].name;
+                                pokeType.innerHTML = pokemonList[counter].type;
+                                if (pokemonList[counter].candy_count !== undefined){
+                                    pokeData.innerHTML = "Candy Needed to Evolve: " + pokemonList[counter].candy_count;
+                                } else {
+                                    pokeData.innerHTML = "Candy Needed to Evolve: " + 0;
                                 }
+                               
+                                document.getElementById("pokemonName").appendChild(pokeName);
+                                document.getElementById("pokemonType").appendChild(pokeType);
+                                document.getElementById("pokeDataList").appendChild(pokeData);
                             }
                         </script>
                     </div>
@@ -64,6 +122,11 @@
                 <div class='column'>
                     <div id="pokemonName" class='pokémon-name'>
                         <h2>Pokémon</h2>
+                    </div>
+                </div>
+                <div class='column'>
+                    <div id="pokemonType" class='pokémon-type'>
+                        <h2>Pokémon Type</h2>
                     </div>
                 </div>
                 <div class='column'>

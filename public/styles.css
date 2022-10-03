@@ -6,7 +6,7 @@ body {
 
 .column {
     float: left;
-    width: 25%;
+    width: 20%;
   }
 
 .row:after {
@@ -17,4 +17,22 @@ body {
 
 .powerButton a:hover{
     fill: black;
+}
+
+@font-face {
+    font-family: "Silkscreen";
+    src: url(https://cdn.glitch.global/124a5a9a-51c6-4708-8ce5-bcaa3f8548a3/Silkscreen-Bold.ttf?v=1661447228425)
+      format("truetype");
+  }
+
+h2 {
+    color: black;
+    font-size: xx-large;
+    font-family: "Silkscreen";
+}
+
+p {
+    color: black;
+    font-size: medium;
+    font-family: "Silkscreen";
 }

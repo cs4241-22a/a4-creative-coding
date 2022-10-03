@@ -15,6 +15,7 @@ window.onload = function() {
             var pikaPokemon = {
               'name': dset['name'],
               'type': dset['type'],
+              'id': dset['id'],
               'img': dset['img'],
               'candy': dset['candy'],
               'candy_count': dset['candy_count']
