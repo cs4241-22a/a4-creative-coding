@@ -67,6 +67,7 @@ function readcolors()
         tbl.innerHTML += '<td><input type="text" id="c3" value="' + colors[3] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="text" id="c4" value="' + colors[4] + '" style="width:210px; height:25px; text-align:center;"></td>';
         colors[0] = document.getElementById( "c0" ).value;
+        console.log( document.getElementById( "c0" ).value );
         colors[1] = document.getElementById( "c1" ).value;
         colors[2] = document.getElementById( "c2" ).value;
         colors[3] = document.getElementById( "c3" ).value;
