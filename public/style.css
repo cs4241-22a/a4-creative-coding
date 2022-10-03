@@ -11,15 +11,11 @@
 }
 #playbutton
 {
-    position:absolute;
+    position: absolute;
     background: #FFFFFF;
-    width: 100%;
-    height: 5%;
     text-align: center;
 }
 #canvas
 {
     position: absolute;
-    width: 100%;
-    height: 95%;
 }

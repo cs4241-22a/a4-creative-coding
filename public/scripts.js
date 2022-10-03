@@ -1,8 +1,12 @@
-let     audio = new Audio();
-    audio.src = "/source.mp3";
-const canvas  = document.getElementById( "canvas" ),
-      control = document.getElementById( "playbutton" );
-      context = new window.AudioContext();
+let     audio  = new Audio();
+    audio.src  = "/source.mp3";
+const canvas   = document.getElementById( "canvas" ),
+      control  = document.getElementById( "playbutton" );
+      context  = new window.AudioContext();
+ canvas.width  = window.innerWidth;
+ canvas.height = window.innerHeight * .95;
+control.width  = window.innerWidth;
+control.height = window.innerHeight * .05;
 audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
 let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
@@ -12,8 +16,6 @@ analyzer.fftSize = 128;
 let buflen = analyzer.frequencyBinCount,
 data = new Uint8Array( buflen )
 barwidth = canvas.width / buflen;
-
-
 
 control.addEventListener('click', () => 
 {
@@ -40,6 +42,7 @@ function animate()
 {
     if( control.dataset.state === 'on' )
     {
+        var ctx = canvas.getContext('2d');
         x = 0;
         canvas.clearRect( 0, 0, canvas.width, canvas.height );
         analyzer.getByteFrequencyData( data );
