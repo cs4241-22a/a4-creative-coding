@@ -1,6 +1,7 @@
 let     audio = new Audio();
     audio.src = "/source.mp3";
-const canvas  = document.getElementById( "canvas" ),
+const  canvas = document.getElementById( "canvas" ),
+      cubevas = document.getElementById( "cube" ),
       control = document.getElementById( "playbutton" ),
       context = new window.AudioContext(),
           ctx = canvas.getContext('2d');
@@ -37,20 +38,16 @@ var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 25, window.innerWidth/window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer( { alpha: true } );
 renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.setClearColor( 0x000000, 0 );
-document.body.appendChild( renderer.domElement );
+//renderer.setClearColor( 0x000000, 0 );
+document.body.appendChild( /*renderer.domElement*/ cubevas );
 var geometry = new THREE.BoxGeometry( 1, 1, 1 );
 var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
 var cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
-camera.position.z = 5;
+camera.position.z = 3;
 
 function animate()
 {
-    cube.rotation.x += 0.10;
-	cube.rotation.y += 0.10;
-    cube.rotation.z += 0.10;
-	renderer.render( scene, camera );
     if( control.dataset.state === 'on' )
     {
         var ctx = canvas.getContext('2d');
@@ -70,6 +67,10 @@ function animate()
             ctx.fillRect( x, canvas.height - barheight, barwidth, barheight );
             x += barwidth;
         }
+        cube.rotation.x += 0.10;
+        cube.rotation.y += 0.10;
+        cube.rotation.z += 0.10;
+        renderer.render( scene, camera );
     }
     requestAnimationFrame(animate);
 }
