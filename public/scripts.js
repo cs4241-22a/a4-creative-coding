@@ -32,7 +32,7 @@ control.addEventListener('click', () =>
     }
     else if( control.dataset.state === 'on' )
     {
-        document.body.style = '';
+        document.body.style = 'animation: scrolling 5s linear;';
         audio.pause();
         control.dataset.state = 'off';
         control.innerHTML = 'play!'
