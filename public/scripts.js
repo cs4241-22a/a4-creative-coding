@@ -44,7 +44,13 @@ function eq()
         for ( let i = 0 ; i < buflen ; i++ )
         {
             barheight = data[i];
-            ctx.fillStyle = "white";
+            let grd = createLinearGradient( 0, 0, 100, 0 );
+            grd.addColorStop( 0.00, "#080806" );
+            grd.addColorStop( 0.25, "#977A74" );
+            grd.addColorStop( 0.50, "#EBE84D" );
+            grd.addColorStop( 0.75, "#EA3522" );
+            grd.addColorStop( 1.00, "#397326" );
+            ctx.fillStyle = grd;
             ctx.fillRect( x, canvas.height - barheight, barwidth, barheight );
             x += barwidth;
         }
