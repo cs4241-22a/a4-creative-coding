@@ -9,14 +9,30 @@
   <body>
     <h1><%= title %></h1>
     
-    <div>
-      <img src="../images/album.jpeg" width="50" height="50">
-      <h4>Heavenly Father - Bon Iver</h4>
-      <audio id="audio" src="../data/Heavenly-Father.mp3" controls></audio>
+    <div class="container-fluid">
+      <div class="d-flex mb-3 justify-content-center align-items-center">
+        <div class="p-2">
+          <img src="../images/album.jpeg" width="90" height="90">
+        </div>
+        <div class="p-2 align-self-center">
+          <h4>Heavenly Father - Bon Iver</h4>
+        </div>
+      </div>
+      <div class="d-flex flex-column mb-3">
+        <div class="p-2">
+          <audio id="audio" src="../data/Heavenly-Father.mp3" controls style="width: 100%"></audio>
+        </div>
+      </div>
 <!--      <button id="start" class="btn btn-success">Start Visualization</button>-->
     </div>
-    
-    <canvas id="visualizer" height="500" width="800"></canvas>
+
+    <div class="container-fluid">
+      <div class="d-flex mb-3 justify-content-center align-items-center">
+        <div class="p-2 flex-fill">
+          <canvas id="visualizer" height="520px"></canvas>
+        </div>
+      </div>
+    </div>
     
   
   </body>
