@@ -16,10 +16,16 @@ const volume = document.getElementById('volume'),
       currentSong = document.getElementById('currentSong')
 
 const replayBtn = document.getElementById('replay'),
-    ratherBeBtn = document.getElementById('rather-be')
+    ratherBeBtn = document.getElementById('rather-be'),
+    caffineBtn = document.getElementById('caffine'),
+    goldenHourBtn = document.getElementById('golden-hour'),
+    mrBrightsideBtn = document.getElementById('mr-brightside')
 
 const replay = "../audio/replay.mp3",
     ratherbe = "../audio/ratherbe.mp3"
+    caffine = "../audio/caffine.mp3",
+    goldenhour = "../audio/goldenhour.mp3",
+    brightside = "../audio/mrbrightside.mp3"
 
 
 const white = document.getElementById('whiteBtn');
@@ -81,11 +87,39 @@ const start = function () {
     draw()
 }
 
+//select songs
+
+replayBtn.addEventListener('click', function () {
+    audioElement.src = replay;
+    audioElement.play();
+    currentSong.value = replayBtn.value;
+})
+
 ratherBeBtn.addEventListener('click', function () {
     audioElement.src = ratherbe;
     audioElement.play();
     currentSong.value = ratherBeBtn.value;
 })
+
+caffineBtn.addEventListener('click', function () {
+    audioElement.src = caffine;
+    audioElement.play();
+    currentSong.value = caffineBtn.value;
+})
+
+goldenHourBtn.addEventListener('click', function () {
+    audioElement.src = goldenhour;
+    audioElement.play();
+    currentSong.value = goldenHourBtn.value;
+})
+
+mrBrightsideBtn.addEventListener('click', function () {
+    audioElement.src = brightside;
+    audioElement.play();
+    currentSong.value = mrBrightsideBtn.value;
+})
+
+
 
 //settings
 playSet.addEventListener('click', ()=> audioElement.play())
