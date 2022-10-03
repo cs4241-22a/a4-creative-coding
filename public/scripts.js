@@ -20,11 +20,7 @@ let buflen = analyzer.frequencyBinCount,
 
 control.addEventListener('click', () => 
 {
-    if( context.state === 'suspended' )
-    {
-        readcolors();
-        context.resume();
-    }
+    if( context.state === 'suspended' ) { context.resume(); }
     if( control.dataset.state === 'off' )
     {
         audio.play();
@@ -65,12 +61,12 @@ function readcolors()
     tbl.innerHTML = '';
     if( control.dataset.state === 'off' )
     {
-        tbl.innerHTML += '<tr><td>';
+        tbl.innerHTML += '<tr>';
         tbl.innerHTML += '<input type="text" id="c0" value="' + colors[0] + '">';
         tbl.innerHTML += '<input type="text" id="c1" value="' + colors[1] + '">';
         tbl.innerHTML += '<input type="text" id="c2" value="' + colors[2] + '">';
         tbl.innerHTML += '<input type="text" id="c3" value="' + colors[3] + '">';
-        tbl.innerHTML += '<input type="text" id="c4" value="' + colors[4] + '"></td></tr>';
+        tbl.innerHTML += '<input type="text" id="c4" value="' + colors[4] + '"></tr>';
         colors[0] = document.getElementById( "c0" ).value;
         colors[1] = document.getElementById( "c1" ).value;
         colors[2] = document.getElementById( "c2" ).value;
@@ -86,4 +82,4 @@ function readcolors()
                 grd.addColorStop( 1.00, colors[4] );
     return grd;
 }
-window.onload = function() { animate(); }
+window.onload = function() { readcolors(); animate(); }
