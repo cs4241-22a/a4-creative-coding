@@ -84,7 +84,7 @@ function readvals()
     if( control.dataset.state === 'on' )
     {
            volume = document.getElementById( "vl" ).value / 10;
-            speed = document.getElementById( "sp" ).value;
+            speed = document.getElementById( "sp" ).value +  0;
         colors[0] = document.getElementById( "c0" ).value;
         colors[1] = document.getElementById( "c1" ).value;
         colors[2] = document.getElementById( "c2" ).value;
@@ -93,7 +93,7 @@ function readvals()
         tbl.innerHTML  = '';
     }
     audio.volume = volume;
-    audio.playbackRate = speed.valueOf;
+    audio.playbackRate = speed;
     let grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
         grd.addColorStop( 0.00, colors[0] );
         grd.addColorStop( 0.25, colors[1] );
