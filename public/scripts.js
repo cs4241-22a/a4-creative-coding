@@ -23,7 +23,7 @@ control.addEventListener('click', () =>
     if( context.state === 'suspended' ) { context.resume(); }
     if( control.dataset.state === 'off' )
     {
-        document.getElementById( 'body' ).style.animation = 'scrolling 5s linear infinite;';
+        document.body.style.animation = 'scrolling 5s linear infinite;';
         audio.play();
         control.dataset.state = 'on';
         control.innerHTML = 'pause!';
@@ -32,7 +32,7 @@ control.addEventListener('click', () =>
     }
     else if( control.dataset.state === 'on' )
     {
-        document.getElementById( 'body' ).style.animation = '';
+        document.body.style.animation = '';
         audio.pause();
         control.dataset.state = 'off';
         control.innerHTML = 'play!'
