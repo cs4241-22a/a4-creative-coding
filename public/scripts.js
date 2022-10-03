@@ -12,7 +12,7 @@ let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
 source.connect( analyzer );
 analyzer.connect( context.destination );
-analyzer.fftSize = 256;
+analyzer.fftSize = 512;
 let buflen = analyzer.frequencyBinCount,
       data = new Uint8Array( buflen ),
   barwidth = canvas.width / buflen,
@@ -23,7 +23,7 @@ control.addEventListener('click', () =>
     if( context.state === 'suspended' ) { context.resume(); }
     if( control.dataset.state === 'off' )
     {
-        document.body.style = 'animation: scrolling 5s linear infinite;';
+        document.body.style = 'animation-play-state: running;';
         audio.play();
         control.dataset.state = 'on';
         control.innerHTML = 'pause!';
@@ -32,7 +32,7 @@ control.addEventListener('click', () =>
     }
     else if( control.dataset.state === 'on' )
     {
-        document.body.style = 'animation: scrolling 5s linear;';
+        document.body.style = 'animation-play-state: paused;';
         audio.pause();
         control.dataset.state = 'off';
         control.innerHTML = 'play!'
