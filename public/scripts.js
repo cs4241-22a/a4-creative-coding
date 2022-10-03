@@ -15,7 +15,8 @@ analyzer.fftSize = 512;
 let buflen = analyzer.frequencyBinCount,
       data = new Uint8Array( buflen ),
   barwidth = canvas.width / buflen,
-    volume = 1;
+    volume = 1,
+     speed = 1,
     colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ],
        grd = readvals();
 
@@ -71,8 +72,10 @@ function readvals()
 {
     if( control.dataset.state === 'off' )
     {
-        tbl.innerHTML  = '<td><label for="volume" style="font-family:\'Source Code Pro\',monospace;background-color:rgba(255,255,255,.6);">volume:</label>'
-        tbl.innerHTML +=     '<input type="range" id="vl" value="' + volume*10 + '" min="0" max="10" step="1", style="width:210px;height:25px;"></td>'
+        tbl.innerHTML  = '<td><label for="vl" style="font-family:\'Source Code Pro\',monospace;background-color:rgba(255,255,255,.6);text-align:center;">volume:</label>'
+        tbl.innerHTML +=     '<input type="range" id="vl" value="' + volume*10 + '" min="0" max="10" step="1" style="width:210px; height:25px;"></td>'
+        tbl.innerHTML += '<td><label for="sp" style="font-family:\'Source Code Pro\',monospace;background-color:rgba(255,255,255,.6);text-align:center;">playback speed:</label>'
+        tbl.innerHTML +=     '<input type="range" id="sp" value="' +   speed   + '" min="0.5" max="2.5" step="0.25" style="width:210px; height:25px;"></td>'
         tbl.innerHTML += '<td><input type="color" id="c0" value="' + colors[0] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c2" value="' + colors[2] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c1" value="' + colors[1] + '" style="width:210px; height:25px; text-align:center;"></td>';
@@ -90,6 +93,7 @@ function readvals()
         tbl.innerHTML  = '';
     }
     audio.volume = volume;
+    audio.playbackRate = speed;
     grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
                 grd.addColorStop( 0.00, colors[0] );
                 grd.addColorStop( 0.25, colors[1] );
