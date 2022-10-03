@@ -1,11 +1,11 @@
-let     audio = new Audio(), context = null, canvas = null, source = null, analyzer = null, buflen = null, data = null, barwidth = null;
+let     audio = new Audio(), context = null, source = null, analyzer = null, buflen = null, data = null, barwidth = null;
     audio.src = "/source.mp3";
+const canvas = document.getElementById( "canvas" );
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 function starter()
 {
-    context = new (window.AudioContext || window.webkitAudioContext)(),
-    canvas = document.getElementById( "canvas" );
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    context = new (window.AudioContext || window.webkitAudioContext)();
     source = context.createMediaElementSource( audio );
     analyzer = context.createAnalyser();
     source.connect( analyzer );
@@ -21,13 +21,13 @@ function starter()
 function animate()
 {
     x = 0;
-    context.clearRect( 0, 0, canvas.width, canvas.height );
+    ctx.clearRect( 0, 0, canvas.width, canvas.height );
     analyzer.getByteFrequencyData( data );
     for ( let i = 0 ; i < buflen ; i++ )
     {
         barheight = data[i];
-        context.fillStyle = "white";
-        context.fillRect( x, canvas.height - barheight, barwidth, barheight );
+        ctx.fillStyle = "white";
+        ctx.fillRect( x, canvas.height - barheight, barwidth, barheight );
         x += barwidth;
     }
     requestAnimationFrame(animate);
