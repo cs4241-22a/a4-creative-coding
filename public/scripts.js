@@ -35,9 +35,10 @@ control.addEventListener('click', () =>
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 25, window.innerWidth/window.innerHeight, 0.1, 1000 );
-var renderer = new THREE.WebGLRenderer();
+var renderer = new THREE.WebGLRenderer( { alpha: true } );
 renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+renderer.setClearColor( 0x000000, 0 );
+document.body.appendChild( renderer.canvas );
 var geometry = new THREE.BoxGeometry( 1, 1, 1 );
 var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
 var cube = new THREE.Mesh( geometry, material );
