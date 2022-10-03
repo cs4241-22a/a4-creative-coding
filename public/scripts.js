@@ -24,13 +24,13 @@ control.addEventListener('click', () =>
         context.resume();
         console.log('resume');
     }
-    if( control.dataset.state === 'off' )
+    else if( control.dataset.state === 'off' )
     {
         audio.play();
         control.dataset.state = 'on';
         console.log('play');
     }
-    if( control.dataset.state === 'on' )
+    else if( control.dataset.state === 'on' )
     {
         audio.pause();
         control.dataset.state = 'off';
@@ -54,4 +54,8 @@ function animate()
         }
     }
     requestAnimationFrame(animate);
+}
+window.onload = function()
+{
+    animate();
 }
