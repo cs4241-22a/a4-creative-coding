@@ -84,7 +84,8 @@ function readvals()
     if( control.dataset.state === 'on' )
     {
            volume = document.getElementById( "vl" ).value / 10;
-            speed = document.getElementById( "sp" ).value + 0;
+            speed = document.getElementById( "sp" ).value +  0;
+        console.log(volume);
         console.log(speed);
         colors[0] = document.getElementById( "c0" ).value;
         colors[1] = document.getElementById( "c1" ).value;
