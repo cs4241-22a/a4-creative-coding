@@ -74,6 +74,7 @@ function readcolors()
         colors[3] = document.getElementById( "c3" ).value;
         colors[4] = document.getElementById( "c4" ).value;
     }
+    else { tbl.innerHTML = ''; }
     grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
                 grd.addColorStop( 0.00, colors[0] );
                 grd.addColorStop( 0.25, colors[1] );
