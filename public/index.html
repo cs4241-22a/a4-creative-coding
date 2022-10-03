@@ -15,8 +15,9 @@
                     <audio controls loop id="audio" src="https://vgmsite.com/soundtracks/pokemon-go-ost/mvlslckwny/Gotcha.mp3"></audio>
                 </div>
             </div>
-            <div class="row">            
-                <div class="instructions">
+            <div class="row">
+              <button onclick="showHideInstruct()">Instructions</button>
+                <div id="instructions" style="display: none">
                     <p style="text-align: center;"> To get started, please press the cyan power button found on the pokédex. </p>
                     <p style="text-align: center;"> The black screen is where you will encounter a new pokémon that appear next to the pokédex. </p>
                     <p style="text-align: center;"> Click on the green buton to see the information of the mysterious pokémon. </p>
@@ -124,6 +125,16 @@
                                 document.getElementById("pokemonType").appendChild(pokeType);
                                 document.getElementById("pokeDataList").appendChild(pokeData);
                             }
+                         
+                            function showHideInstruct() {
+                              var x = document.getElementById("instructions");
+                              if (x.style.display === "none") {
+                                x.style.display = "block";
+                              } else {
+                                x.style.display = "none";
+                              }
+                            }
+                          
 
                             d3.selectAll("p").style("color", "blue");
                         </script>
