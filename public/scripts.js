@@ -20,7 +20,11 @@ let buflen = analyzer.frequencyBinCount,
 
 control.addEventListener('click', () => 
 {
-    if( context.state === 'suspended' ) { context.resume(); }
+    if( context.state === 'suspended' )
+    {
+        readcolors();
+        context.resume();
+    }
     if( control.dataset.state === 'off' )
     {
         audio.play();
