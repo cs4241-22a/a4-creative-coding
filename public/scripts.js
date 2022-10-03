@@ -50,7 +50,7 @@ function animate()
 {
     if( control.dataset.state === 'on' )
     {
-        var ctx = canvas.getContext('2d');
+        var ctx = canvas.getContext('2d'),
         x = 0;
         ctx.clearRect( 0, 0, canvas.width, canvas.height );
         analyzer.getByteFrequencyData( data );
