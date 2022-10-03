@@ -1,7 +1,7 @@
 let     audio = new Audio();
     audio.src = "/source.mp3";
 const  canvas = document.getElementById( "canvas" ),
-      cubevas = document.getElementById( "cube" ),
+      cubevas = document.getElementById( "cubevas" ),
       control = document.getElementById( "playbutton" ),
       context = new window.AudioContext(),
           ctx = canvas.getContext('2d');
@@ -38,7 +38,6 @@ var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 25, window.innerWidth/window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer( { alpha: true } );
 renderer.setSize( window.innerWidth, window.innerHeight );
-//renderer.setClearColor( 0x000000, 0 );
 document.body.appendChild( /*renderer.domElement*/ cubevas );
 var geometry = new THREE.BoxGeometry( 1, 1, 1 );
 var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
