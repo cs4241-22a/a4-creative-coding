@@ -71,7 +71,8 @@ function readvals()
 {
     if( control.dataset.state === 'off' )
     {
-        tbl.innerHTML  = '<td><input type="range" id="vl" value="' + volume    + '" min="0" max="10" step="1"><label for="volume">volume:<label></td>'
+        tbl.innerHTML  = '<td><label for="volume" style="font-family:\'Source Code Pro\' monospace;">volume:</label>'
+        tbl.innerHTML +=      '<input type="range" id="vl" value="' + volume    + '" min="0" max="10" step="1"></td>'
         tbl.innerHTML += '<td><input type="color" id="c0" value="' + colors[0] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c2" value="' + colors[2] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c1" value="' + colors[1] + '" style="width:210px; height:25px; text-align:center;"></td>';
