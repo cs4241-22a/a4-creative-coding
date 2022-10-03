@@ -1,9 +1,9 @@
 let     audio = new Audio();
     audio.src = "/source.mp3";
-const canvas  = document.getElementById( "canvas" );
+const canvas  = document.getElementById( "canvas" ),
+     audioctx = new window.AudioContext();
 canvas.width  = window.innerWidth;
 canvas.height = window.innerHeight;
-const context = new ( window.AudioContext || window.webkitAudioContext )();
 let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
 source.connect( analyzer );
@@ -12,6 +12,16 @@ analyzer.fftSize = 128;
 let buflen = analyzer.frequencyBinCount,
 data = new Uint8Array( buflen )
 barwidth = canvas.width / buflen;
+
+const button = document.getElementById( "startbutton" );
+button.addEventListener('click' () => 
+{
+    if(  === 'suspended' )
+    {
+        context.resume();
+        console.log('audio resumed');
+    }
+} );
 function starter()
 {
     audio.play();
