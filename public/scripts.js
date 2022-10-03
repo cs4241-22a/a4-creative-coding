@@ -60,9 +60,10 @@ function animate()
 }
 function readcolors()
 {
+    tbl.innerHTML = '';
     if( showcolors )
     {
-        tbl.innerHTML  = '<tr><td>';
+        tbl.innerHTML += '<tr><td>';
         tbl.innerHTML += '<input type="text" id="c0" value="' + colors[0] + '"></td><td>';
         tbl.innerHTML += '<input type="text" id="c1" value="' + colors[1] + '"></td><td>';
         tbl.innerHTML += '<input type="text" id="c2" value="' + colors[2] + '"></td><td>';
@@ -74,7 +75,6 @@ function readcolors()
         colors[3] = document.getElementById( "c3" ).value;
         colors[4] = document.getElementById( "c4" ).value;
     }
-    else { tbl.innerHTML = ''; }
     grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
                 grd.addColorStop( 0.00, colors[0] );
                 grd.addColorStop( 0.25, colors[1] );
