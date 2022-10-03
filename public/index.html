@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <h1>
+      Welcome to the Online Ukulele!
+    </h1>
+    <h2>
+      Click once to get started and then click and drag to strum/pluck. Fret strings by holding down keys on your keyboard.
+    </h2>
+    <div id="outer">
+      <canvas id="topbody"></canvas>
+      <canvas class="space"></canvas>
+      <canvas class="string" id="A"></canvas>
+      <canvas class="space"></canvas>
+      <canvas class="string" id="E"></canvas>
+      <canvas class="space"></canvas>
+      <canvas class="string" id="C"></canvas>
+      <canvas class="space"></canvas>
+      <canvas class="string" id="G"></canvas>
+      <canvas class="space"></canvas>
+      <canvas id="bottombody"></canvas>
+    </div>
+    <div id="stack">
+      <label for="volume"> volume</label>
+      <input type="range" id="volume" name="volume" min="0" max="10">
+      <label for="sustain"> sustain</label>
+      <input type="range" id="sustain" name="sustain" min="0" max="10">
+    </div>
+    
+    <script src="https://unpkg.com/tone@14.8.48"></script>
+    <script src="/js/audio.js"></script>
+  </body>
+</html>
