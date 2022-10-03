@@ -1,48 +1,68 @@
 console.log("script is connected");
 
-const pane = new Tweakpane.Pane({
-    container: document.querySelector('#container'),
-});
+let ctx = null
+  const pane = new Tweakpane.Pane();
 
-const btn = pane.addButton({
-    title: 'Play/Pause',
-    label: 'Noggin',
-});
-
-var context = new AudioContext();
-var buffer;
-var source;
-var isPlaying = false;
-
-fetch("/noggin.wav")
-  .then(response => response.arrayBuffer())
-  .then(arrayBuffer => context.decodeAudioData(arrayBuffer))
-  .then(audioBuffer => {
-    buffer = audioBuffer;
-  });
-
-function start() {
-  source = context.createBufferSource();
-  source.buffer = buffer;
-  source.connect(context.destination);
-  source.loop = true;
-  source.start();
-}
-
-function stop() {
-  source.stop();
-}
-
-function toogle(button) {
-  isPlaying = !isPlaying;
-  if(isPlaying) {
-    start();
-    button.innerHTML = "Stop";
-  } else {
-    stop();
-    button.innerHTML = "Start";
+  window.onclick = function() {
+    ctx = new AudioContext()
+    const osc = ctx.createOscillator()
+    osc.connect( ctx.destination )
+    osc.start(0)
+    window.onclick = null
+    
+    const btn = pane.addButton({
+      title: 'turn sound off',
+    })
+    
+    btn.on( 'click', () => {
+      osc.stop()
+    })
   }
-}
+  
+
+// const pane = new Tweakpane.Pane({
+//     container: document.querySelector('#container'),
+// });
+
+// const btn = pane.addButton({
+//     title: 'Play/Pause',
+//     label: 'Noggin',
+// });
+
+// var context = new AudioContext();
+// var buffer;
+// var source;
+// var isPlaying = false;
+
+// fetch("/noggin.wav")
+//   .then(response => response.arrayBuffer())
+//   .then(arrayBuffer => context.decodeAudioData(arrayBuffer))
+//   .then(audioBuffer => {
+//     buffer = audioBuffer;
+//   });
+
+// function start() {
+//   source = context.createBufferSource();
+//   source.buffer = buffer;
+//   source.connect(context.destination);
+//   source.loop = true;
+//   source.start();
+// }
+
+// function stop() {
+//   source.stop();
+// }
+
+// function toogle(button) {
+//   isPlaying = !isPlaying;
+//   if(isPlaying) {
+//     start();
+//     button.innerHTML = "Stop";
+//   } else {
+//     stop();
+//     button.innerHTML = "Start";
+//   }
+// }
 
 
 // const AudioContext = window.AudioContext || window.webkitAudioContext;

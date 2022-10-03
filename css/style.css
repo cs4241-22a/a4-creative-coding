@@ -19,7 +19,7 @@ h1 {
   padding: 10px;
 }
 
-.backgroundimg {
+/* .backgroundimg {
   position: relative;
   height: 100vh;
   width: 100%;
@@ -37,10 +37,11 @@ h1 {
   bottom: 0px;
   left: 0px;
   opacity: 0.75;
-}
+} */
 
 body {
   margin: 0px;
+  background-color: black;
 }
 
 :root {
