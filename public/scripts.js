@@ -69,21 +69,19 @@ function readcolors()
 {
     if( control.dataset.state === 'off' )
     {
-        tbl.innerHTML  = '<td><input type="text" id="c0" value="' + colors[0] + '" style="width:210px; height:25px; text-align:center;"></td>';
-        tbl.innerHTML += '<td><input type="text" id="c2" value="' + colors[2] + '" style="width:210px; height:25px; text-align:center;"></td>';
-        tbl.innerHTML += '<td><input type="text" id="c1" value="' + colors[1] + '" style="width:210px; height:25px; text-align:center;"></td>';
-        tbl.innerHTML += '<td><input type="text" id="c3" value="' + colors[3] + '" style="width:210px; height:25px; text-align:center;"></td>';
-        tbl.innerHTML += '<td><input type="text" id="c4" value="' + colors[4] + '" style="width:210px; height:25px; text-align:center;"></td>';
+        tbl.innerHTML  = '<td><input type="color" id="c0" value="' + colors[0] + '" style="width:210px; height:25px; text-align:center;">/td>';
+        tbl.innerHTML += '<td><input type="color" id="c2" value="' + colors[2] + '" style="width:210px; height:25px; text-align:center;"></td>';
+        tbl.innerHTML += '<td><input type="color" id="c1" value="' + colors[1] + '" style="width:210px; height:25px; text-align:center;"></td>';
+        tbl.innerHTML += '<td><input type="color" id="c3" value="' + colors[3] + '" style="width:210px; height:25px; text-align:center;"></td>';
+        tbl.innerHTML += '<td><input type="color" id="c4" value="' + colors[4] + '" style="width:210px; height:25px; text-align:center;"></td>';
     }
     if( control.dataset.state === 'on' )
     {
         colors[0] = document.getElementById( "c0" ).value;
-        console.log( document.getElementById( "c0" ).value );
         colors[1] = document.getElementById( "c1" ).value;
         colors[2] = document.getElementById( "c2" ).value;
         colors[3] = document.getElementById( "c3" ).value;
         colors[4] = document.getElementById( "c4" ).value;
-        console.log( colors );
         tbl.innerHTML  = '';
     }
     grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
