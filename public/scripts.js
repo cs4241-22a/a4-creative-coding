@@ -1,10 +1,10 @@
+import * as THREE from 'three';
 let     audio = new Audio();
     audio.src = "/source.mp3";
 const canvas  = document.getElementById( "canvas" ),
       control = document.getElementById( "playbutton" ),
       context = new window.AudioContext(),
-          ctx = canvas.getContext('2d'),
-        THREE = require( 'three' );
+          ctx = canvas.getContext('2d');
 canvas.width  = window.innerWidth;
 canvas.height = window.innerHeight;
 audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
