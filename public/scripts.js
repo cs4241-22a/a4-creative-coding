@@ -85,6 +85,7 @@ function readvals()
     if( control.dataset.state === 'on' )
     {
            volume = document.getElementById( "vl" ).value / 10;
+            speed = document.getElementById( "sp" ).value;
         colors[0] = document.getElementById( "c0" ).value;
         colors[1] = document.getElementById( "c1" ).value;
         colors[2] = document.getElementById( "c2" ).value;
@@ -102,4 +103,4 @@ function readvals()
                 grd.addColorStop( 1.00, colors[4] );
     return grd;
 }
-window.onload = function() { readvals(); animate(); }
+window.onload = function() { animate(); }
