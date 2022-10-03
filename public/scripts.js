@@ -24,17 +24,17 @@ control.addEventListener('click', () =>
     if( control.dataset.state === 'off' )
     {
         audio.play();
+        readcolors();
         control.dataset.state = 'on';
         control.innerHTML = 'pause!';
-        readcolors();
         console.log('play');
     }
     else if( control.dataset.state === 'on' )
     {
         audio.pause();
+        readcolors();
         control.dataset.state = 'off';
         control.innerHTML = 'play!'
-        readcolors();
         console.log('pause');
     }
 }, false );
