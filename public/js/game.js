@@ -10,6 +10,7 @@ let startLength = 100;
 let seed = 0;
 let numTrees = 3;
 let trees = [];
+let drawShadows = false;
 
 class Point {
   constructor(x, y) {
@@ -27,7 +28,22 @@ window.onload = function () {
   ctx = canvas.getContext("2d");
   //set the canvas width and height
   canvas.width = 1200;
-  canvas.height = 600;
+  canvas.height = 800;
+
+  //set on input listeners
+  let seedElt = window.document.getElementById("seed");
+  seedElt.oninput = (event) => {
+    seed = event.target.value;
+    //render the scene
+    Math.seedrandom(seed);
+
+    resetBackground();
+
+    trees = [];
+    genTrees();
+    drawTrees();
+    drawFog();
+  };
 
   resetBackground();
 
@@ -79,11 +95,13 @@ const resetBackground = () => {
   drawStars();
 
   //draw shadow
-  ctx.shadowColor = "black";
-  ctx.shadowBlur = 50;
-  ctx.shadowOffsetX = 5;
-  ctx.shadowOffsetY = 5;
-  ctx.fillStyle = "black";
+  if (drawShadows) {
+    ctx.shadowColor = "black";
+    ctx.shadowBlur = 50;
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 5;
+    ctx.fillStyle = "black";
+  }
 };
 
 const genTrees = () => {
@@ -124,7 +142,7 @@ const drawStars = () => {
 const getNormalDist = (mean, std) => {
   let u = 0,
     v = 0;
-  while (u === 0) u = Math.random(); //Converting [0,1) to (0,1)
+  while (u === 0) u = Math.random(); // to avoid log(0)
   while (v === 0) v = Math.random();
   let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
   num = num * std + mean;

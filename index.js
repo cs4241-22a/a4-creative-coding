@@ -11,6 +11,12 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
+//any other request, send the file
+app.get("*", (req, res) => {
+  console.log(req.url);
+  res.sendFile(__dirname + "/public" + req.url);
+});
+
 //start the server
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

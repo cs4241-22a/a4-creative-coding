@@ -5,11 +5,78 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
-    <title>Tree Gen</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Tree Generator</title>
 </head>
 <body>
-    <h1>Tree Gen</h1>
+    <h1>Tree Generator</h1>
+    <div id="main-group">
+    <div id="settings">
+        <!-- Things user can edit:
+    let seed = 0;
+    let startLength = 100; // slider between 50 and 200
+    let lenCoeff = 0.8; // slider between 0.5 and .9
+    let lenStd = 0.05; // slider between 0 and 0.1
+
+    let startWidth = 10; // slider between 5 and 20
+    let widthCoeff = 0.8; // slider between 0.5 and .9
+    let widthStd = 0.05; // slider between 0 and 0.1
+
+    let angleCoeff = .75; // slider between .4 and 1.5
+    let angleStd = .2; // slider between 0 and .4
+
+    setting for leaves on or off
+    setting for leaf color
+    setting for branch color
+
+    let numTrees = 3; // slider between 1 and 5
+        -->
+        <h2 style="text-align: center;">Settings</h2>
+        <label for="seed">Seed</label>
+        <input type="number" id="seed" name="seed" min="0" max="1000000" value="0">
+        <label for="startLength">Start Length</label>
+        <output for="startLength" id="startLengthOutput">100</output>
+        <input type="range" id="startLength" name="startLength" min="50" max="200" value="100" oninput="this.previousElementSibling.value = this.value">
+        <label for="lenCoeff">Length Coefficient</label>
+        <output for="lenCoeff" id="lenCoeffOutput">0.8</output>
+        <input type="range" id="lenCoeff" name="lenCoeff" min="0.5" max="0.9" step="0.01" value="0.8" oninput="this.previousElementSibling.value = this.value">
+        <label for="lenStd">Length Standard Deviation</label>
+        <output for="lenStd" id="lenStdOutput">0.05</output>
+        <input type="range" id="lenStd" name="lenStd" min="0" max="0.1" step="0.01" value="0.05" oninput="this.previousElementSibling.value = this.value">
+        <label for="startWidth">Start Width</label>
+        <output for="startWidth" id="startWidthOutput">10</output>
+        <input type="range" id="startWidth" name="startWidth" min="5" max="20" value="10" oninput="this.previousElementSibling.value = this.value">
+        <label for="widthCoeff">Width Coefficient</label>
+        <output for="widthCoeff" id="widthCoeffOutput">0.8</output>
+        <input type="range" id="widthCoeff" name="widthCoeff" min="0.5" max="0.9" step="0.01" value="0.8" oninput="this.previousElementSibling.value = this.value">
+        <label for="widthStd">Width Standard Deviation</label>
+        <output for="widthStd" id="widthStdOutput">0.05</output>
+        <input type="range" id="widthStd" name="widthStd" min="0" max="0.1" step="0.01" value="0.05" oninput="this.previousElementSibling.value = this.value">
+        <label for="angleCoeff">Angle Coefficient</label>
+        <output for="angleCoeff" id="angleCoeffOutput">0.75</output>
+        <input type="range" id="angleCoeff" name="angleCoeff" min="0.4" max="1.5" step="0.01" value="0.75" oninput="this.previousElementSibling.value = this.value">
+        <label for="angleStd">Angle Standard Deviation</label>
+        <output for="angleStd" id="angleStdOutput">0.2</output>
+        <input type="range" id="angleStd" name="angleStd" min="0" max="0.4" step="0.01" value="0.2" oninput="this.previousElementSibling.value = this.value">
+        <label for="numTrees">Number of Trees</label>
+        <output for="numTrees" id="numTreesOutput">3</output>
+        <input type="range" id="numTrees" name="numTrees" min="1" max="5" value="3" oninput="this.previousElementSibling.value = this.value">
+        <label for="leaves" style="display: block;">Leaves</label>
+        <input type="checkbox" id="leaves" name="leaves" checked>
+        <label for="leafColor">Leaf Color</label>
+        <input type="color" id="leafColor" name="leafColor" value="#00ff00">
+        <label for="branchColor">Branch Color</label>
+        <input type="color" id="branchColor" name="branchColor" value="#663300">
+        
+        <button id="reset">Reset</button>
+        <button id="generate">Fancy Render</button>
+
+
+
+
+    </div>
     <canvas id="game"></canvas>
     <script src="js/game.js"></script>
+</div>
 </body>
 </html>
