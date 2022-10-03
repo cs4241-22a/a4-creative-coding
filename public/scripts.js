@@ -7,7 +7,6 @@ const  canvas = document.getElementById( "canvas" ),
           tbl = document.getElementById( 'colors' );
 canvas.width  = window.innerWidth;
 canvas.height = window.innerHeight;
-audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
 let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
 source.connect( analyzer );
@@ -18,6 +17,13 @@ let buflen = analyzer.frequencyBinCount,
   barwidth = canvas.width / buflen,
     colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ];
 
+audio.addEventListener('ended', () =>
+{
+    control.dataset.state = 'off';
+    control.innerHTML = 'play again?';
+    readcolors();
+    console.log('ended');
+}, false );
 control.addEventListener('click', () => 
 {
     if( context.state === 'suspended' ) { context.resume(); }
