@@ -74,7 +74,7 @@ function readvals()
         tbl.innerHTML  = '<td><label for="vl" style="font-family:\'Source Code Pro\',monospace;background-color:rgba(255,255,255,.6);text-align:center;">volume:</label>'
         tbl.innerHTML +=     '<input type="range" id="vl" value="' + volume*10 + '" min="0" max="10" step="1" style="width:210px; height:25px;"></td>'
         tbl.innerHTML += '<td><label for="sp" style="font-family:\'Source Code Pro\',monospace;background-color:rgba(255,255,255,.6);text-align:center;">playback speed:</label>'
-        tbl.innerHTML +=     '<input type="range" id="sp" value="' +   speed   + '" min="0.5" max="2.5" step="0.25" style="width:210px; height:25px;"></td>'
+        tbl.innerHTML +=     '<input type="range" id="sp" value="' +   speed   + '" min="0.5" max="1.5" step="0.25" style="width:210px; height:25px;"></td>'
         tbl.innerHTML += '<td><input type="color" id="c0" value="' + colors[0] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c2" value="' + colors[2] + '" style="width:210px; height:25px; text-align:center;"></td>';
         tbl.innerHTML += '<td><input type="color" id="c1" value="' + colors[1] + '" style="width:210px; height:25px; text-align:center;"></td>';
@@ -85,6 +85,7 @@ function readvals()
     {
            volume = document.getElementById( "vl" ).value / 10;
             speed = document.getElementById( "sp" ).value + 0.0;
+        console.log(speed);
         colors[0] = document.getElementById( "c0" ).value;
         colors[1] = document.getElementById( "c1" ).value;
         colors[2] = document.getElementById( "c2" ).value;
