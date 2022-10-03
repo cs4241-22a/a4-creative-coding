@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+</head>
+<body class="animate__animated animate__fadeIn">
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+<p class="text-faded">Currently Playing: <%= track %></p>
+
+<audio src="/media/angel-juan.mp3"></audio> <!--Expose track to DOM-->
+
+<button data-playing="false" role="switch" aria-checked="false" id="play-pause">
+    <span>Play/Pause</span>
+</button>
+
+<section id="three-js">
+    <script src="/scripts/three.js"></script>
+    <script>
+
+    </script>
+</section>
+
+<script src='/scripts/tweakpane-3.1.0.min.js'></script>
+<script src='/scripts/audio.js'></script>
+</body>
+</html>

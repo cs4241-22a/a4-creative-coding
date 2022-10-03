@@ -1,0 +1,18 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: black;
+  color: whitesmoke;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.animate__animated.animate__fadeIn {
+  --animate-duration: 2s;
+}
+
+.text-faded {
+  opacity: 0.50;
+}
