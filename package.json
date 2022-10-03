@@ -1,0 +1,17 @@
+{
+    "name": "audio vidualizer",
+    "version": "",
+    "description": "",
+    "author": "Cather Zhang",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "engines": {
+      "node": ">=12.0.0"
+    },
+    "dependencies": {
+      "cors": "^2.8.5",
+      "express": "^4.18.1",
+      "mime": "^2.5.2"
+    }
+  }

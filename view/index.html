@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Music Visualizer</title>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;1,700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Besley&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Audio visualizer on 2d canvas">
+</head>
+
+<body>
+    <script src="js/script.js" defer></script>
+    <link href="css/style.css" rel="stylesheet">
+    <div id='instruction'>
+        <div id='instructionsForm'>
+            <h2>Instructions</h2>
+            <h3>Change Song</h3>
+            <p>
+                Choose the song you would like to listen from the list.
+            </p>
+            <h3>Change Wave Color</h3>
+            <p>
+                Change the color of the audio wave.
+            </p>
+            <h3>Change Background Color</h3>
+            <p>
+                Change the background color of the page.
+            </p>
+            <h3>Settings</h3>
+            <p>
+                Allows you to play, pause, mute, change the volume of the song.
+            </p>
+            <br>
+            <button id="startBtn">Start!</button>
+        </div>
+    </div>
+    <div id='main'>
+        <div id="player">
+            <div id='options' class="row">
+                <div id='optionDiv' class="column">
+                    <label id='Label'>Songs</label>
+                    <div></div>
+                    <input type="button" id="replay" class="song" value="Replay by Iyaz">
+                    <div></div>
+                    <input type="button" id="rather-be" class="song" value="Rather Be by Clean Bandit">
+                    <div></div>                    
+                    <input type="button" id="caffine" class="song" value="Caffine by Kiro Akiyama">
+                    <div></div>
+                    <input type="button" id="golden-hour" class="song" value="Golden Hour by JVKE">
+                    <div></div>
+                    <input type="button" id="mr-brightside" class="song" value="Mr. Brightside by The Killers">
+                    <div></div>
+                </div>
+                <div id="optionDiv" class="column">
+                    <label id='Label'>Color</label>
+                    <button id="whiteBtn" class='colorBtn'>White</button>
+                    <button id="greenBtn" class='colorBtn'>Green</button>
+                    <button id="redBtn" class='colorBtn'>Red</button>
+                    <button id="yellowBtn" class='colorBtn'>Yellow</button>
+                    <button id="blueBtn" class='colorBtn'>Blue</button>
+
+                </div>
+
+                <div id="optionDiv" class="column">
+                    <label id='Label'>Background</label>
+                    <button id="bkgWhiteBtn" class='colorBtn'>White</button>
+                    <button id="bkgBlackBtn" class='colorBtn'>Black</button>
+                    <button id="bkgPinkBtn" class='colorBtn'>Pink</button>
+                    <button id="bkgPurpleBtn" class='colorBtn'>Purple</button>
+                    <button id="bkgOrangeBtn" class='colorBtn'>Orange</button>
+
+                </div>
+
+
+                <div id='settingDiv' class="column">
+                    <label id='Label'>Settings</label>
+                    <div id='settings'>
+                        <div></div>
+                        <button id='playBtn'class= 'setBtn'>Play</button>
+                        <div></div>
+                        <button id='pauseBtn' class= 'setBtn'>Pause</button>
+                        <div></div>
+                        <label class= 'setLabels'>Volume</label>
+                        <input type="range" min= '0' max= '100' value= '100' step= '1' id="volume">
+                        <div></div>
+                        <label class= 'setLabels'>Mute</label>
+                        <input type='checkbox' class= 'checkBox' id= 'mute'>
+                        <div></div>
+                        <label class= 'setLabels'>Playing: </label>
+                        <input type="text" id= 'currentSong'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <div id="canvasDiv">
+        <canvas id="canvas" width="1300" height = "500"></canvas>
+    </div>
+</body>
+</html>
