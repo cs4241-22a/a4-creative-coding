@@ -1,19 +1,15 @@
 *
 {
-    background: #000000;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-#vis
-{
-    position: absolute;
-}
-#playbutton
+#meta
 {
     position: absolute;
     background: #FFFFFF;
     text-align: center;
+    vertical-align: middle;
 }
 #canvas
 {

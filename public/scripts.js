@@ -1,12 +1,11 @@
-let     audio  = new Audio();
-    audio.src  = "/source.mp3";
-const canvas   = document.getElementById( "canvas" ),
-      control  = document.getElementById( "playbutton" );
-      context  = new window.AudioContext();
- canvas.width  = window.innerWidth;
- canvas.height = window.innerHeight * .95;
-control.width  = window.innerWidth;
-control.height = window.innerHeight * .05;
+let     audio = new Audio();
+    audio.src = "/source.mp3";
+const canvas  = document.getElementById( "canvas" ),
+      control = document.getElementById( "playbutton" ),
+      context = new window.AudioContext(),
+          ctx = canvas.getContext('2d');
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
 audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
 let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
@@ -34,7 +33,7 @@ control.addEventListener('click', () =>
     }
 }, false );
 
-function animate()
+function eq()
 {
     if( control.dataset.state === 'on' )
     {
@@ -50,6 +49,6 @@ function animate()
             x += barwidth;
         }
     }
-    requestAnimationFrame(animate);
+    requestAnimationFrame(eq);
 }
-window.onload = function() { animate(); }
+window.onload = function() { eq(); }
