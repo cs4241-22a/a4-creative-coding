@@ -11,7 +11,7 @@ body
 }
 @keyframes scrolling
 {
-    from { background-position: 0 0; } to { background-position: 105% 105%;}
+    from { background-position: 0 0; } to { background-position: 0 105%;}
 }
 #vis
 {
