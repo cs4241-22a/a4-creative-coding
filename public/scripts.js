@@ -1,12 +1,14 @@
 let     audio = new Audio();
-    audio.src = "/source.mp3";
-const  canvas = document.getElementById( "canvas" ),
-      cubevas = document.getElementById( "cubevas" ),
-      control = document.getElementById( "playbutton" ),
-      context = new window.AudioContext(),
-          ctx = canvas.getContext('2d');
-canvas.width  = window.innerWidth;
-canvas.height = window.innerHeight;
+     audio.src = "/source.mp3";
+const   canvas = document.getElementById( "canvas" ),
+       cubevas = document.getElementById( "cubevas" ),
+       control = document.getElementById( "playbutton" ),
+       context = new window.AudioContext(),
+           ctx = canvas.getContext('2d');
+ canvas.width  = window.innerWidth;
+ canvas.height = window.innerHeight;
+cubevas.width  = window.innerWidth;
+cubevas.height = window.innerHeight;
 audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
 let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
