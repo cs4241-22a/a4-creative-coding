@@ -19,6 +19,7 @@ let buflen = analyzer.frequencyBinCount,
 
 audio.addEventListener('ended', () =>
 {
+    document.body.style = 'animation-play-state: paused;';
     control.dataset.state = 'off';
     control.innerHTML = 'play again?';
     readcolors();
