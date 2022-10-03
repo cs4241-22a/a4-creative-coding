@@ -16,7 +16,8 @@ analyzer.fftSize = 256;
 let buflen = analyzer.frequencyBinCount,
       data = new Uint8Array( buflen ),
   barwidth = canvas.width / buflen,
-    colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ];
+    colors = [ "#080806", "#977A74", "#EBE84D", "#EA3522", "#397326" ]
+showcolors = true;
 
 control.addEventListener('click', () => 
 {
@@ -26,6 +27,8 @@ control.addEventListener('click', () =>
         audio.play();
         control.dataset.state = 'on';
         control.innerHTML = 'pause!';
+        readcolors();
+        showcolors = false;
         console.log('play');
     }
     else if( control.dataset.state === 'on' )
@@ -33,6 +36,7 @@ control.addEventListener('click', () =>
         audio.pause();
         control.dataset.state = 'off';
         control.innerHTML = 'play!'
+        showcolors = true;
         console.log('pause');
     }
 }, false );
@@ -56,23 +60,20 @@ function animate()
 }
 function readcolors()
 {
-    tbl.innerHTML  = '<tr><th>';
-    tbl.innerHTML += '<input type="text" id="c0" value="' + colors[0] + '"></th><th>';
-    tbl.innerHTML += '<input type="text" id="c1" value="' + colors[1] + '"></th><th>';
-    tbl.innerHTML += '<input type="text" id="c2" value="' + colors[2] + '"></th><th>';
-    tbl.innerHTML += '<input type="text" id="c3" value="' + colors[3] + '"></th><th>';
-    tbl.innerHTML += '<input type="text" id="c4" value="' + colors[4] + '"></th></tr>';
-    colors[0] = document.getElementById( "c0" ).value;
-    colors[1] = document.getElementById( "c1" ).value;
-    colors[2] = document.getElementById( "c2" ).value;
-    colors[3] = document.getElementById( "c3" ).value;
-    colors[4] = document.getElementById( "c4" ).value;
-    /*console.log(document.getElementById( "c0" ));
-    console.log(document.getElementById( "c0" ).value);
-    console.log(document.getElementById( "c0" ).textContent);
-    console.log(document.getElementById( "c0" ).children[0]);
-    console.log(document.getElementById( "c0" ).children[0].value);
-    console.log(document.getElementById( "c0" ).children[0].textContent);*/
+    if( showcolors )
+    {
+        tbl.innerHTML  = '<tr><td>';
+        tbl.innerHTML += '<input type="text" id="c0" value="' + colors[0] + '"></td><td>';
+        tbl.innerHTML += '<input type="text" id="c1" value="' + colors[1] + '"></td><td>';
+        tbl.innerHTML += '<input type="text" id="c2" value="' + colors[2] + '"></td><td>';
+        tbl.innerHTML += '<input type="text" id="c3" value="' + colors[3] + '"></td><td>';
+        tbl.innerHTML += '<input type="text" id="c4" value="' + colors[4] + '"></td></tr>';
+        colors[0] = document.getElementById( "c0" ).value;
+        colors[1] = document.getElementById( "c1" ).value;
+        colors[2] = document.getElementById( "c2" ).value;
+        colors[3] = document.getElementById( "c3" ).value;
+        colors[4] = document.getElementById( "c4" ).value;
+    }
     grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
                 grd.addColorStop( 0.00, colors[0] );
                 grd.addColorStop( 0.25, colors[1] );
