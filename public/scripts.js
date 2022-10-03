@@ -5,7 +5,7 @@ const canvas  = document.getElementById( "canvas" ),
       context = new window.AudioContext(),
           ctx = canvas.getContext('2d');
 canvas.width  = window.innerWidth;
-canvas.height = window.innerHeight*.75;
+canvas.height = window.innerHeight;
 audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
 let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
@@ -44,7 +44,7 @@ function eq()
         for ( let i = 0 ; i < buflen ; i++ )
         {
             barheight = data[i];
-            let grd = createLinearGradient( 0, 0, 100, 0 );
+            let grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
             grd.addColorStop( 0.00, "#080806" );
             grd.addColorStop( 0.25, "#977A74" );
             grd.addColorStop( 0.50, "#EBE84D" );
