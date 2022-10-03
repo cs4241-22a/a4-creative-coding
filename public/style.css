@@ -4,7 +4,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-body { animation: scrolling 5s linear infinite; }
+/*body { animation: scrolling 5s linear infinite; }*/
 @keyframes scrolling { from { background-position: 0 0; } to { background-position: -500px -500px;} }
 #vis
 {
