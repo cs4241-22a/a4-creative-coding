@@ -1,19 +1,19 @@
-let     audio = new Audio(), analyzer = null, buflen = null, data = null, barwidth = null;
+let     audio = new Audio();
     audio.src = "/source.mp3";
-const canvas = document.getElementById( "canvas" );
+const canvas  = document.getElementById( "canvas" );
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
+const context = new ( window.AudioContext || window.webkitAudioContext )();
+let source = context.createMediaElementSource( audio ),
+  analyzer = context.createAnalyser();
+source.connect( analyzer );
+analyzer.connect( context.destination );
+analyzer.fftSize = 128;
+let buflen = analyzer.frequencyBinCount,
+data = new Uint8Array( buflen )
+barwidth = canvas.width / buflen;
 function starter()
 {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const context = new ( window.AudioContext || window.webkitAudioContext )();
-    let source = context.createMediaElementSource( audio );
-    analyzer = context.createAnalyser();
-    source.connect( analyzer );
-    analyzer.connect( context.destination );
-    analyzer.fftSize = 128;
-    buflen = analyzer.frequencyBinCount;
-    data = new Uint8Array( buflen );
-    barwidth = canvas.width / buflen;
     audio.play();
     animate();
 }
