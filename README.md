@@ -11,6 +11,7 @@ The main challenges I faced when doing this project
 - Getting to Bar Chart and Pie chart to appear on the page
 - initially learning the basics of D3
 - fixing errors due to adding a string to a number (eg. 1 + "1" = 11, which messed up my y axis)
+- I used the wrong fork to make this project ( a4 from last year), and transfering my file took awhile
 
 
-- the instructions you present in the website should be clear enough to use the application, but if you feel any need to provide additional instructions please do so here.
+
