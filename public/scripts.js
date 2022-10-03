@@ -33,8 +33,23 @@ control.addEventListener('click', () =>
     }
 }, false );
 
-function eq()
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera( 25, window.innerWidth/window.innerHeight, 0.1, 1000 );
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
+var cube = new THREE.Mesh( geometry, material );
+scene.add( cube );
+camera.position.z = 5;
+
+function animate()
 {
+    cube.rotation.x += 0.10;
+	cube.rotation.y += 0.10;
+    cube.rotation.z += 0.10;
+	renderer.render( scene, camera );
     if( control.dataset.state === 'on' )
     {
         var ctx = canvas.getContext('2d');
@@ -43,7 +58,7 @@ function eq()
         analyzer.getByteFrequencyData( data );
         for ( let i = 0 ; i < buflen ; i++ )
         {
-            barheight = data[i];
+            barheight = data[i]*2.5;
             let grd = ctx.createLinearGradient( 0, 0, 1000, 0 );
             grd.addColorStop( 0.00, "#080806" );
             grd.addColorStop( 0.25, "#977A74" );
@@ -55,6 +70,6 @@ function eq()
             x += barwidth;
         }
     }
-    requestAnimationFrame(eq);
+    requestAnimationFrame(animate);
 }
-window.onload = function() { eq(); }
+window.onload = function() { animate(); }
