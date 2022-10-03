@@ -43,7 +43,6 @@ control.addEventListener('click', () =>
 
 function animate()
 {
-    let grd = readcolors();
     if( control.dataset.state === 'on' )
     {
         var x = 0;

@@ -36,3 +36,8 @@ button
     height: 25px;
 }
 #canvas { position: absolute; }
+#colortable
+{
+    position: absolute;
+    
+}
