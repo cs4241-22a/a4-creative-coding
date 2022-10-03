@@ -4,8 +4,6 @@ const canvas  = document.getElementById( "canvas" ),
       control = document.getElementById( "playbutton" );
       context = new window.AudioContext();
 audio.addEventListener('ended', () => { control.dataset.state = 'off'; console.log('ended'); }, false );
-canvas.width  = window.innerWidth;
-canvas.height = window.innerHeight;
 let source = context.createMediaElementSource( audio ),
   analyzer = context.createAnalyser();
 source.connect( analyzer );
@@ -43,19 +41,16 @@ function animate()
     if( control.dataset.state === 'on' )
     {
         x = 0;
-        ctx.clearRect( 0, 0, canvas.width, canvas.height );
+        canvas.clearRect( 0, 0, canvas.width, canvas.height );
         analyzer.getByteFrequencyData( data );
         for ( let i = 0 ; i < buflen ; i++ )
         {
             barheight = data[i];
-            ctx.fillStyle = "white";
-            ctx.fillRect( x, canvas.height - barheight, barwidth, barheight );
+            canvas.fillStyle = "white";
+            canvas.fillRect( x, canvas.height - barheight, barwidth, barheight );
             x += barwidth;
         }
     }
     requestAnimationFrame(animate);
 }
-window.onload = function()
-{
-    animate();
-}
+window.onload = function() { animate(); }
