@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  
+  <head>
+   <meta charset="utf-8" />
+    
+    <title>Audio Visualizer</title>
+    
+    <link rel="stylesheet" href="/style.css" />
+    
+    <script src="/script.js" defer></script>
+  </head>
+  
+  <body>
+    <h1> Black Swan by BTS Instrumental 2D Audio Visualizer(from their album Map of the Soul 7)</h1>
+    <h2>
+      Link to instrumental: https://www.youtube.com/watch?v=mwNUrtevrN4 
+    </h2>
+    <button id="help">
+      Help
+    </button><br><br>
+    
+    <div id="content">
+      <label for="theme">Theme:</label>
+      <select name="theme" id="theme">
+        <option value="default" selected="selected">Default</option>
+        <option value="winter">Winter</option>
+        <option value="summer">Summer</option>
+      </select>
+      <label for="size">Bar Size:</label>
+      <select name="size" id="size">
+        <option value="default" selected="selected">Default</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+      <label for="direction">Direction:</label>
+      <select name="direction" id="direction">
+        <option value="default" selected="selected">Bottom</option>
+        <option value="top">Top</option>
+        <option value="center">Center</option>
+      </select>
+      <label for="color">Color Gradient:</label>
+      <select name="color" id="color">
+        <option value="default" selected="selected">Default</option>
+        <option value="high">High</option>
+        <option value="low">Low</option>
+      </select>
+      <label for="height">Height:</label>
+      <select name="height" id="height">
+        <option value="default" selected="selected">Default</option>
+        <option value="high">High</option>
+        <option value = "medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+      <label for="background">Background Color: </label>
+      <select name="background" id="background">
+        <option value="default" selected="selected">Black</option>
+        <option value="skyBlue">Sky Blue</option>
+        <option value="goldenYellow">Golden Yellow</option>
+        <option value="darkOrange">Dark Orange</option>
+      </select> <br>
+      <button id="load">
+      Load  
+      </button><br><br>
+      <canvas id="canvas"></canvas>
+      <audio id="audio" controls></audio>
+    </div>
+  </body>
+</html>
