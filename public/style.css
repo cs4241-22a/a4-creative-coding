@@ -4,10 +4,12 @@
     padding: 0;
     box-sizing: border-box;
 }
-#meta
+#vis
 {
     position: absolute;
-    background: #FFFFFF;
+}
+#meta
+{
     text-align: center;
     vertical-align: middle;
 }
