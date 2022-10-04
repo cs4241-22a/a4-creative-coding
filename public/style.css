@@ -14,6 +14,33 @@ header, footer {
     margin: 5px;
 }
 
+footer {
+    margin-top: 15px;
+}
+
+label {
+    margin-right: 0.5em;
+}
+
+h2 {
+    text-align: center;
+}
+
+#settings-pane {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+main {
+    text-align: center;
+}
+
+#reset-button {
+    margin: 5px;
+}
+
 canvas {
     border: 1px solid black; /* Causes weird aliasing issues on the edge of the canvas sometimes but I can't fix it so oh well */
     box-sizing: border-box;

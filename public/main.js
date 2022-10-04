@@ -47,6 +47,7 @@ function initialize(){
         agents: []
     };
     //Settings to control the simulation
+    if(!settings)
     settings = {
         randomFoodChance: 10 / 60,
         minFoodEnergy: 10,
@@ -109,21 +110,25 @@ function initialize(){
             max: 1,
             step: 0.05,
             type:'range',
-            desc:'The percentage of its energy that a dude gives up when making a new dude'
+            desc:'The percentage of its energy that a dude gives up when making a bro (splitting)'
         }
     };
 
     //Initialize dudes
-    for(var i=0; i<10; i++){
+    for(var i=0; i<settings.startingDudes; i++){
         state.agents.push(new Dude());
     }
 
+    //Reset settings pane
+    var settingsPane = document.getElementById('settings-pane');
+    settingsPane.innerHTML = ''; //Clear any existing nodes, eg. if already initialized before
+    document.getElementById('reset-button').onclick = initialize; //Use this method of handler assignment to prevent duplicates
+    
     //Auto-populate settings pane
     Object.entries(settings).forEach((setting)=>{
         var name = setting[0];
         var value = setting[1];
         var meta = metaSettings[name];
-        var settingsPane = document.getElementById('settings-pane');
         if(!meta.type){
             meta.type = 'number';
         }
@@ -135,6 +140,9 @@ function initialize(){
         }
         if(!meta.step){
             meta.step = 1;
+        }
+        if(!meta.desc){
+            meta.desc = '';
         }
         if(meta.type == 'number' || meta.type == 'range'){
             var settingWrapper = document.createElement('div');
@@ -148,6 +156,7 @@ function initialize(){
             var label = document.createElement('label');
             label.for = name;
             label.innerText = name;
+            label.title = meta.desc;
             setting.addEventListener('change', function(event){
                 settings[name] = event.target.value;
                 console.log(settings[name]);
