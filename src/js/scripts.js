@@ -14,6 +14,7 @@ camera.attachControl(canvas, true);
 const light1 = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
 const sphere = MeshBuilder.CreateSphere("sphere", { diameter: 1 }, scene);
 const plane = MeshBuilder.CreatePlane("Plane", { size: 2, sideOrientation: Mesh.DOUBLESIDE }, scene);
+console.log(sphere.getBoundingInfo().boundingBox);
 // hide/show the Inspector
 window.addEventListener("keydown", (ev) => {
     // Shift+Ctrl+Alt+I

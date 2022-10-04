@@ -1,9 +1,11 @@
 import BoidChunk from "./BoidChunk";
+import { Vector3 } from "babylonjs";
 class Flock {
     constructor(scene, cursor, pos, width, height) {
         this.chunkSize = 0;
         this.numCols = 0;
         this.numRows = 0;
+        this.numSlices = 0;
         this.position = pos;
         this.width = width;
         this.height = height;
@@ -13,43 +15,32 @@ class Flock {
     }
     // Runs every boid in every chunk
     run() {
-        this.chunks.forEach((boidRow, row) => {
-            boidRow.forEach((boidCell, col) => {
-                boidCell.boids.forEach((boid, i) => {
-                    // Get all boids in current and neighboring chunks
-                    let neighboringBoids = this.allBoidsIn(this.cellAndNeighboring(row, col));
-                    boid.flock(neighboringBoids);
-                });
-            });
-        });
-        this.chunks.forEach((boidRow, row) => {
-            boidRow.forEach((boidCell, col) => {
-                boidCell.boids.forEach((boid, i) => {
-                    boid.update();
-                });
-            });
-        });
-        this.chunks.forEach((boidRow, row) => {
-            boidRow.forEach((boidCell, col) => {
-                boidCell.boids.forEach((boid, i) => {
-                    boid.borders();
-                });
-            });
-        });
-        this.chunks.forEach((boidRow, row) => {
-            boidRow.forEach((boidCell, col) => {
-                boidCell.boids.forEach((boid, i) => {
-                    boid.updateChunk();
-                });
-            });
-        });
-        this.chunks.forEach((boidRow, row) => {
-            boidRow.forEach((boidCell, col) => {
-                boidCell.boids.forEach((boid, i) => {
-                    boid.run();
-                });
-            });
-        });
+        // Lookup neighboring boids
+        for (const boidCell of this.chunks) {
+            for (const boid of boidCell.boids) {
+                // Get all boids in current and neighboring chunks
+                let neighboringBoids = this.allBoidsIn(this.cellAndNeighboring(boidCell.row, boidCell.column));
+                boid.flock(neighboringBoids);
+            }
+        }
+        // Set boid velocities based on forces
+        for (const boidCell of this.chunks) {
+            for (const boid of boidCell.boids) {
+                boid.update();
+            }
+        }
+        // Teleport to the opposite side if the boid reaches a border
+        for (const boidCell of this.chunks) {
+            for (const boid of boidCell.boids) {
+                boid.borders();
+            }
+        }
+        // Move to appropriate chunk based on position
+        for (const boidCell of this.chunks) {
+            for (const boid of boidCell.boids) {
+                boid.updateChunk();
+            }
+        }
     }
     // Returns an array containing the chunk at the given row and column and its neighbors
     cellAndNeighboring(chunkRow, chunkCol) {
@@ -85,7 +76,7 @@ class Flock {
         // Calculate which chunk the boid should be placed in and add it
         let boidRow = Math.floor(boid.position.y / this.chunkSize);
         let boidCol = Math.floor(boid.position.x / this.chunkSize);
-        (this.chunks[boidRow][boidCol]).addBoid(boid);
+        this.chunks[boidRow].addBoid(boid);
     }
     // Create an array of chunks based on the screen size and cell size
     generateChunks(chunkSize) {
@@ -93,11 +84,11 @@ class Flock {
         this.numRows = Math.ceil(this.height / this.chunkSize);
         this.numCols = Math.ceil(this.width / this.chunkSize);
         for (let row = 0; row < this.numRows; row++) {
-            let currentRow = [];
             for (let col = 0; col < this.numCols; col++) {
-                currentRow.push(new BoidChunk(this.scene, row, col, this.chunkSize, this.chunkSize, this));
+                for (let slice = 0; col < this.numSlices; col++) {
+                    this.chunks.push(new BoidChunk(this.scene, new Vector3(row, col, 0), this.chunkSize, this));
+                }
             }
-            this.chunks.push(currentRow);
         }
         this.width = this.numCols * this.chunkSize;
         this.height = this.numRows * this.chunkSize;

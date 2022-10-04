@@ -1,13 +1,24 @@
+import { Vector3 } from "babylonjs";
 class BoidChunk {
-    constructor(scene, row, col, width, height, flock) {
-        this.row = row;
-        this.column = col;
-        this.height = height;
-        this.width = width;
+    constructor(scene, coordinate, size, flock) {
+        this.size = Vector3.One().scale(size);
         this.boids = [];
         this.flock = flock;
         this.scene = scene;
+        this.coordinate = coordinate;
     }
+    get row() { return this.coordinate.x; }
+    set row(val) { this.coordinate.x = val; }
+    get column() { return this.coordinate.y; }
+    set column(val) { this.coordinate.y = val; }
+    get slice() { return this.coordinate.z; }
+    set slice(val) { this.coordinate.z = val; }
+    get width() { return this.size.x; }
+    set width(val) { this.size.x = val; }
+    get height() { return this.size.y; }
+    set height(val) { this.size.y = val; }
+    get depth() { return this.size.z; }
+    set depth(val) { this.size.z = val; }
     // Remove a specified boid by the boid id
     removeBoid(id) {
         for (let i = 0; i < this.boids.length; i++) {

@@ -1,31 +1,46 @@
 import Flock from "./Flock";
 import Boid from "./Boid";
-import {Scene} from "babylonjs";
+import {Scene, Vector3} from "babylonjs";
 
 class BoidChunk {
 
-    row: number;
-    column: number;
+    // Coordinate Properties
+    coordinate: Vector3
+    get row(): number { return this.coordinate.x }
+    set row(val) { this.coordinate.x = val }
 
-    height: number;
-    width: number;
+    get column(): number { return this.coordinate.y }
+    set column(val) { this.coordinate.y = val }
+
+    get slice(): number { return this.coordinate.z }
+    set slice(val) { this.coordinate.z = val }
+
+
+    // Size Properties
+    size: Vector3
+    get width(): number { return this.size.x }
+    set width(val) { this.size.x = val }
+
+    get height(): number { return this.size.y }
+    set height(val) { this.size.y = val }
+
+    get depth(): number { return this.size.z }
+    set depth(val) { this.size.z = val }
+
 
     boids: Array<Boid>;
     flock: Flock;
 
     scene: Scene;
 
-    constructor(scene: Scene, row: number, col: number, width: number, height: number, flock: Flock) {
-        this.row = row;
-        this.column = col;
-
-        this.height = height;
-        this.width = width;
+    constructor(scene: Scene, coordinate: Vector3, size: number, flock: Flock) {
+        this.size = Vector3.One().scale(size);
 
         this.boids = [];
         this.flock = flock;
 
         this.scene = scene;
+        this.coordinate = coordinate;
     }
 
     // Remove a specified boid by the boid id
