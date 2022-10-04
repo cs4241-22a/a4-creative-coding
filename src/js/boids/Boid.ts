@@ -1,6 +1,6 @@
 import BoidChunk from "./BoidChunk";
-import {Mesh, Scene, Vector3} from "babylonjs";
-import {distance} from "../Utils";
+import {Mesh, MeshBuilder, Scene, Vector3} from "babylonjs";
+import {distance, limit} from "../Utils";
 
 class Boid {
 
@@ -27,7 +27,7 @@ class Boid {
     mesh: Mesh;
     scene: Scene
 
-    constructor(scene: Scene, mesh: Mesh, id: number, pos: Vector3) {
+    constructor(scene: Scene, id: number, pos: Vector3) {
         this.id = id;
 
         this.position = pos;
@@ -52,7 +52,7 @@ class Boid {
         this.mouseMultiplier = 10;      // Forces boids away from the mouse. Make negative to attract them to the mouse
 
         this.scene = scene;
-        this.mesh = mesh;
+        this.mesh = MeshBuilder.CreateBox('newBox', {size: 0.5}, this.scene);
     }
 
     // Draw lines between all boids in range with alphas inversely proportional to their distance
@@ -131,15 +131,15 @@ class Boid {
 
         // Get mouse position and calculate a repulsion vector
         let cursor = Vector3.Zero();
-        let cursorPos = new Vector3(this.p5.mouseX, this.p5.mouseY);
+        let cursorPos = new Vector3(this.p5.mouseX, this.p5.mouseY); // TODO: Get mouse Pos
         if(distance(this.position, cursorPos) < 200)
-            cursor = this.seek(cursorPos).mult(-1);
+            cursor = this.seek(cursorPos).scale(-1);
 
         // Force weights
-        sep.mult(this.forceMultiplier*this.separationMultiplier);
-        ali.mult(this.forceMultiplier*this.alignmentMultiplier);
-        coh.mult(this.forceMultiplier*this.cohesionMultiplier);
-        cursor.mult(this.forceMultiplier*this.mouseMultiplier);
+        sep.scaleInPlace(this.forceMultiplier*this.separationMultiplier);
+        ali.scaleInPlace(this.forceMultiplier*this.alignmentMultiplier);
+        coh.scaleInPlace(this.forceMultiplier*this.cohesionMultiplier);
+        cursor.scaleInPlace(this.forceMultiplier*this.mouseMultiplier);
 
         // Apply forces
         this.applyForce(sep);
@@ -150,85 +150,85 @@ class Boid {
     }
 
     forward() {
-        let velCopy = this.velocity.copy();
+        let velCopy = this.velocity.clone();
         velCopy.normalize();
         return velCopy;
     }
 
-    seek(target: P5.Vector) {
+    seek(target: Vector3) {
         // Normalized vector pointing towards the target
-        let targetVel = subVects(target, this.position);
-        targetVel.setMag(this.maxSpeed);
+        let targetVel = target.subtract(this.position);
+        targetVel.normalize().scaleInPlace(1/this.maxSpeed);
 
         // Delta vector to targetVel to apply an appropriate force
-        let steer = subVects(targetVel, this.velocity);
-        steer.limit(this.maxForce);
+        let steer = targetVel.subtract(this.velocity);
+        steer = limit(steer, this.maxForce);
         return steer;
     }
 
     // Returns the force to steer away from nearby boids
     separate(boids: Array<Boid>) {
-        let steer = this.p5.createVector(0, 0);
+        let steer = Vector3.Zero();
         let count = 0;
         // For every boid in the system, check if it's too close
         boids.forEach((other, i) => {
-            let d = this.position.dist(other.position);
+            let d = distance(this.position, other.position);
             // If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
             if ((d > 0) && (d < this.desiredSeparation)) {
                 // Calculate vector pointing away from neighbor
                 let diff = this.position.subtract(other.position);
                 diff.normalize();
-                diff.divide(d);        // Weight by distance
+                diff.scaleInPlace(1/d);        // Weight by distance
                 steer.add(diff);
                 count++;            // Keep track of how many
             }
         });
         // Average -- divide by how many
         if (count > 0) {
-            steer.div(count);
+            steer.scaleInPlace(1/count);
         }
 
         // As long as the vector is greater than 0
-        if (steer.mag() > 0) {
+        if (steer.length() > 0) {
             // Implement Reynolds: Steering = Desired - Velocity
-            steer.setMag(this.maxSpeed);
-            steer.sub(this.velocity);
-            steer.limit(this.maxForce);
+            steer.normalize().scaleInPlace(this.maxSpeed);
+            steer.subtractInPlace(this.velocity);
+            steer = limit(steer, this.maxForce);
         }
         return steer;
     }
 
     // Steer towards the average velocity of all nearby boids
     align(boids: Array<Boid>) {
-        let sum = this.p5.createVector(0, 0);
+        let sum = Vector3.Zero();
         let count = 0;
         boids.forEach((other, i) => {
-            let d = this.position.dist(other.position);
+            let d = distance(this.position, other.position);
             if (d > 0) {
                 sum.add(other.velocity);
                 count++;
             }
         });
         if (count > 0) {
-            sum.div(count);
+            sum.scaleInPlace(1/count);
 
             // Implement Reynolds: Steering = Desired - Velocity
-            sum.setMag(this.maxSpeed);
-            let steer = subVects(sum, this.velocity);
-            steer.limit(this.maxForce);
+            sum.normalize().scaleInPlace(this.maxSpeed);
+            let steer = sum.subtract(this.velocity);
+            steer = limit(steer, this.maxForce);
             return steer;
         }
         else {
-            return this.p5.createVector(0, 0);
+            return Vector3.Zero();
         }
     }
 
     // Steer towards the average position of all nearby boids
     cohesion(boids: Array<Boid>) {
-        let sum = this.p5.createVector(0, 0);   // Start with empty vector to accumulate all positions
+        let sum = Vector3.Zero();   // Start with empty vector to accumulate all positions
         let count = 0;
         boids.forEach((other, i) => {
-            let d = this.position.dist(other.position);
+            let d = distance(this.position, other.position);
             if (d > 0) {
                 sum.add(other.position); // Add position
                 count++;
@@ -236,11 +236,11 @@ class Boid {
         });
 
         if (count > 0) {
-            sum.div(count);
+            sum.scaleInPlace(1/count);
             return this.seek(sum);  // Steer towards the position
         }
         else {
-            return this.p5.createVector(0, 0);
+            return Vector3.Zero();
         }
     }
 

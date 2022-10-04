@@ -1,6 +1,6 @@
 import BoidChunk from "./BoidChunk";
 class Flock {
-    constructor(p5, cursor, pos, width, height) {
+    constructor(scene, cursor, pos, width, height) {
         this.chunkSize = 0;
         this.numCols = 0;
         this.numRows = 0;
@@ -9,7 +9,7 @@ class Flock {
         this.height = height;
         this.chunks = [];
         this.cursor = cursor;
-        this.p5 = p5;
+        this.scene = scene;
     }
     // Runs every boid in every chunk
     run() {
@@ -46,14 +46,7 @@ class Flock {
         this.chunks.forEach((boidRow, row) => {
             boidRow.forEach((boidCell, col) => {
                 boidCell.boids.forEach((boid, i) => {
-                    boid.renderLines();
-                });
-            });
-        });
-        this.chunks.forEach((boidRow, row) => {
-            boidRow.forEach((boidCell, col) => {
-                boidCell.boids.forEach((boid, i) => {
-                    boid.render();
+                    boid.run();
                 });
             });
         });
@@ -102,7 +95,7 @@ class Flock {
         for (let row = 0; row < this.numRows; row++) {
             let currentRow = [];
             for (let col = 0; col < this.numCols; col++) {
-                currentRow.push(new BoidChunk(this.p5, row, col, this.chunkSize, this.chunkSize, this));
+                currentRow.push(new BoidChunk(this.scene, row, col, this.chunkSize, this.chunkSize, this));
             }
             this.chunks.push(currentRow);
         }
@@ -115,11 +108,11 @@ class Flock {
         };
         this.chunks.forEach((chunkRow, row) => {
             chunkRow.forEach((chunk, col) => {
-                let fillColor = this.p5.color(`rgba(0,147,246,${opacityFunc(chunk.boids.length)})`);
-                this.p5.fill(fillColor);
-                this.p5.rect(this.position.x + chunk.position().x, this.position.y + chunk.position().y, chunk.width, chunk.height);
-                this.p5.fill(255);
-                this.p5.text(`${chunk.boids.length} boids`, this.position.x + chunk.position().x, this.position.y + chunk.position().y + (chunk.height / 2));
+                let fillColor = this.scene.color(`rgba(0,147,246,${opacityFunc(chunk.boids.length)})`);
+                this.scene.fill(fillColor);
+                this.scene.rect(this.position.x + chunk.position().x, this.position.y + chunk.position().y, chunk.width, chunk.height);
+                this.scene.fill(255);
+                this.scene.text(`${chunk.boids.length} boids`, this.position.x + chunk.position().x, this.position.y + chunk.position().y + (chunk.height / 2));
             });
         });
     }
