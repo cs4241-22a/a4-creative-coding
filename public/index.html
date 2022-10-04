@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <title>Tree Generator</title>
+  </head>
+
+  <body>
+    <h1>Tree Generator</h1>
+    <div id="main-group">
+      <div id="presets">
+        <h2 style="text-align: center">Presets</h2>
+        <p style="text-align: center">*May take time to render</p>
+        <div id="preset-buttons">
+          <img
+            id="preset1"
+            src="https://cdn.discordapp.com/attachments/1012552520415072318/1026736248582311998/renderedBasic.png"
+            alt="basic-scene"
+            width="200"
+          />
+          <img
+            id="preset2"
+            src="https://cdn.discordapp.com/attachments/1012552520415072318/1026751032065278022/treeScene.png"
+            alt="fractal tree"
+            width="200"
+          />
+          <img
+            id="preset3"
+            src="https://cdn.discordapp.com/attachments/1012552520415072318/1026752911696474153/redTrees.png"
+            alt="red trees"
+            width="200"
+          />
+          <img
+            id="preset4"
+            src="https://cdn.discordapp.com/attachments/1012552520415072318/1026754009022865428/greenTree.png"
+            alt="green tree"
+            width="200"
+          />
+        </div>
+      </div>
+      <div id="settings">
+        <h2 style="text-align: center">Settings</h2>
+        <label for="seed">Seed</label>
+        <input
+          type="number"
+          id="seed"
+          name="seed"
+          min="0"
+          max="1000000"
+          value="61"
+        />
+        <label for="startLength">Start Length</label>
+        <output for="startLength" id="startLengthOutput">100</output>
+        <input
+          type="range"
+          id="startLength"
+          name="startLength"
+          min="50"
+          max="200"
+          value="100"
+          oninput="this.previousElementSibling.value = this.value"
+        />
+        <label for="lenCoeff">Length Coefficient</label>
+        <output for="lenCoeff" id="lenCoeffOutput">0.8</output>
+        <input
+          type="range"
+          id="lenCoeff"
+          name="lenCoeff"
+          min="0.5"
+          max="0.9"
+          step="0.01"
+          value="0.8"
+          oninput="this.previousElementSibling.value = this.value"
+        />
+        <label for="lenStd">Length Standard Deviation</label>
+        <output for="lenStd" id="lenStdOutput">0.05</output>
+        <input
+          type="range"
+          id="lenStd"
+          name="lenStd"
+          min="0"
+          max="0.1"
+          step="0.01"
+          value="0.05"
+          oninput="this.previousElementSibling.value = this.value"
+        />
+        <label for="startWidth">Start Width</label>
+        <output for="startWidth" id="startWidthOutput">10</output>
+        <input
+          type="range"
+          id="startWidth"
+          name="startWidth"
+          min="5"
+          max="20"
+          value="10"
+          oninput="this.previousElementSibling.value = this.value"
+        />
+        <label for="widthCoeff">Width Coefficient</label>
+        <output for="widthCoeff" id="widthCoeffOutput">0.8</output>
+        <input
+          type="range"
+          id="widthCoeff"
+          name="widthCoeff"
+          min="0.5"
+          max="0.9"
+          step="0.01"
+          value="0.8"
+          oninput="this.previousElementSibling.value = this.value"
+        />
+        <label for="widthStd">Width Standard Deviation</label>
+        <output for="widthStd" id="widthStdOutput">0.05</output>
+        <input
+          type="range"
+          id="widthStd"
+          name="widthStd"
+          min="0"
+          max="0.1"
+          step="0.01"
+          value="0.05"
+          oninput="this.previousElementSibling.value = this.value"
+        />
+        <label for="angleCoeff">Angle Coefficient</label>
+        <output for="angleCoeff" id="angleCoeffOutput">0.75</output>
+        <input
+          type="range"
+          id="angleCoeff"
+          name="angleCoeff"
+          min="0.4"
+          max="1.5"
+          step="0.01"
+          value="0.75"
+          oninput="this.previousElementSibling.value = this.value"
+        />
+        <label for="angleStd">Angle Standard Deviation</label>
+        <output for="angleStd" id="angleStdOutput">0.2</output>
+        <input
+          type="range"
+          id="angleStd"
+          name="angleStd"
+          min="0"
+          max="0.4"
+          step="0.01"
+          value="0.2"
+          oninput="this.previousElementSibling.value = this.value"
+        />
+        <label for="numTrees">Number of Trees</label>
+        <output for="numTrees" id="numTreesOutput">3</output>
+        <input
+          type="range"
+          id="numTrees"
+          name="numTrees"
+          min="1"
+          max="5"
+          value="3"
+          oninput="this.previousElementSibling.value = this.value"
+        />
+        <div class="tree-part">
+          <label for="leaves" style="display: block">Leaves</label>
+          <input type="checkbox" id="leaves" name="leaves" checked />
+          <input type="color" id="leafColor" name="leafColor" value="#00ff00" />
+        </div>
+        <div class="tree-part">
+          <label for="background" style="display: block">Background</label>
+          <input type="checkbox" id="background" name="background" checked />
+          <input
+            type="color"
+            id="backgroundColor"
+            name="backgroundColor"
+            value="#000000"
+          />
+        </div>
+        <div class="tree-part">
+          <label for="branchColor" style="display: block">Branch Color</label>
+          <input
+            type="color"
+            id="branchColor"
+            name="branchColor"
+            value="#663300"
+          />
+        </div>
+        <div id="button-group">
+          <button id="reset">Reset</button>
+          <button id="generate">Fancy Render</button>
+          <button id="download">Download</button>
+        </div>
+        <p id="help-pane"></p>
+      </div>
+      <canvas id="game"></canvas>
+      <script src="js/game.js"></script>
+    </div>
+  </body>
+</html>
