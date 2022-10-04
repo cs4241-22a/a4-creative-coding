@@ -21,7 +21,7 @@ window.addEventListener('load', function(){
     var ctx = cvs.getContext('2d');
     //ctx.imageSmoothingEnabled = false;
 
-    alert("Welcome! This is a simulation of agents (\"dudes\") that require food to live. Left click to spawn a bunch of bonus food. Right click to delete nearby food and dudes. Modifying the controls below the canvas will change the simulation. You can get some pretty crazy results, so watch out! The reset button will restart the simulation with your new parameters from the start.");
+    alert("Welcome! This is a simulation of agents (\"dudes\") that require food to live. Left click to spawn a bunch of bonus food. Right click to delete nearby food and dudes.\n\nModifying the controls below the canvas will change the simulation (hover over the labels to see descriptions). You can get some pretty crazy results, so watch out! The reset button will restart the simulation with your new parameters from the start.");
 
     function step(){
         if(timestamp == undefined){
@@ -71,32 +71,51 @@ function initialize(){
             max: 1,
             step: 0.05,
             type:'range',
-            desc:'The chance for food to randomly spawn per tick'
+            desc:'The chance for food to randomly spawn per tick',
+            readableName:'Random Food Chance'
         },
-        minFoodEnergy: {desc:'The minimum amount of energy that food can provide'},
-        maxFoodEnergy: {desc:'The maximum amount of energy that food can provide'},
-        startingDudes: {desc:'The number of dudes to start the simulation with'},
-        startingDudeEnergy: {desc:'The amount of energy a dude starts with'},
-        maximumDudeEnergy: {desc:'The amount of energy before a dude splits into two bros'},
+        minFoodEnergy: {
+            desc:'The minimum amount of energy that food can provide',
+            readableName:'Minimum Food Energy'
+        },
+        maxFoodEnergy: {
+            desc:'The maximum amount of energy that food can provide',
+            readableName:'Maximum Food Energy'
+        },
+        startingDudes: {
+            desc:'The number of dudes to start the simulation with',
+            readableName:'Starting Dudes'
+        },
+        startingDudeEnergy: {
+            desc:'The amount of energy a dude starts with',
+            readableName:'Starting Dude Energy'
+        },
+        maximumDudeEnergy: {
+            desc:'The amount of energy before a dude splits into two bros',
+            readableName:'Maximum Dude Energy'
+        },
         dudeSpeed: {
             min: 0,
             max: 2,
             step: 0.05,
             type:'range',
-            desc:'The speed of the dudes'
+            desc:'The speed of the dudes',
+            readableName:'Dude Speed'
         },
         energyLossRate: {
             min: 0,
             max: 2,
             step: 0.05,
             type:'range',
-            desc:'The rate at which dudes lose energy (measured by distance, not time)'
+            desc:'The rate at which dudes lose energy (measured by distance, not time)',
+            readableName:'Energy Loss Rate'
         },
         minimumDudeDistance: {
             min: 0,
             max: 50,
             type:'range',
-            desc:'The minimum distance the dudes will try to stay from each other'
+            desc:'The minimum distance the dudes will try to stay from each other',
+            readableName:'Minimum Dude Distance'
         },
         maxInterval: {    //maxInterval controls the behavior when the page is unfocused; agents jump far when returning focus (ie. jumping outside
             type:'hidden' //the canvas) if this is unbounded, and it's not super interesting to change it when it is bounded, so this isn't user-controllable
@@ -105,14 +124,16 @@ function initialize(){
             min: 0,
             max: 50,
             type:'range',
-            desc:'The maximum distance a dude can eat a food from'
+            desc:'The maximum distance a dude can eat a food from',
+            readableName:'Maximum Eat Distance'
         },
         newDudeEnergyPercentage: {
             min: 0,
             max: 1,
             step: 0.05,
             type:'range',
-            desc:'The percentage of its energy that a dude gives up when making a bro (splitting)'
+            desc:'The percentage of its energy that a dude gives up when making a bro (splitting)',
+            readableName:'New Dude Energy Percentage'
         }
     };
 
@@ -146,6 +167,9 @@ function initialize(){
         if(!meta.desc){
             meta.desc = '';
         }
+        if(!meta.readableName){
+            meta.readableName = name;
+        }
         if(meta.type == 'number' || meta.type == 'range'){
             var settingWrapper = document.createElement('div');
             var setting = document.createElement('input');
@@ -157,7 +181,7 @@ function initialize(){
             setting.step = meta.step;
             var label = document.createElement('label');
             label.for = name;
-            label.innerText = name;
+            label.innerText = meta.readableName+':';
             label.title = meta.desc;
             setting.addEventListener('change', function(event){
                 settings[name] = event.target.value;
