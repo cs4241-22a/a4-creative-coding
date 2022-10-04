@@ -36,7 +36,7 @@ document.onkeydown = function (press) {
     cube.position.x -=0.5;
   }
 
-  //press D to move rigjt
+  //press D to move right
   else if (press.keyCode === 87) {
     cube.position.y +=0.5;
   }
@@ -49,6 +49,16 @@ document.onkeydown = function (press) {
   //press S to move down
   else if (press.keyCode === 83) {
     cube.position.y -=0.5;
+  }
+
+  //press up arrow to move forward
+  else if (press.keyCode === 38) {
+    cube.position.z +=0.5;
+  }
+
+  //press down arrow to move backward
+  else if (press.keyCode === 40) {
+    cube.position.z -=0.5;
   }
 
   //press Space to reset to (0,0,0)
