@@ -30,7 +30,8 @@ window.addEventListener('load', function(){
             if(interval > settings.maxInterval){
                 interval = settings.maxInterval;
             }
-            ctx.clearRect(0, 0, cvsWidth, cvsHeight);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, cvsWidth, cvsHeight);
             run(ctx, interval);
         }
         lastTimestamp = timestamp;
@@ -40,10 +41,12 @@ window.addEventListener('load', function(){
 });
 
 function initialize(){
+    //Set initial state of simulation
     timestamp = Date.now();
     state = {
         agents: []
     };
+    //Settings to control the simulation
     settings = {
         randomFoodChance: 10 / 60,
         minFoodEnergy: 10,
@@ -58,10 +61,105 @@ function initialize(){
         maximumEatDistance: 2,
         newDudeEnergyPercentage: 0.5
     };
+    //Settings to control the settings
+    var metaSettings = {
+        randomFoodChance: {
+            min: 0,
+            max: 1,
+            step: 0.05,
+            type:'range',
+            desc:'The chance for food to randomly spawn per tick'
+        },
+        minFoodEnergy: {desc:'The minimum amount of energy that food can provide'},
+        maxFoodEnergy: {desc:'The maximum amount of energy that food can provide'},
+        startingDudes: {desc:'The number of dudes to start the simulation with'},
+        startingDudeEnergy: {desc:'The amount of energy a dude starts with'},
+        maximumDudeEnergy: {desc:'The amount of energy before a dude splits into two bros'},
+        dudeSpeed: {
+            min: 0,
+            max: 2,
+            step: 0.05,
+            type:'range',
+            desc:'The speed of the dudes'
+        },
+        energyLossRate: {
+            min: 0,
+            max: 2,
+            step: 0.05,
+            type:'range',
+            desc:'The rate at which dudes lose energy (measured by distance, not time)'
+        },
+        minimumDudeDistance: {
+            min: 0,
+            max: 50,
+            type:'range',
+            desc:'The minimum distance the dudes will try to stay from each other'
+        },
+        maxInterval: {    //maxInterval controls the behavior when the page is unfocused; agents jump far when returning focus (ie. jumping outside
+            type:'hidden' //the canvas) if this is unbounded, and it's not super interesting to change it when it is bounded, so this isn't user-controllable
+        },
+        maximumEatDistance: {
+            min: 0,
+            max: 50,
+            type:'range',
+            desc:'The maximum distance a dude can eat a food from'
+        },
+        newDudeEnergyPercentage: {
+            min: 0,
+            max: 1,
+            step: 0.05,
+            type:'range',
+            desc:'The percentage of its energy that a dude gives up when making a new dude'
+        }
+    };
 
+    //Initialize dudes
     for(var i=0; i<10; i++){
         state.agents.push(new Dude());
     }
+
+    //Auto-populate settings pane
+    Object.entries(settings).forEach((setting)=>{
+        var name = setting[0];
+        var value = setting[1];
+        var meta = metaSettings[name];
+        var settingsPane = document.getElementById('settings-pane');
+        if(!meta.type){
+            meta.type = 'number';
+        }
+        if(!meta.min){
+            meta.min = 0;
+        }
+        if(!meta.max){
+            meta.max = 10000;
+        }
+        if(!meta.step){
+            meta.step = 1;
+        }
+        if(meta.type == 'number' || meta.type == 'range'){
+            var settingWrapper = document.createElement('div');
+            var setting = document.createElement('input');
+            setting.type = meta.type;
+            setting.min = meta.min;
+            setting.max = meta.max;
+            setting.value = value;
+            setting.name = name;
+            setting.step = meta.step;
+            var label = document.createElement('label');
+            label.for = name;
+            label.innerText = name;
+            setting.addEventListener('change', function(event){
+                settings[name] = event.target.value;
+                console.log(settings[name]);
+                console.log(event.target.value);
+            });
+            settingWrapper.appendChild(label);
+            settingWrapper.appendChild(setting);
+            settingsPane.appendChild(settingWrapper);
+        } else if(meta.type == 'hidden'){
+            //Don't make a settings control
+        }
+    });
 }
 
 function run(ctx, interval){
@@ -75,7 +173,7 @@ function run(ctx, interval){
 
 function render(ctx){
     state.agents.forEach(agent => {
-        if(agent instanceof Dude) console.log(agent.color);
+        //if(agent instanceof Dude) console.log(agent.color);
         ctx.fillStyle = agent.color;
         //console.log(agent.color);
         ctx.beginPath();
