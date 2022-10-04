@@ -7,6 +7,7 @@ h1 {
     font-size: 50px;
     font-family: 'Courier New', Courier, monospace;
     color: white;
+    margin: 0px;
 }
 
 canvas {
@@ -23,20 +24,27 @@ canvas {
     justify-content: center;
     align-items: center;
     margin: 0 10px;
-    
+
 }
 
 #settings {
     display: flex;
     flex-direction: column;
-    margin: 20px;
+    margin-right: 20px;
     color: white;
 }
 
-#settings > input {
-    margin-bottom: 10px;
+#settings>input {
+    margin-bottom: 5px;
 }
 
-#settings > button {
+button {
     margin-top: 10px;
+    width: 100%;
+}
+
+#button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

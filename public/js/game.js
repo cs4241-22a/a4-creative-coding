@@ -11,6 +11,9 @@ let seed = 61;
 let numTrees = 3;
 let trees = [];
 let drawShadows = false;
+let branchColor = "#4d2806";
+let leafColor = "green";
+let doDrawLeaves = true;
 
 class Point {
   constructor(x, y) {
@@ -48,6 +51,48 @@ window.onload = function () {
     renderScene();
     drawShadows = false;
   });
+
+  let leafColorElt = window.document.getElementById("leafColor");
+  leafColorElt.addEventListener("input", (e) => {
+    leafColor = e.target.value;
+    renderScene();
+  });
+
+  let branchColorElt = window.document.getElementById("branchColor");
+  branchColorElt.addEventListener("input", (e) => {
+    branchColor = e.target.value;
+    renderScene();
+  });
+
+  let leavesElt = window.document.getElementById("leaves");
+  leavesElt.addEventListener("input", (e) => {
+    //check if the checkbox is checked
+    doDrawLeaves = e.target.checked;
+    renderScene();
+  });
+
+  let downloadButton = window.document.getElementById("download");
+  downloadButton.addEventListener("click", () => {
+    //download the canvas as an image
+    let link = document.createElement("a");
+    link.download = "treeScene.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+
+  let startLengthElt = window.document.getElementById("startLength");
+  startLengthElt.addEventListener("input", (e) => {
+    startLength = e.target.value;
+    renderScene();
+  });
+
+  let lenCoeffElt = window.document.getElementById("lenCoeff");
+  lenCoeffElt.addEventListener("input", (e) => {
+    lenCoeff = e.target.value;
+    renderScene();
+  });
+
+
 
   seedElt.oninput = (event) => {
     seed = event.target.value;
@@ -173,8 +218,8 @@ class Branch {
   }
 
   drawLeaf() {
-    ctx.strokeStyle = "green";
-    ctx.fillStyle = "green";
+    ctx.strokeStyle = leafColor;
+    ctx.fillStyle = leafColor;
     //draw an oval from the start point to the end point at the correct angle
     ctx.beginPath();
     //set angle
@@ -191,7 +236,7 @@ class Branch {
   }
 
   drawBranch() {
-    ctx.strokeStyle = "#4d2806";
+    ctx.strokeStyle = branchColor;
 
     ctx.beginPath();
     ctx.moveTo(this.start.x, this.start.y);
@@ -201,7 +246,7 @@ class Branch {
   }
 
   draw() {
-    if (this.length < 20) {
+    if (this.length < 20 && doDrawLeaves) {
       //leaf
       this.drawLeaf();
     } else {
