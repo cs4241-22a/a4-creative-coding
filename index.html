@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="description" content="3d Audio Spectrum Visualizer">
+    <title>3d Audio Spectrum Visualizer</title>
+    <link type="text/css" rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- the container to display corresponding information -->
+        <div id="stats"></div>
+        <div id="info">3D Audio Spectrum Visualizer</div>
+        <div id="controlPanel">
+            <a href="javascript:void(0);" id="playButton">Play Default</a>
+            <p>Or upload a file</p>
+            <input type="file" id="upload" />
+            <p>Or drag and drop a file to play</p>
+            <div id="action">
+                </div>
+            </div>
+            <!-- the container to render the scene -->
+            <div id="visualizer_container"></div>
+        </div>
+        <script type="text/javascript" src="js/three.min.js"></script>
+        <script type="text/javascript" src="js/OrbitControls.js"></script>
+        <script type="text/javascript" src="js/stats.js"></script>
+        <script type="text/javascript" src="js/dat.gui.min.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
+</body>
+
+</html>
