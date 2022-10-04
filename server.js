@@ -9,7 +9,6 @@ const express = require('express'),
 
 app.use( cors() )
 app.use( express.static('./') )
-app.listen( 4000 )
 
 // our default array of dreams
 const dreams = [

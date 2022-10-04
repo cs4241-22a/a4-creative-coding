@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang='en'>
+<html lang="en">
   <head></head>
   <body>
     <div id="visualization">
@@ -10,88 +10,139 @@
         Song Visualizer!
       </h1>
       <p>
-        Put instructions here.
+        Select a song from the dropdown and hit play to <br> 
+        start. Click the color picker to change the color <br>
+        of the visualization of the song at any time. <br>
+        Click stop to end the visualization and song.
       </p>
+    </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
   <script>
     const pane = new Tweakpane.Pane();
     const visualization = document.getElementById("visualization");
 
+    const songs = ['./SalmonLikeTheFish - Glacier.mp3', './Il Sogno Del Marinaio - Skinny Cat.mp3', 
+    'Blue Dot Sessions - Winter Theme.mp3', 'Dave Nelson - Whale Lines.mp3', 'Doctor Turtle - Two Hat Rag.mp3',
+    'Portron Portron Lopez - De Tout Le Corps Je Ris.mp3']
+    
+    let currColor = '#ffffff'
+    let currSong = 0
+
+    const SETTINGS = {
+        song: 0,
+        color: '#ffffff'
+    };
+
+    const colorPicker = pane.addInput(
+        SETTINGS, "color"
+    )
+    colorPicker.on('change', (val) => {
+        currColor = val.value
+    });
+
+    const songPicker = pane.addInput(
+        SETTINGS, 'song',
+        {options: {
+            Glacier: 0,
+            SkinnyCat: 1,
+            WinterTheme: 2,
+            WhaleLines: 3,
+            TwoHatRag: 4,
+            DeToutLeCorpsJeRis: 5;
+        }
+        }
+    )
+    songPicker.on('change', (val) => {
+        currSong = val.value 
+    });
+
+    let playing = false;
+
     const playBtn = pane.addButton({
         title: 'PLAY',
     });
 
     playBtn.on('click', () => {
-        start('play')
-        console.log("playing");
+        if(!playing){
+            playing = true;
+            start('play')
+            console.log("playing");
+        } 
     });
 
     const pauseBtn = pane.addButton({
-        title: 'PAUSE',
+        title: 'STOP',
     });
 
     pauseBtn.on('click', () => {
-        start('pause')
+        playing = false;
+        location.reload()
         console.log("pause song");
     });
 
     const start = function(state) {
     // document.body.innerHTML = ''
-    const canvas = document.createElement( 'canvas' )
-    document.body.appendChild( canvas )
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-    canvas.style.zIndex = "-1"
-    const ctx = canvas.getContext( '2d' )
+    if(playing){
+        const canvas = document.createElement( 'canvas' )
+        document.body.appendChild( canvas )
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        canvas.style.zIndex = "-1"
+        const ctx = canvas.getContext( '2d' )
 
-    // audio init
-    const audioCtx = new AudioContext()
-    const audioElement = document.createElement( 'audio' )
-    document.body.appendChild( audioElement )
+        // audio init
+        const audioCtx = new AudioContext()
+        const audioElement = document.createElement( 'audio' )
+        document.body.appendChild( audioElement )
 
-    // audio graph setup
-    const analyser = audioCtx.createAnalyser()
-    analyser.fftSize = 1024 // 512 bins
-    const player = audioCtx.createMediaElementSource( audioElement )
-    player.connect( audioCtx.destination )
-    player.connect( analyser )
+        // audio graph setup
+        const analyser = audioCtx.createAnalyser()
+        analyser.fftSize = 1024 // 512 bins
+        const player = audioCtx.createMediaElementSource( audioElement )
+        player.connect( audioCtx.destination )
+        player.connect( analyser )
 
-    // make sure, for this example, that your audiofle is accesssible
-    // from your server's root directory... here we assume the file is
-    // in the ssame location as our index.html file
+        // make sure, for this example, that your audiofle is accesssible
+        // from your server's root directory... here we assume the file is
+        // in the ssame location as our index.html file
+        
     
-    if(state='play'){
-        audioElement.src = './SalmonLikeTheFish - Glacier.mp3'
+        audioElement.src = songs[currSong]
         audioElement.play()
-    }
-    else if(state='pause'){
-        audioCtx.close()
-    }
+        
 
-    const results = new Uint8Array( analyser.frequencyBinCount )
+        const results = new Uint8Array( analyser.frequencyBinCount )
 
-    draw = function() {
-      // temporal recursion, call tthe function in the future
-      window.requestAnimationFrame( draw )
-      
-      // fill our canvas with a black box
-      // by doing this every frame we 'clear' the canvas
-      ctx.fillStyle = 'black' 
-      ctx.fillRect( 0,0,canvas.width,canvas.height )
-      
-      // set the color to white for drawing our visuaization
-      ctx.fillStyle = 'white' 
-      
-      analyser.getByteFrequencyData( results )
-      
-      for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
-        ctx.fillRect( i, 0, 1, results[i] ) // upside down!
-      }
-    }
-    if(!audioElement.paused){
+        draw = function() {
+        // temporal recursion, call tthe function in the future
+        window.requestAnimationFrame( draw )
+        
+        // fill our canvas with a black box
+        // by doing this every frame we 'clear' the canvas
+        ctx.fillStyle = 'black' 
+        ctx.fillRect( 0,0,canvas.width,canvas.height )
+        
+        // set the color to the selected color for drawing our visuaization
+        ctx.fillStyle = currColor 
+        
+        analyser.getByteFrequencyData( results )
+        
+        for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+            // ctx.fillRect( i, 0, 1, results[i] ) // upside down!
+            ctx.beginPath()
+            let centerX = Math.floor(Math.random() * canvas.width);
+            let centerY = Math.floor(Math.random() * canvas.height);
+            ctx.fillStyle = currColor 
+            ctx.fill();
+            ctx.arc(centerX, centerY, results[i], 0, 2 * Math.PI, false)
+            ctx.strokeStyle = currColor          
+            ctx.stroke()
+        }
+        }
         draw()
     }
+    
   }
 
 //   window.onload = ()=> document.querySelector('button').onclick = start
