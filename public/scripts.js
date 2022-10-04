@@ -4,6 +4,13 @@ import  "https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js";
 console.log("javascript HERE");
   let audioContext = null;
 
+    const PARAMS = {
+      position: 100,
+      color: "0xffffff",
+      background: "0xffffff",
+      speed: 1
+    }
+    
 const app = {
   init() {
     console.log("Javascript");
@@ -11,13 +18,21 @@ const app = {
     const listener = new THREE.AudioListener();
     const sound = new THREE.Audio(listener);
     const audioLoader = new THREE.AudioLoader();
+    app.pane = new Tweakpane.Pane();
+    
+    const bg = app.pane.addInput(PARAMS, 'background', {
+    view: 'color'
+    })
+    bg.on("change", (bg) =>{
+      document.body.style.backgroundColor = bg.value;
+    })
     
     
-    const PARAMS = {
-      position: 100
-    }
-    const pane = new Tweakpane.Pane();
-    const pos = pane.addInput(PARAMS, 'position', {
+
+    
+  
+
+    const pos = app.pane.addInput(PARAMS, 'position', {
       min: 20,
       max:100,
       step: 10,
@@ -76,6 +91,12 @@ const app = {
     //add light
     app.lightControl()
     
+    const color = app.pane.addInput(PARAMS, 'speed', {
+      min:0,
+      max:10,
+      step:1
+    })
+    
     app.render();
   },
   
@@ -96,41 +117,26 @@ const app = {
   },
   
   createSphere(){
+    const color = app.pane.addInput(PARAMS, 'color', {
+      view: 'color'
+    })
+    
     var geometry = new THREE.IcosahedronGeometry(20, 1);
     var wireframe = new THREE.EdgesGeometry(geometry);
     
-    var material = new THREE.ShaderMaterial({
-        uniforms: {
-            color1: {
-                value: new THREE.Color("#fff1eb")
-            },
-            color2: {
-                value: new THREE.Color("#3d3d3d")
-            }
-        },
-        vertexShader: `
-          varying vec2 vUv;
-      
-          void main() {
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-          }
-        `,
-        fragmentShader: `
-          uniform vec3 color1;
-          uniform vec3 color2;
-          
-          varying vec2 vUv;
-          
-          void main() {
-            gl_FragColor = vec4(mix(color1, color2, vUv.y), 1.0);
-          }
-        `,
+    var material = new THREE.MeshBasicMaterial({
+        color:PARAMS.color,
         wireframe: true
+    });
+    
+     color.on("change", (color) => {
+      material.color = new THREE.Color(color.value);
     });
     
     var ball = new THREE.Mesh(geometry, material);
     app.scene.add(ball)
+    
+
     
     return ball;
     
@@ -141,11 +147,10 @@ const app = {
     app.analyser.getByteFrequencyData(app.dataArray)
 
     for (let i = 0; i < app.analyser.frequencyBinCount; i++) {
-    app.ball.rotation.x += app.dataArray[i] * 0.0000009;
-    app.ball.rotation.y += app.dataArray[i] * 0.0000008;
-    app.ball.rotation.z += app.dataArray[i] * 0.0000006;
+    app.ball.rotation.x += app.dataArray[i] * 0.0000005 *PARAMS.speed;
+    app.ball.rotation.y += app.dataArray[i] * 0.0000001 * PARAMS.speed;
+    app.ball.rotation.z += app.dataArray[i] * 0.0000008* PARAMS.speed;
     }
-    
     window.requestAnimationFrame(app.render)
     app.renderer.render(app.scene, app.camera) 
   },
