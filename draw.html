@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>A Simple Drawing App</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://unpkg.com/xp.css" />
+  </head>
+  <body style="background-color: darkgray;">
+    <container>
+      <div class="window" style="width: 1000px; height: 600px; float: left;">
+        <div class="title-bar">
+          <div class="title-bar-text">A SIMPLE DRAWING APP</div>
+          <div class="title-bar-controls">
+            <button aria-label="Minimize"></button>
+            <button aria-label="Maximize"></button>
+            <button aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="window-body">
+          <div class="drawing-board">
+            <canvas id="drawing-board"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="window" style="width: 500px; float: right;">
+        <div class="title-bar">
+          <div class="title-bar-text">USER CONTROLS</div>
+          <div class="title-bar-controls">
+            <button aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="window-body">
+          <div class="field-row" style="width: 300px;">
+            <label for="range25">Background Brightness:</label>
+            <label for="backSlide">Dark</label>
+            <input id="backSlide" type="range" min="1" max="7" value="4" step="1"/>
+            <label for="range27">Light</label>
+          </div>
+          <div class="field-row" style="width: 300px;">
+            <label for="range25">Canvas Background Brightness:</label>
+            <label for="canvasSlide">Dark</label>
+            <input id="canvasSlide" type="range" min="2" max="7" value="7" step="1"/>
+            <label for="range27">Light</label>
+          </div>
+        </div>
+      </div>
+      
+    </container>
+    <script src="./draw.js"></script>
+  </body>
+</html>
