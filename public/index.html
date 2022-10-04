@@ -72,7 +72,13 @@
           </div>
       
         <div class = "pure-u-1-2">
-      stuff
+          <table>
+            <tr>
+              <td>
+                <img class="myimg" id="egg" src="anakin.jpeg" alt="a jedi" width="50">
+              </td>
+            </tr>
+          </table>
         </div>
       
 
@@ -141,6 +147,10 @@ osc1.frequency.value = 221
 
         slider2.oninput = function(){
             gainNode.gain.value = slider2.value
+            if(isitOn){
+            var img2 = document.getElementById('egg')
+            img2.setAttribute('width', slider2.value *100)
+            }
         }
 
             }
