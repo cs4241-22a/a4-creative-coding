@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>XP.css example</title>
+    <title>Start Page</title>
     <meta charset="UTF-8" />
-    <!-- Windows XP Theme (include only one theme at a time) -->
     <link rel="stylesheet" href="https://unpkg.com/xp.css" />
   </head>
   <body>
-    <h1>
-      SIMPLE DRAWING APP
-    </h1>
-    <div class="field-row" style="width: 300px">
-      <label for="range25">Background Brightness:</label>
-      <label for="range26">Dark</label>
-      <input id="range26" type="range" min="1" max="11" value="5" />
-      <label for="range27">Light</label>
+    <div class="window" style="width: 300px; margin: auto; padding: auto;">
+      <div class="title-bar">
+        <div class="title-bar-text">Ready to Draw?</div>
+        <div class="title-bar-controls">
+          <button aria-label="Close"></button>
+        </div>
+     </div>
+    <div class="window-body">
+      <p>This drawing application was made by</p>
+      <p>Chayanne Sandoval-Williams for</p>
+      <p>CS 4241: Webware</p>
+      <button onclick="window.location.href= 'draw.html'" type="button">Enter the Application</button>
     </div>
+  </div>
   </body>
 </html>
