@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 4</title>
+    <meta charset="utf-8">
+    
+  </head>
+  <body>
+      <h1>Interactive Sound Maker!
+      </h1>
+
+      <button id="firstButton">Click for sound</button>
+
+      <p>
+      </p>
+
+      <div class="slidecontainer" id = "sc1">
+          Adjust the frequency of the sound
+        <input type="range" min = "78" max = "760" value = "150" class = "slider" id = "freqSlider">
+      </div>
+
+      <p></p>
+      <p></p>
+
+      <div class="slidecontainer" id="sc2">
+        Adjust the volume 
+        <input type="range" min="0" max = "5" value =".3 "class="slider" id="amplitude">
+      </div>
+
+      <button id="filter">Filter sound</button>
+
+      <div>
+        <input type="range" min="20" max = "450" value = "120" class = "slider" id = "filterSlide" hidden>
+      </div>
+
+      <script>
+          
+          var isitOn = false
+
+          var filterOn = false
+
+          document.getElementById("filter").addEventListener("click", filterSound)
+
+          document.getElementById("firstButton").addEventListener("click", soundOn)
+
+          var slider1 = document.getElementById("freqSlider")
+
+          var slider2 = document.getElementById("amplitude")
+          var slider3 = document.getElementById("filterSlide")
+
+          function soundOn(){ 
+            if(isitOn){
+                isitOn = false
+                osc1.stop()
+                osc2.stop()
+
+            } else{
+                isitOn = true
+                const context = new AudioContext()
+
+
+                //filtration needs to be managed by the user
+                
+//four parameters need to be exposed to user control
+//gainNode: sound volume
+//frequency/amplitude
+//type of wave
+//starting or stopping the wave at the whim of the user
+//
+ osc1 = context.createOscillator()
+ osc2 = context.createOscillator()
+
+ theFilter = context.createBiquadFilter()
+
+ gainNode = context.createGain()
+osc2.connect(theFilter)
+
+
+osc1.connect(context.destination)
+theFilter.connect(gainNode)
+gainNode.connect(context.destination)
+
+
+//osc1.type = 'square'
+//osc2.type = 'sawtooh'
+osc2.frequency.value = 130
+osc1.frequency.value = 221  
+              osc1.start(0)
+              osc2.start(0)
+              isitOn = true
+        slider1.oninput = function(){
+            osc2.frequency.value = slider1.value
+        }
+
+        slider2.oninput = function(){
+            gainNode.gain.value = slider2.value
+        }
+
+            }
+          }
+
+function filterSound(){
+   if(filterOn){
+   
+   theFilter.frequency.value = 770
+   filterOn = false
+   slider3.setAttribute("hidden","hidden")
+   
+   } else{
+   filterOn = true
+   theFilter.frequency.value = 140
+   slider3.removeAttribute("hidden")
+   slider3.oninput = function(){
+   			theFilter.frequency.value = slider3.value
+   }
+ 
+   }
+   }
+
+
+      </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+function filterSound(){
+   
+  if(filterOn){
+  
+  aFilter.frequency.value = 770
+  filterOn = false
+  
+  } else{
+  filterOn = true
+  aFilter.frequency.value = 140
+  
+  
+  
+  
+  }
+  
+  
+  
+  
+  
+  }
+
+         function filterSound(){
+
+           if(!isitOn){
+               //do nothing
+               console.log("No sound to filter")
+           }
+           if(filterOn){
+               filterOn = false
+               osc1.stop()
+               osc2.stop()
+               soundOn()
+           } else{
+               filterOn= true
+               osc1.stop()
+               osc2.stop()
+
+               const context = new AudioContext()
+                osc1 = context.createOscillator()
+osc2 = context.createOscillator()
+
+gainNode = context.createGain()
+
+aFilter = context.createBiquadFilter()
+
+aFilter.frequency.value = 270
+osc2.connect(aFilter)
+aFilter.connect(gainNode)
+osc1.connect(context.destination)
+
+
+
+gainNode.connect(context.destination)
+
+
+//osc1.type = 'square'
+//osc2.type = 'sawtooh'
+osc2.frequency.value = 130
+osc1.frequency.value = 221  
+             osc1.start(0)
+             osc2.start(0)
+             isitOn = true
+       slider1.oninput = function(){
+           osc2.frequency.value = slider1.value
+       }
+
+       slider2.oninput = function(){
+           gainNode.gain.value = slider2.value
+       }
+
+
+        divForSlider = document.createElement('div')
+        filterSlide  = document.createElement('input')
+        filterSlide.setAttribute('type', 'range')
+
+        filterSlide.setAttribute('id', 'filters')
+        filterSlide.setAttribute('min', '25')
+        filterSlide.setAttribute('max', '450')
+        
+        divForSlider.appendChild(filterSlide)
+       document.body.appendChild(divForSlider)
+
+       var tempSlider = document.getElementById('filters')
+       tempSlider.oninput = function(){
+         aFilter.frequency.value = tempSlider.value
+       }
+           }
+
+
+
+           }
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" class="stylesheet">
