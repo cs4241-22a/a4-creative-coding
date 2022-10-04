@@ -1,0 +1,13 @@
+.countryChart {
+    display: block;
+    margin: 0 auto;
+}
+
+.textBox {
+    width: 100px;
+    height: 50px;
+}
+
+h1 {
+    font-size: 26px;
+}
