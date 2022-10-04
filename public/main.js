@@ -21,6 +21,8 @@ window.addEventListener('load', function(){
     var ctx = cvs.getContext('2d');
     //ctx.imageSmoothingEnabled = false;
 
+    alert("Welcome! This is a simulation of agents (\"dudes\") that require food to live. Left click to spawn a bunch of bonus food. Right click to delete nearby food and dudes. Modifying the controls below the canvas will change the simulation. You can get some pretty crazy results, so watch out! The reset button will restart the simulation with your new parameters from the start.");
+
     function step(){
         if(timestamp == undefined){
             initialize();
