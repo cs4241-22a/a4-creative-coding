@@ -1,6 +1,6 @@
 ## Mandelbrot Set Visualizer
 
-Link: http://a4-charlieroberts.glitch.me
+Link: https://a4-siddhartha-pradhan.glitch.me/
 
 - The goal of this application is to generate a colorful mandelbrot set based on user input. Users can select various colors and parameters to alter the generation of the mandelbrot set.
 - The largest challege I faced was trying to imporve the performance of the render function, which has to loop over each visible pixel and perform multiple iterations of calculation on each pixel (based on max_iteration). 
