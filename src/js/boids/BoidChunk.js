@@ -42,7 +42,7 @@ class BoidChunk {
         return xContained && yContained;
     }
     position() {
-        return this.flock.position.copy().add(this.p5.createVector(this.flock.position.x + (this.column * this.flock.chunkSize), this.flock.position.y + (this.row * this.flock.chunkSize)));
+        return this.flock.position.add(new Vector3(this.flock.position.x + (this.column * this.flock.chunkSize), this.flock.position.y + (this.row * this.flock.chunkSize), this.flock.position.z + (this.slice * this.flock.chunkSize)));
     }
 }
 export default BoidChunk;

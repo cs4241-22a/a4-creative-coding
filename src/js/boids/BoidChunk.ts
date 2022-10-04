@@ -62,7 +62,7 @@ class BoidChunk {
     }
 
     // Checks if this cell contains given coordinates
-    contains(coordinates: P5.Vector) {
+    contains(coordinates: Vector3) {
         let xContained = (coordinates.x >= this.width*this.row) && (coordinates.x < this.width*(this.row+1));
         let yContained = (coordinates.y >= this.height*this.column) && (coordinates.y < this.height*(this.column+1));
 
@@ -70,9 +70,10 @@ class BoidChunk {
     }
 
     position() {
-        return this.flock.position.copy().add(
-            this.p5.createVector(this.flock.position.x + (this.column * this.flock.chunkSize),
-                this.flock.position.y + (this.row * this.flock.chunkSize))
+        return this.flock.position.add(
+            new Vector3(this.flock.position.x + (this.column * this.flock.chunkSize),
+                this.flock.position.y + (this.row * this.flock.chunkSize),
+                this.flock.position.z + (this.slice * this.flock.chunkSize))
         );
     }
 }

@@ -46,10 +46,11 @@ class Boid {
     updateChunk() {
         if (this.chunk !== undefined && !this.chunk.contains(this.position)) {
             let flock = this.chunk.flock;
-            // Calculate the new row and column based on the position
+            // Calculate the new chunk coordinate based on the position
             let newRow = Math.floor(this.position.y / flock.chunkSize);
             let newCol = Math.floor(this.position.x / flock.chunkSize);
-            let newChunk = flock.chunks[newRow][newCol];
+            let newSlice = Math.floor(this.position.z / flock.chunkSize);
+            let newChunk = flock.getChunk(newRow, newCol, newSlice);
             // Remove this boid from the old chunk and add it to the new one
             this.chunk.removeBoid(this.id);
             newChunk.addBoid(this);
@@ -90,7 +91,7 @@ class Boid {
         let coh = this.cohesion(this.neighbors);
         // Get mouse position and calculate a repulsion vector
         let cursor = Vector3.Zero();
-        let cursorPos = new Vector3(this.p5.mouseX, this.p5.mouseY); // TODO: Get mouse Pos
+        let cursorPos = this.chunk.flock.cursor.position;
         if (distance(this.position, cursorPos) < 200)
             cursor = this.seek(cursorPos).scale(-1);
         // Force weights

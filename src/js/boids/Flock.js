@@ -1,25 +1,31 @@
 import BoidChunk from "./BoidChunk";
 import { Vector3 } from "babylonjs";
 class Flock {
-    constructor(scene, cursor, pos, width, height) {
+    constructor(scene, cursor, pos, size) {
         this.chunkSize = 0;
-        this.numCols = 0;
-        this.numRows = 0;
-        this.numSlices = 0;
         this.position = pos;
-        this.width = width;
-        this.height = height;
+        this.size = size;
+        this.chunkArrayDims = new Vector3();
         this.chunks = [];
         this.cursor = cursor;
         this.scene = scene;
     }
+    get width() { return this.size.x; }
+    get height() { return this.size.y; }
+    get depth() { return this.size.z; }
+    get numRows() { return this.chunkArrayDims.x; }
+    set numRows(val) { this.chunkArrayDims.x = val; }
+    get numCols() { return this.chunkArrayDims.y; }
+    set numCols(val) { this.chunkArrayDims.y = val; }
+    get numSlices() { return this.chunkArrayDims.z; }
+    set numSlices(val) { this.chunkArrayDims.z = val; }
     // Runs every boid in every chunk
     run() {
         // Lookup neighboring boids
         for (const boidCell of this.chunks) {
             for (const boid of boidCell.boids) {
                 // Get all boids in current and neighboring chunks
-                let neighboringBoids = this.allBoidsIn(this.cellAndNeighboring(boidCell.row, boidCell.column));
+                let neighboringBoids = this.allBoidsIn(this.cellAndNeighboring(boidCell.row, boidCell.column, boidCell.slice));
                 boid.flock(neighboringBoids);
             }
         }
@@ -43,17 +49,21 @@ class Flock {
         }
     }
     // Returns an array containing the chunk at the given row and column and its neighbors
-    cellAndNeighboring(chunkRow, chunkCol) {
-        let localChunks = [];
-        let beginningRow = Math.max(chunkRow - 1, 0);
-        let beginningCol = Math.max(chunkCol - 1, 0);
-        let endingRow = Math.min(chunkRow + 1, this.numRows - 1);
-        let endingCol = Math.min(chunkCol + 1, this.numCols - 1);
+    cellAndNeighboring(chunkRow, chunkCol, chunkSlice) {
+        const localChunks = [];
+        const beginningRow = Math.max(chunkRow - 1, 0);
+        const beginningCol = Math.max(chunkCol - 1, 0);
+        const beginningSlice = Math.max(chunkSlice - 1, 0);
+        const endingRow = Math.min(chunkRow + 1, this.numRows - 1);
+        const endingCol = Math.min(chunkCol + 1, this.numCols - 1);
+        const endingSlice = Math.min(chunkSlice + 1, this.numSlices - 1);
         for (let row = beginningRow; row <= endingRow; row++) {
             for (let col = beginningCol; col <= endingCol; col++) {
-                localChunks.push(this.chunks[row][col]);
-                if (this.chunks[row][col] === undefined)
-                    console.log(`Chunk [${row}] [${col}] is undefined`);
+                for (let slice = beginningSlice; col <= endingSlice; slice++) {
+                    localChunks.push(this.getChunk(row, col, slice));
+                    if (this.getChunk(row, col, slice) === undefined)
+                        console.log(`Chunk [${row}] [${col}] [${slice}] is undefined`);
+                }
             }
         }
         return localChunks;
@@ -68,6 +78,11 @@ class Flock {
         });
         return boids;
     }
+    getChunk(row, column, slice) {
+        const rowOffset = row * this.numRows * this.numCols * this.numSlices;
+        const colOffset = column * this.numCols * this.numSlices;
+        return this.chunks[rowOffset + colOffset + slice];
+    }
     addBoid(boid) {
         // The first boid added determines the chunk size
         if (this.chunks.length === 0) {
@@ -76,7 +91,8 @@ class Flock {
         // Calculate which chunk the boid should be placed in and add it
         let boidRow = Math.floor(boid.position.y / this.chunkSize);
         let boidCol = Math.floor(boid.position.x / this.chunkSize);
-        this.chunks[boidRow].addBoid(boid);
+        let boidSlice = Math.floor(boid.position.z / this.chunkSize);
+        this.getChunk(boidRow, boidCol, boidSlice).addBoid(boid);
     }
     // Create an array of chunks based on the screen size and cell size
     generateChunks(chunkSize) {
@@ -86,26 +102,11 @@ class Flock {
         for (let row = 0; row < this.numRows; row++) {
             for (let col = 0; col < this.numCols; col++) {
                 for (let slice = 0; col < this.numSlices; col++) {
-                    this.chunks.push(new BoidChunk(this.scene, new Vector3(row, col, 0), this.chunkSize, this));
+                    this.chunks.push(new BoidChunk(this.scene, new Vector3(row, col, slice), this.chunkSize, this));
                 }
             }
         }
-        this.width = this.numCols * this.chunkSize;
-        this.height = this.numRows * this.chunkSize;
-    }
-    renderChunks() {
-        let opacityFunc = function (num) {
-            return -(1 / (0.3 * Math.pow(num, 2) + 1)) + 1;
-        };
-        this.chunks.forEach((chunkRow, row) => {
-            chunkRow.forEach((chunk, col) => {
-                let fillColor = this.scene.color(`rgba(0,147,246,${opacityFunc(chunk.boids.length)})`);
-                this.scene.fill(fillColor);
-                this.scene.rect(this.position.x + chunk.position().x, this.position.y + chunk.position().y, chunk.width, chunk.height);
-                this.scene.fill(255);
-                this.scene.text(`${chunk.boids.length} boids`, this.position.x + chunk.position().x, this.position.y + chunk.position().y + (chunk.height / 2));
-            });
-        });
+        this.size = this.chunkArrayDims.scale(this.chunkSize);
     }
 }
 export default Flock;
