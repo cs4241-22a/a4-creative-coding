@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="make music man">
+        <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js" type="module"></script>
+        <!-- <script src="build/interface.js" type="module"></script> -->
+        <title>IDK Yet</title>
+    </head>
+    <body> 
+        <p>Hello World!</p>
+        <div>
+            <input type="button" id="start" value="Start"/>  
+            <input type="button" id="stop" value="Stop"/>
+        </div>
+        <div>
+        <input type="range" id="volume" min="0" max="2" value="1" step="0.01" />
+        <label for="volume">Volume</label>
+        </div>
+        <form>
+            <input type="radio" id="sine" name="type" value="sine"/>
+            <label for="sine">Sine</label>
+            <input type="radio" id="square" name="type" value="square"/>
+            <label for="square">Square</label>
+            <input type="radio" id="sawtooth" name="type" value="sawtooth"/>
+            <label for="sawtooth">Sawtooth</label>
+            <input type="radio" id="triangle" name="type" value="triangle"/>
+            <label for="triangle">Triangle</label>
+        </form> 
+        <div>
+            <input type="range" id="frequency" min="0" max="600" value="440" step="10" />
+            <label for="frequency">Frequency</label>
+        </div>
+        <div>
+            <input type="range" id="detune" min="0" max="200" value="100" step="1" />
+            <label for="detune">Detune</label>
+        </div>
+    </body>
+    <script src="client.js" ></script>
+</html>
