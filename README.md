@@ -1,7 +1,7 @@
 
 ## Ray Tracing Display Example
 by Shen Fang
-your hosting link e.g. http://a4-charlieroberts.glitch.me
+https://a4-francarsen.glitch.me
 
 This project renders spheres and planes into image on canvas using ray tracing
 User can use control pane to modify the color and positions to two separate balls 
