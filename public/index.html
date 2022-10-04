@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <link rel="stylesheet" href="css/style.css">
+   
+  </head>
+  <body>
+    <header>
+      <h1>Music Player</h1>
+      <h2>Click to Hear a Classic Piano Tune!</h2>
+    </header>
+    <select id="songlist">
+      <option value="CalmingMusic.mp3">CalmingMusic</option>
+      <option value="Canon.mp3">Canon</option>
+      <option value="Moonlight.mp3" selected>Moonlight</option>
+      <option value="Peaceful.mp3">Peaceful</option>
+      <option value="Volume2.mp3">Volume2</option>
+      <option value="Mozart.mp3">Moazart</option>
+    </select>
+  <button id="play" onclick="start()" >Play</button>
+  <button id="stop" onclick="stop()">Stop </button>
+  <button id="shuffle" onclick="shuffle()">Shuffle</button><br><br>
+<div id="musicarea"></div>
+</body>
+  <script>
+ let audioElement;
+ let isPlaying;
+ const stop = function() {
+  audioElement.pause();
+  audioElement.currentTime = 0;
+ }
+
+ const shuffle = function() {
+  if(isPlaying){
+     stop();
+    }
+  let songsList = ["Canon.mp3", "CalmingMusic.mp3", "Moonlight.mp3", "Mozart.mp3","Peaceful.mp3","Volume2.mp3"];
+  let randomItem =  songsList[Math.floor(Math.random()* songsList.length)];
+  console.log("Random Item");
+  console.log(randomItem);
+  document.getElementById("songlist").value = randomItem;
+  start();
+}
+
+  const start = function() {
+    if(isPlaying){
+     stop();
+    }
+    isPlaying = true;
+     if(document.getElementById("audiocanvas")) {
+       document.getElementById("audiocanvas").remove();
+     }
+    //document.body.innerHTML = ''
+    const canvas = document.createElement( 'canvas' )
+    canvas.id = "audiocanvas"
+    document.getElementById("musicarea").appendChild( canvas )
+    canvas.width = window.innerWidth -20;
+    canvas.height = 250
+    const ctx = canvas.getContext( '2d' )
+
+    // audio init
+    const audioCtx = new AudioContext()
+    audioElement = document.createElement( 'audio' )
+    document.body.appendChild( audioElement )
+
+    // audio graph setup
+    const analyser = audioCtx.createAnalyser()
+    analyser.fftSize = 2048 // 512 bins
+    const player = audioCtx.createMediaElementSource( audioElement )
+    player.connect( audioCtx.destination )
+    player.connect( analyser )
+
+    // make sure, for this example, that your audiofle is accesssible
+    // from your server's root directory... here we assume the file is
+    // in the ssame location as our index.html file
+    let songSelected = document.getElementById("songlist").value;
+    console.log(songSelected);
+    audioElement.src = 'audio/'+songSelected;
+    audioElement.play()
+
+    const results = new Uint8Array( analyser.frequencyBinCount )
+
+    draw = function() {
+      // temporal recursion, call tthe function in the future
+      window.requestAnimationFrame( draw )
+      
+      // fill our canvas with a black box
+      // by doing this every frame we 'clear' the canvas
+      ctx.fillStyle = 'black' 
+      ctx.fillRect( 0,0,canvas.width,canvas.height )
+      
+      // set the color to white for drawing our visuaization
+      ctx.fillStyle = '#00FF41' 
+      
+      analyser.getByteFrequencyData( results )
+      
+      for( let i = 0; i < analyser.frequencyBinCount; i++ ) {
+        ctx.fillRect( i, 0, 5, results[i] ) // upside down!
+      }
+    }
+    draw()
+  }
+
+ 
+  </script>
+</html>
