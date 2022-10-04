@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 4</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css" integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" class="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@300&display=swap" rel="stylesheet">
+  
+  </head>
+  <body class="container">
+      <h1>Interactive Sound Maker!
+      </h1>
+<p></p>
+<div class = "pure-g">
+  <div id="description" class = "pure-u-1-2">
+    Play a wide array of sounds using this web page! 
+    Hit the first button that says, 'click for sound' to play an initial sound. Click it a second time to shut off the sound. Toggle the sliders to alter various properties of the notes. Click the 'filter sound' button to filter the sound.
+    </div>
+
+  <div class = "pure-u-1-2">
+
+  </div>
+
+</div>
+
+<p></p>
+<p></p>
+
+
+      <button id="firstButton" class = "pure-button">Click for sound</button>
+
+      <p>
+      </p>
+
+      <div class="slidecontainer" id = "sc1">
+          Adjust the frequency of the sound
+        <input type="range" min = "78" max = "760" value = "150" class = "slider" id = "freqSlider">
+      </div>
+
+      <p></p>
+      <p></p>
+
+      <div class="slidecontainer" id="sc2">
+        Adjust the volume 
+        <input type="range" min="0" max = "5" value =".3 "class="slider" id="amplitude">
+      </div>
+
+      <p></p>
+      <p></p>
+      <p>
+      </p>
+      <p></p>
+
+      <button id="filter" class = "button-secondary pure-button">Filter sound</button>
+
+      <div>
+        <input type="range" min="20" max = "450" value = "120" class = "slider" id = "filterSlide" hidden>
+      </div>
+
+      <div class = "pure-g">
+        <div id="description" class = "pure-u-1-2">
+          <table>
+            <tr>
+              <td>
+                <img class="myimg" id="dunk" src="donkey.png" alt="a car" width="200">
+              </td>
+            </tr>
+          </table>
+          </div>
+      
+        <div class = "pure-u-1-2">
+          <table>
+            <tr>
+              <td>
+                <img class="myimg" id="egg" src="anakin.jpeg" alt="a jedi" width="50">
+              </td>
+            </tr>
+          </table>
+        </div>
+      
+
+      <script>
+          
+          var isitOn = false
+
+          var filterOn = false
+
+          document.getElementById("filter").addEventListener("click", filterSound)
+
+          document.getElementById("firstButton").addEventListener("click", soundOn)
+
+          var slider1 = document.getElementById("freqSlider")
+
+          var slider2 = document.getElementById("amplitude")
+          var slider3 = document.getElementById("filterSlide")
+
+          function soundOn(){ 
+            if(isitOn){
+                isitOn = false
+                osc1.stop()
+                osc2.stop()
+
+            } else{
+                isitOn = true
+                const context = new AudioContext()
+
+
+                //filtration needs to be managed by the user
+                
+//four parameters need to be exposed to user control
+//gainNode: sound volume
+//frequency/amplitude
+//type of wave
+//starting or stopping the wave at the whim of the user
+//
+ osc1 = context.createOscillator()
+ osc2 = context.createOscillator()
+
+ theFilter = context.createBiquadFilter()
+
+ gainNode = context.createGain()
+osc2.connect(theFilter)
+
+
+osc1.connect(context.destination)
+theFilter.connect(gainNode)
+gainNode.connect(context.destination)
+
+
+//osc1.type = 'square'
+//osc2.type = 'sawtooh'
+osc2.frequency.value = 130
+osc1.frequency.value = 221  
+              osc1.start(0)
+              osc2.start(0)
+              isitOn = true
+        slider1.oninput = function(){
+            osc2.frequency.value = slider1.value
+            if(isitOn){
+            var img1 = document.getElementById('dunk')
+            img1.setAttribute('width', slider1.value)
+            }
+        }
+
+        slider2.oninput = function(){
+            gainNode.gain.value = slider2.value
+            if(isitOn){
+            var img2 = document.getElementById('egg')
+            img2.setAttribute('width', slider2.value *100)
+            }
+        }
+
+            }
+          }
+
+function filterSound(){
+   if(filterOn){
+   
+   theFilter.frequency.value = 770
+   filterOn = false
+   slider3.setAttribute("hidden","hidden")
+   
+   } else{
+   filterOn = true
+   theFilter.frequency.value = 140
+   slider3.removeAttribute("hidden")
+   slider3.oninput = function(){
+   			theFilter.frequency.value = slider3.value
+   }
+ 
+   }
+   }
+
+      </script>
+  </body>
+</html>
+

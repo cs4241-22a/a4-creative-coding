@@ -1,0 +1,18 @@
+@import url("https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css");
+
+
+
+.container{
+    display: flex;
+    margin: auto;
+    font-family: 'Catamaran', sans-serif;
+    justify-content: left;
+    flex-direction: column;
+    width: 800px;
+    margin-left: 20px;
+    background-color: #c2ddff;
+}
+
+
+
+
