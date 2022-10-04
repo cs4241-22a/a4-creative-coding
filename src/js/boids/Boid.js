@@ -1,4 +1,5 @@
 import { Vector3 } from "babylonjs";
+import { distance } from "../Utils";
 class Boid {
     constructor(scene, mesh, id, pos) {
         this.id = id;
@@ -22,18 +23,18 @@ class Boid {
         this.mesh = mesh;
     }
     // Draw lines between all boids in range with alphas inversely proportional to their distance
-    renderLines() {
-        this.neighbors.forEach((boid, i) => {
-            // Need to check if their in range again because it may not have been updated
-            if (this.position.dist(boid.position) < this.neighborDist) {
-                let lineColor = this.p5.color(`rgba(255, 128, 26, ${10 / this.position.dist(boid.position)})`);
-                this.p5.stroke(lineColor);
-                this.p5.line(this.renderPosition().x, this.renderPosition().y, boid.renderPosition().x, boid.renderPosition().y);
-            }
-        });
-    }
+    // renderLines() {
+    //     this.neighbors.forEach((boid, i) => {
+    //         // Need to check if their in range again because it may not have been updated
+    //         if (this.position.dist(boid.position) < this.neighborDist) {
+    //             let lineColor = this.p5.color(`rgba(255, 128, 26, ${10 / distance(this.position, boid.position)})`);
+    //             this.p5.stroke(lineColor);
+    //             this.p5.line(this.renderPosition().x, this.renderPosition().y, boid.renderPosition().x, boid.renderPosition().y);
+    //         }
+    //     });
+    // }
     renderPosition() {
-        return this.p5.createVector(this.position.x + this.chunk.flock.position.x, this.position.y + this.chunk.flock.position.x);
+        return this.position.add(this.chunk.flock.position);
     }
     run(boids) {
         this.flock(boids);
@@ -88,20 +89,20 @@ class Boid {
         let ali = this.align(this.neighbors);
         let coh = this.cohesion(this.neighbors);
         // Get mouse position and calculate a repulsion vector
-        let mouse = this.p5.createVector(0, 0);
-        let mousePos = this.p5.createVector(this.p5.mouseX, this.p5.mouseY);
-        if (this.position.dist(mousePos) < 200)
-            mouse = this.seek(mousePos).mult(-1);
+        let cursor = Vector3.Zero();
+        let cursorPos = new Vector3(this.p5.mouseX, this.p5.mouseY);
+        if (distance(this.position, cursorPos) < 200)
+            cursor = this.seek(cursorPos).mult(-1);
         // Force weights
         sep.mult(this.forceMultiplier * this.separationMultiplier);
         ali.mult(this.forceMultiplier * this.alignmentMultiplier);
         coh.mult(this.forceMultiplier * this.cohesionMultiplier);
-        mouse.mult(this.forceMultiplier * this.mouseMultiplier);
+        cursor.mult(this.forceMultiplier * this.mouseMultiplier);
         // Apply forces
         this.applyForce(sep);
         this.applyForce(ali);
         this.applyForce(coh);
-        this.applyForce(mouse);
+        this.applyForce(cursor);
         this.applyForce(this.forward());
     }
     forward() {
@@ -128,9 +129,9 @@ class Boid {
             // If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
             if ((d > 0) && (d < this.desiredSeparation)) {
                 // Calculate vector pointing away from neighbor
-                let diff = subVects(this.position, other.position);
+                let diff = this.position.subtract(other.position);
                 diff.normalize();
-                diff.div(d); // Weight by distance
+                diff.divide(d); // Weight by distance
                 steer.add(diff);
                 count++; // Keep track of how many
             }

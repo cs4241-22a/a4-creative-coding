@@ -1,5 +1,6 @@
 import Flock from "./Flock";
 import Boid from "./Boid";
+import {Scene} from "babylonjs";
 
 class BoidChunk {
 
@@ -12,7 +13,9 @@ class BoidChunk {
     boids: Array<Boid>;
     flock: Flock;
 
-    constructor(row: number, col: number, width: number, height: number, flock: Flock) {
+    scene: Scene;
+
+    constructor(scene: Scene, row: number, col: number, width: number, height: number, flock: Flock) {
         this.row = row;
         this.column = col;
 
@@ -22,7 +25,7 @@ class BoidChunk {
         this.boids = [];
         this.flock = flock;
 
-        this.p5 = p5;
+        this.scene = scene;
     }
 
     // Remove a specified boid by the boid id

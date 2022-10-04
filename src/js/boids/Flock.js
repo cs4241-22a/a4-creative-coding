@@ -1,6 +1,6 @@
 import BoidChunk from "./BoidChunk";
 class Flock {
-    constructor(p5, pos, width, height) {
+    constructor(p5, cursor, pos, width, height) {
         this.chunkSize = 0;
         this.numCols = 0;
         this.numRows = 0;
@@ -8,6 +8,7 @@ class Flock {
         this.width = width;
         this.height = height;
         this.chunks = [];
+        this.cursor = cursor;
         this.p5 = p5;
     }
     // Runs every boid in every chunk

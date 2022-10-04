@@ -1,6 +1,7 @@
 import * as P5 from "p5";
 import BoidChunk from "./BoidChunk";
 import Boid from "./Boid";
+import {Mesh, Scene} from "babylonjs";
 
 class Flock {
 
@@ -13,15 +14,18 @@ class Flock {
     numCols: number = 0;
     numRows: number = 0;
 
-    p5: P5;
+    cursor: Mesh
 
-    constructor(p5: P5, pos: P5.Vector, width: number, height: number) {
+    p5: Scene;
+
+    constructor(p5: Scene, cursor: Mesh, pos: P5.Vector, width: number, height: number) {
         this.position = pos;
         this.width = width;
         this.height = height;
 
         this.chunks = [];
 
+        this.cursor = cursor;
         this.p5 = p5;
     }
 

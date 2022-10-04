@@ -1,12 +1,12 @@
 class BoidChunk {
-    constructor(row, col, width, height, flock) {
+    constructor(scene, row, col, width, height, flock) {
         this.row = row;
         this.column = col;
         this.height = height;
         this.width = width;
         this.boids = [];
         this.flock = flock;
-        this.p5 = p5;
+        this.scene = scene;
     }
     // Remove a specified boid by the boid id
     removeBoid(id) {
