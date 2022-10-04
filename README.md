@@ -3,7 +3,7 @@ Reagan Brunelle
 
 ## US Population 1960-2021
 
-glitch link
+https://glitch.com/edit/#!/a4-reagan-brunelle?path=README.md%3A1%3A0
 
 This project uses d3.js and other smaller js data visualization techniques to create a few data displays for the US population since 1960, and show that although the population is growing, the rate of growth is slowing down. The first is a bar chart race of the population growth in each decade. It is noticable that the 1990s grows faster than the others. Also not that the 2020s uses mostly predicted values. The start and end year can be selected using tweakpane, as well as the step which will speed it up. Below the bar race, we can see the changes in rate of growth which confirms a peak in rate of increase in the 90s and a heavy decrease in rate of growth this century. Next, there is a continuous population growth graph to show that on a large scacle, poulation growth appears linear, but if a closer look is taken, the spike in the 90s and hault in the 2020s is evident. Lastly, all specific population values per year are displayed at the bottom using a simple svg bar chart. The color of this chart can be changed using the tweakpane as well.
 
