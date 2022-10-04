@@ -1,0 +1,14 @@
+body { 
+        margin: 0; 
+        background-color: black;
+      }
+
+p{
+  color: white;
+  text-align: center
+}
+
+#par {
+  height: 150px;
+  width: 500px;
+}
