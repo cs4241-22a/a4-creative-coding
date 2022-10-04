@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CS4241 Project4</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/underscore@1.13.6/underscore-umd-min.js"></script>
+    <script id="vshader" type="x-shader/x-vertex">
+    attribute vec3 aPosition;
+    varying   vec3 vPosition;
+    void main() {
+        gl_Position = vec4(aPosition, 1.0);
+        vPosition = aPosition;
+    }
+    </script>
+
+    <script id="fshader" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec3 vPosition;
+        uniform vec3 ball1color;
+        uniform vec3 ball2color;
+        uniform vec3 ball1position;
+        uniform vec3 ball2position;
+        bool completeReflect = false;
+
+        struct Sphere {
+            vec3 center;
+            float radius;
+            vec3 color;
+        };
+
+        struct Triangle {
+            vec3 point1;
+            vec3 point2;
+            vec3 point3;
+            vec3 color;
+        };
+
+        struct Ray {
+            vec3 origin;
+            vec3 direction;
+        };
+
+        struct Light {
+            vec3 position;
+            float ambience;
+            vec3 specular;
+            vec3 diffuse;
+        };
+
+        struct RayTracerOutput {
+            Ray reflectedRay;
+            vec3 color;
+        };
+
+        Sphere spheres[5];
+        Ray rays[1];
+        Light light[1];
+        Triangle triangles[12];
+
+        // Initializing image1
+        void initialize1() {
+            float x = vPosition.x;
+            float y = vPosition.y;
+            float z = vPosition.z;
+            float focalLength = 2.0;
+            vec3 color = vec3(0.0, 0.0, 0.0);
+
+            // Create spheres
+            spheres[0].center = ball1position;
+            spheres[0].radius = 0.1;
+            spheres[0].color = ball1color;
+
+            // Create spheres
+            spheres[1].center = vec3(-0.3, 0.1, 0.0);
+            spheres[1].radius = 0.3;
+            spheres[1].color = vec3(0.0,0.0,1.0);
+
+            // Create spheres
+            spheres[2].center = ball2position;
+            spheres[2].radius = 0.1;
+            spheres[2].color = ball2color;
+
+            // Create Triangles
+            triangles[0].point1 = vec3(-2.0, 0.0, -2.0);
+            triangles[0].point2 = vec3(2.0, -0.4, 2.0);
+            triangles[0].point3 = vec3(-2.0, -0.4, 2.0);
+            triangles[0].color = vec3(0.5, 0.5, 0.5);
+
+            // Create Triangles
+            triangles[1].point1 = vec3(-2.0, 0.0, -2.0);
+            triangles[1].point2 = vec3(2.0, 0.0, -2.0);
+            triangles[1].point3 = vec3(2.0, -0.4, 2.0);
+            triangles[1].color = vec3(0.5, 0.5, 0.5);
+
+            // Create ray
+            rays[0].origin = vec3(0.0, 0.0, focalLength);
+            rays[0].direction = normalize(vec3(x, y, -focalLength));
+
+            // Create Light source
+            light[0].position = vec3(0.0, 0.5, 1.0);
+            light[0].ambience = 0.1;
+            light[0].specular = vec3(1.0, 1.0, 1.0);
+            light[0].diffuse = vec3(1.0, 1.0, 1.0);
+        }
+
+        float checkIntersectSphere(Sphere sphere, Ray ray) {
+            vec3 sphereCenter = sphere.center;
+            float radius = sphere.radius;
+            vec3 cameraSource = ray.origin;
+            vec3 cameraDirection = ray.direction;
+
+            vec3 distanceFromCenter = (cameraSource - sphereCenter);
+            float B = 2.0 * dot(cameraDirection, distanceFromCenter);
+            float C = dot(distanceFromCenter, distanceFromCenter) - pow(radius, 2.0);
+            float delta = pow(B, 2.0) - 4.0 * C;
+            float t = 0.0;
+            if (delta > 0.0) {
+                float sqRoot = sqrt(delta);
+                float t1 = (-B + sqRoot) / 2.0;
+                float t2 = (-B - sqRoot) / 2.0;
+                t = min(t1, t2);
+            }
+            if (delta == 0.0) {
+                t = -B / 2.0;
+            }
+
+            return t;
+        }
+
+        float checkIntersectTriangle(Triangle triangle, Ray ray) {
+            vec3 origin = ray.origin;
+            vec3 direction = ray.direction;
+            vec3 point1 = triangle.point1;
+            vec3 point2 = triangle.point2;
+            vec3 point3 = triangle.point3;
+            vec3 N = normalize(cross((point1 - point2),(point3 - point2)));
+            float D = dot(N, point1);
+
+            vec3 edge1 = point2 - point1;
+            vec3 edge2 = point3 - point1;
+            vec3 h = cross(direction,edge2);
+            float a = dot(edge1,h);
+
+            // Check if parallel to plane
+            if (a == 0.0){
+                return 1000000.0;
+            }
+            
+            float f = 1.0/a;
+            vec3 s = origin - point1;
+            float u = f * dot(s,h);
+            if (u < 0.0 || u > 1.0){
+                return 1000000.0;
+            }
+
+            // Check if out of triangle
+            vec3 q = cross(s,edge1);
+            float v = f * dot(direction,q);
+            if (v < 0.0 || u + v > 1.0){
+                return 1000000.0;
+            }
+
+            // Calculating the distance
+            float t = f * dot(edge2,q);
+            if (t > 0.0){
+                return t;
+            }
+            // Check if it is behind camera
+            else{
+                return 1000000.0;
+            }
+        }
+
+        RayTracerOutput getRay(Ray ray, Light light) {
+
+            RayTracerOutput rayTracer;
+            // Setting background color
+            vec3 color = vec3(0.0, 0.0, 0.0);
+            //float t1 = checkIntersectSphere(spheres[0], ray);
+            //float t2 = checkIntersectSphere(spheres[1], ray);
+
+            // Initialize depth
+            float t = 0.0;
+            float minT = 1000000.0;
+
+            Sphere sphereToShow;
+            Triangle triangleToShow;
+            
+            bool isTriangle = false;
+            int num = -1;
+
+            // Testing intersection with sphere
+            for(int i = 0; i < 5; i++) {
+                t = checkIntersectSphere(spheres[i], ray);
+                if(t > 0.0 && t < minT) {
+                    minT = t;
+                    sphereToShow = spheres[i];
+                    num = i;
+                }
+            }
+
+            // Testing intersection with triangle
+            for(int i = 0; i < 12; i++) {
+                t = checkIntersectTriangle(triangles[i], ray);
+                if(t > 0.0 && t < minT) {
+                    minT = t;
+                    triangleToShow = triangles[i];
+                    isTriangle = true;
+                }
+            }
+
+            // Check if within sight
+            if(minT > 0.0 && minT < 1000000.0) {
+                vec3 surfacePoint;
+                vec3 surfaceNormal;
+                vec3 cameraSource = ray.origin;
+                vec3 cameraDirection = ray.direction;
+                vec3 lightSource = light.position;
+                vec3 colorOfShape;
+
+                // Check if it is sphere and get point and normal
+                if(!isTriangle){
+                    vec3 sphereCenter = sphereToShow.center;
+                    colorOfShape = sphereToShow.color;
+                    surfacePoint = cameraSource + (minT * cameraDirection);
+                    surfaceNormal = normalize(surfacePoint - sphereCenter);
+                } else {
+                    colorOfShape = triangleToShow.color;
+                    surfacePoint = ray.origin + minT * ray.direction;
+                    surfaceNormal = normalize(cross((triangleToShow.point1 - triangleToShow.point2),(triangleToShow.point3 - triangleToShow.point2)));
+                }
+
+                // Calculating lightray
+                Ray lightRay;
+                lightRay.origin = surfacePoint - 0.0001 * surfaceNormal;
+                lightRay.direction = normalize(lightSource - surfacePoint);
+
+                // Initialize shadow depth
+                t = 0.0;
+                float minT2 = 1000000.0;
+
+                // Check intersection in the direction to light, only spheres would cast shadow
+                for(int i = 0; i < 5; i++) {
+                    t = checkIntersectSphere(spheres[i], lightRay);
+                    if(t > 0.0 && t < minT2) {
+                        minT2 = t;
+                        break;
+                    }
+                }
+
+                // If not shadow, render color
+                if(minT2 == 1000000.0){
+                    float ambience = light.ambience;
+                    vec3 specular = light.specular;
+                    vec3 diffuse = light.diffuse;
+
+                    // Calculating parameters
+                    vec3 L = normalize(lightSource - surfacePoint);
+                    vec3 N = normalize(surfaceNormal);
+                    vec3 V = normalize(cameraSource - surfacePoint);
+                    vec3 R = (2.0 * dot(L, N) * N) - L;
+
+                    // calculating color components
+                    vec3 diffusep = colorOfShape * diffuse * dot(L, N);
+                    vec3 ambientp = colorOfShape * ambience;
+                    vec3 specularp = specular * pow(max(dot(V, R), 0.0), 20.0);
+                    color = diffusep + ambientp + specularp;
+                    //color = colorOfShape * (ambience + ((1.0 - ambience) * max(0.0, dot(surfaceNormal, lightSource))));
+                    rayTracer.color = color;
+
+                    // Calculating reflecting ray
+                    Ray reflectionRay;
+                    vec3 reflection = reflect(ray.direction, -surfaceNormal);
+                    reflectionRay.origin = surfacePoint + 0.0001 * surfaceNormal;
+                    reflectionRay.direction = reflection;
+                    rayTracer.reflectedRay = reflectionRay;
+                } else{
+                    rayTracer.color = colorOfShape * light.ambience;
+                }
+            }
+            else {
+                rayTracer.color = color;
+            }
+            
+            return rayTracer;
+        }
+
+        void main() {
+            // initialize image
+            initialize1();
+
+            // Get main ray
+            RayTracerOutput mainRay = getRay(rays[0], light[0]);
+            RayTracerOutput reflectionRay = getRay(mainRay.reflectedRay, light[0]);
+
+            // Draw reflections based on images
+            RayTracerOutput reflectionRay2 = getRay(reflectionRay.reflectedRay, light[0]);
+            gl_FragColor = vec4(mainRay.color + 0.9*reflectionRay.color + 0.3*reflectionRay2.color, 1.0);
+    }
+    </script>
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/initShaders.js"></script>
+    <script src="lib/MV.js"></script>
+    <script src="main.js"></script>
+</head>
+<body onload="main()">
+    <h1>Ray Tracing Example Display</h1>
+    <p>Please use the panel on the bottom to change the color and position of the balls displaying on the canvas</p>
+
+    <canvas id="webgl" width="600" height="600">
+        Please use a browser that supports the "canvas" tag.
+    </canvas>
+    <div id="tweak"></div>
+
+</body>
+</html>
