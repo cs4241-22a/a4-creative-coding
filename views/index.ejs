@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/semantic.css' />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body style="background-color: rgb(255,255,255); ">
+  <h1>
+    <%= title %>
+  </h1>
+  <img src="images/Alden-Hall.jpg" alt="Picture of WPI Alden Memorial">
+  <div id="main_content">
+    <h2>Controller</h2>
+    <p>Welcome to <%= title %>! Powered by Gibber</p>
+    <button id="button_start" class="ui button">Start</button>
+    <button id="button_stop" class="negative ui button">Stop</button>
+    <div class="ui action input">
+      <input id="bpm_input_box" placeholder="BPM" type="number" min="30" max="360" step="1" value="140">
+      <button class="ui button" onclick="setBPM()">Set BPM</button>
+    </div>
+    <div class="ui action input">
+      <input id="oct_input_box" placeholder="BPM" type="number" min="-3" max="3" step="1" value="-1">
+      <button type="button" class="ui button" value="submit" onclick="setOcative()">Set Ocative</button>
+    </div>
+    <br>
+    <br>
+    <div class="ui two column doubling grid">
+      <div class="column">
+        <p>Change between 135 and 1357 mode</p>
+        <button id="button_135" class="ui button" onclick="mode135();">135</button>
+        <button id="button_1357" class="ui button" onclick="mode1357()">1357</button>
+      </div>
+      <div class="column">
+        <p>Change snare drum mode</p>
+        <button id="button_snare_1" class="ui button" onclick="snare1();">Snare 1</button>
+        <button id="button_snare_2" class="ui button" onclick="snare2();">Snare 2</button>
+        <button id="button_snare_3" class="ui button" onclick="snare3();">Snare 3</button>
+      </div>
+    </div>
+    <h2>How to play</h2>
+    <p>
+      Use Q-P and Z-M rows on your keyboard to change pitch.
+      <br>
+      Hit the key before the chord you want to change to make sure you change it reliably!
+    </p>
+    <h2>Try These 135 Mode Songs!</h2>
+    <p>[Q]Forever [N]young I want to [M]be forever [B]young</p>
+    <p>Never gonna [R]give you [T]up Never gonna [E]let you [Y]down</p>
+    <p>Let it [M]be Let it [N]be Let it [B]be Let it [Q]be<br>Whisper words of [N]wisdom Let it [B]be[Q]</p>
+    <p>That [B]you were Romeo, you were [N]throwing pebbles And my [M]daddy said, "Stay away from [Q]Juliet"<br>
+      And I was [B]crying on the staircase [N]Begging you please don't [M]go, [B]and I [N]said<br>
+      [Q]Romeo, take me somewhere we can be alone [N]I'll be waiting, all there's left to do is run<br>
+      [M]You'll be the prince and I'll be the princess [B]It's a love story, [N]baby, just say, [Q]"Yes"</p>
+    <p>
+      [N]If you could see that [Q]I'm the one who understands you [N]Been here all along, so why can't [W]you see? <br>
+      You belong [B]with me<br>
+      [Q]Standing by and waiting at your back door [N]All this time how could you not [W]know, baby <br>
+      You belong with me, [B]you belong with me
+    </p>
+    <p>
+      I got my [Q] hands up They're [V] playing my song, I [M] know I'm gonna be o-[N]kay<br>
+      [Q] Yeah [V], it's a [M] party in the US-[N]A<br>
+      [Q] Yeah [V], it's a [M] party in the US-[N]A
+    </p>
+    <p>[M]It’s too late to [B]apologize, [Q]it’s [N]too late I said it’s [M]too late to [B]apologize, [Q]it’s [N]too
+      late</p>
+    <p>
+      So [Q] this is me swallowing my pride Standing in [V] front of you saying "I'm sorry for that [B] night"<br>
+      And I go [Q] back to December [N] all the time.<br>
+      It [Q] turns out freedom ain't nothing but missing you [V] Wishing I'd realized what I had when [B] you were
+      mine<br>
+      I'd go [Q] back to December, [N] turn around and make it all [B] right I go [M] back to December [N] all the time
+    </p>
+    <p>はし[R]れ！　風より[T]速く めざ[E]せ！　空より[Y]遠く </p>
+    <p>[Q]Country roads, take me [N]home To the [M]place I [B]belong</p>
+  </div>
+  <div id="click_to_start">
+    <h2>Click to Start</h2>
+    <p>Due to Web Audio autoplay limitation you need to click the button before we can start.</p>
+    <button class="ui button" onclick="clickStart();">Start</button>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <!--script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js" integrity="sha512-rCZdHNB0AePry6kAnKAVFMRfWPmUXSo+/vlGtrOUvhsxD0Punm/xWbEh+8vppPIOzKB9xnk42yCRZ5MD/jvvjQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script-->
+  <script src='/dist/gibber.audio.js'></script>
+  <script src="/javascripts/scripts.js"></script>
+</body>
+
+</html>
