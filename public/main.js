@@ -11,6 +11,13 @@ window.addEventListener('load', function(){
     cvs.height = cvsHeight;
     cvs.style.width = `${cvsWidth}px`;
     cvs.style.height = `${cvsHeight}px`;
+    document.oncontextmenu = (e)=>{e.preventDefault();}
+    cvs.addEventListener('mousedown', function(event){
+        event.preventDefault();
+        var coords = getCursorPosition(cvs, event);
+        handleClick(event, coords.x, coords.y);
+        return false;
+    });
     var ctx = cvs.getContext('2d');
     //ctx.imageSmoothingEnabled = false;
 
@@ -157,15 +164,25 @@ class Dude extends Agent {
     move(interval){
         var closestFood = getClosestAgent(this, agent => agent instanceof Food);
         var closestDude = getClosestAgent(this, agent => agent instanceof Dude);
+        var moved = false;
         if(closestDude != null && distanceBetween(this, closestDude) < settings.minimumDudeDistance){
             this.moveAway(closestDude, settings.dudeSpeed * interval);
-        } else if(closestFood != null){
-            this.moveTowards(closestFood, settings.dudeSpeed * interval);
+            moved = true;
+        }
+        if(closestFood != null){
+            if(!moved){
+                this.moveTowards(closestFood, settings.dudeSpeed * interval);
+            }
             if(distanceBetween(this, closestFood) <= settings.maximumEatDistance){
                 this.energy += closestFood.energy;
                 closestFood.destroy();
             }
         }
+    }
+
+    destroy(){
+        state.agents.push(new Food(this.x, this.y));
+        super.destroy();
     }
 }
 
@@ -189,4 +206,26 @@ function getClosestAgent(source, filter){
         }
     });
     return closestAgent;
+}
+
+//From https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
+function getCursorPosition(canvas, event) {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    return {x,y};
+}
+
+function handleClick(event, x, y){
+    if(event.button == 0){
+        for(var i=0; i<25; i++){
+            state.agents.push(new Food(x + randBetween(10, -10), y + randBetween(10, -10)));
+        }
+    } else if(event.button == 2){
+        state.agents.forEach(agent => {
+            if(distanceBetween(agent, {x,y}) < 100){
+                agent.destroy();
+            }
+        });
+    }
 }
