@@ -50,12 +50,8 @@ Do the following to complete this assignment:
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## Drum Kit
 
-your hosting link e.g. http://a4-charlieroberts.glitch.me
+Website Link:
 
-Include a very brief summary of your project here. Images are encouraged when needed, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- the instructions you present in the website should be clear enough to use the application, but if you feel any need to provide additional instructions please do so here.
+This project implements the Web Audio API to create sounds and play wav files upon user input.The user can input by pressing one of the buttons or using the number keys 1-9. User's are able to use the tweakpane panel in order to change the gain of the sounds and also tweak the length of one of the sounds. During this my biggest struggle was learning how the audio api worked and also setting up the audio api, since you are not allowed to do anything until a user input. 
