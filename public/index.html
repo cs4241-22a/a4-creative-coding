@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandelbrot Set Visualizer</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id = "wrapper">    
+        <div id="paneContainer"></div>
+        <div id="canvasContainer">
+            <canvas id="mandelbrotCanvas"></canvas>
+        </div>
+        <div id="infoContainer">
+            <h1>Quick Start</h1>
+            <p>This is a simple Mandelbrot Set visualizer.</p>
+            <p>Here is some info on Mandelbrot sets from <a href="https://mathworld.wolfram.com/MandelbrotSet.html">Wolfram Mathworld:</a></p>
+            <blockquote cite="https://mathworld.wolfram.com/MandelbrotSet.html">
+                "The term Mandelbrot set is used to refer both to a general class of fractal sets and to a particular instance of such a set. In general, a Mandelbrot set marks the set of points in the complex plane such that the corresponding Julia set is connected and not computable."
+            </blockquote>
+            <p>Parameters can be changed by using the Settings panel on the top right. The following describes the various settings:
+            </p>
+            <ol type = "1">
+                <li>iterations : Maximum number of iterations before assuming a complex point is not in the mandelbrot set</li>
+                <li>escape_radius : The maximum distance from the origin, that a complex point will be evaluated</li>
+                <li>mandelbrot_color: The color of the complex point which signifies the point is in the mandelbrot set</li>
+                <li>Escaped Color Palette: Choose a color palette for complex points not in the mandelbrot set. Colors will be chosen based on how fast the complex point escaped.</li>
+                <li>Save Image: Download the generated mandelbrot set as png</li>
+             </ol>
+             <p style="text-decoration: underline;">Note: Mandelbrot set generation is computationally heavy, the website may take sometime to update the display after an user event.</p>
+             <center>
+                <button type="button" id="startButton">Start!</button> 
+            </center>
+        </div>
+    </div>
+    <script src="../tweakpane/dist/tweakpane.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
