@@ -4,8 +4,13 @@
     <title>CS4241 Assignment 4</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css" integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" class="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@300&display=swap" rel="stylesheet">
+  
   </head>
-  <body>
+  <body class="container">
       <h1>Interactive Sound Maker!
       </h1>
 <p></p>
@@ -54,6 +59,22 @@
       <div>
         <input type="range" min="20" max = "450" value = "120" class = "slider" id = "filterSlide" hidden>
       </div>
+
+      <div class = "pure-g">
+        <div id="description" class = "pure-u-1-2">
+          <table>
+            <tr>
+              <td>
+                <img class="myimg" id="dunk" src="donkey.png" alt="a car" width="200">
+              </td>
+            </tr>
+          </table>
+          </div>
+      
+        <div class = "pure-u-1-2">
+      stuff
+        </div>
+      
 
       <script>
           
@@ -112,6 +133,10 @@ osc1.frequency.value = 221
               isitOn = true
         slider1.oninput = function(){
             osc2.frequency.value = slider1.value
+            if(isitOn){
+            var img1 = document.getElementById('dunk')
+            img1.setAttribute('width', slider1.value)
+            }
         }
 
         slider2.oninput = function(){
