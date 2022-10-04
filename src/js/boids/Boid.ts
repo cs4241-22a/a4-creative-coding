@@ -1,13 +1,13 @@
 import BoidChunk from "./BoidChunk";
-import {Mesh, Vector3} from "babylonjs";
+import {Mesh, Scene, Vector3} from "babylonjs";
 
 class Boid {
 
     id: number;
 
-    position: P5.Vector;
-    velocity: P5.Vector;
-    acceleration: P5.Vector;
+    position: Vector3;
+    velocity: Vector3;
+    acceleration: Vector3;
 
     neighbors: Array<Boid>;
     chunk: BoidChunk;
@@ -24,8 +24,9 @@ class Boid {
     mouseMultiplier: number;
 
     mesh: Mesh;
+    scene: Scene
 
-    constructor(mesh: Mesh, id: number, pos: Vector3) {
+    constructor(scene: Scene, mesh: Mesh, id: number, pos: Vector3) {
         this.id = id;
 
         this.position = pos;
@@ -49,25 +50,8 @@ class Boid {
         this.alignmentMultiplier = 1; // Forces boids to turn in the same direction as those within neighborDist
         this.mouseMultiplier = 10;      // Forces boids away from the mouse. Make negative to attract them to the mouse
 
+        this.scene = scene;
         this.mesh = mesh;
-    }
-
-    render() {
-        // Draw a triangle rotated in the direction of velocity
-        let theta = this.velocity.heading() + this.p5.radians(90);
-
-        let color = this.p5.color("rgba(114,114,114,0.8)");
-
-        this.p5.fill(color);
-        this.p5.stroke(color);
-        this.p5.translate(this.renderPosition().x, this.renderPosition().y);
-        this.p5.rotate(theta);
-        this.p5.beginShape(this.p5.TRIANGLES);
-        this.p5.vertex(0, -this.r*2);
-        this.p5.vertex(-this.r, this.r*2);
-        this.p5.vertex(this.r, this.r*2);
-        this.p5.endShape();
-        this.p5.resetMatrix();
     }
 
     // Draw lines between all boids in range with alphas inversely proportional to their distance
@@ -109,10 +93,14 @@ class Boid {
     }
 
     update() {
-        this.velocity.add(this.acceleration);
-        this.velocity.limit(this.maxSpeed);
-        this.position.add(this.velocity.copy().mult(this.p5.deltaTime * 0.05));
-        this.acceleration.mult(0);
+        this.velocity.addInPlace(this.acceleration);
+
+        // Set velocity to max speed
+        this.velocity.normalize();
+        this.velocity.scaleInPlace(this.maxSpeed);
+
+        this.position.addInPlace(this.velocity.scale(this.scene.deltaTime * 0.05));
+        this.acceleration.scaleInPlace(0);
     }
 
     // Wraps position to the other side when moving offscreen
@@ -123,15 +111,15 @@ class Boid {
         if (this.position.y > this.chunk.flock.height) this.position.y = 0;
     }
 
-    applyForce(force: P5.Vector) {
-        this.acceleration.add(force);
+    applyForce(force: Vector3) {
+        this.acceleration.addInPlace(force);
     }
 
     flock(boids: Array<Boid>) {
         // Get all boids within range
         this.neighbors = [];
         boids.forEach((boid, i) => {
-            let d = this.position.dist(boid.position);
+            let d = this.position.subtract(boid.position).length();
             if(d < this.neighborDist)
                 this.neighbors.push(boid);
         });

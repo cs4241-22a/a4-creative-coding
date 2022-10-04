@@ -47,9 +47,3 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
-
-# Config file
-mongodb.config.json
-
-# Environment file
-.env
