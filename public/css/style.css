@@ -1,0 +1,18 @@
+body {
+  background-color: #B59DE0;
+  font-family: "Nunito Sans", sans-serif, bold;
+vertical-align: middle;
+}
+input{
+color: purple;
+}
+.center {
+margin: auto;
+width: 80%;
+padding: 50px;
+}
+
+#inputHead {
+  font-size: 30px;
+  font-family: "Oswald", sans-serif;
+}
