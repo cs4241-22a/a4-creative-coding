@@ -1,7 +1,7 @@
 const countryURLs = [
-    "http://api.worldbank.org/v2/countries/USA/indicators/SP.POP.TOTL?per_page=5000&format=json",
-    "http://api.worldbank.org/v2/countries/IND/indicators/SP.POP.TOTL?per_page=5000&format=json",
-    "http://api.worldbank.org/v2/countries/CHN/indicators/SP.POP.TOTL?per_page=5000&format=json"
+    "https://api.worldbank.org/v2/countries/USA/indicators/SP.POP.TOTL?per_page=5000&format=json",
+    "https://api.worldbank.org/v2/countries/IND/indicators/SP.POP.TOTL?per_page=5000&format=json",
+    "https://api.worldbank.org/v2/countries/CHN/indicators/SP.POP.TOTL?per_page=5000&format=json"
 ]
 
 let baseColor = '#ff0055';
