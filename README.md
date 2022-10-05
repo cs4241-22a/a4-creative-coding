@@ -1,6 +1,6 @@
 ## Country Population Vis
 
-your hosting link e.g. http://a4-charlieroberts.glitch.me
+https://a4-colb131.glitch.me/
 
 This project visualizes the US, China, and India populations from 1960 to 2021. Data obtained from https://github.com/jdorfman/Awesome-JSON-Datasets.
 
