@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Visualizer</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
+    <script src="client.js"></script>
+
+    <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_big-stone.css">
+    <!-- <link rel="stylesheet" href="awsm_theme_big-stone.min.css" media="(prefers-color-scheme: dark)"> -->
+</head>
+<body>
+    <article>
+        <h1>Audio Visualizer</h1>
+        
+        <p>
+            This tool visualizes audio represented by sine waves using Tweakpane monitors
+            and the WebAudio API.
+        </p>
+        <p>
+            There are three different frequency tabs which each control an oscillator.
+            You can change the frequency by inputting a number directly, using an
+            exponential slider (the frequency = 2^x Hz), or by selecting
+            an octave plus a note name.
+        </p>
+        <p>
+            You can also control whether a given oscillator is playing,
+            as well as turn off/on all active oscillators.
+        </p>
+        <p>
+            <b>Note:</b> There may be some unpleasant distortion with higher gain values,
+            I would probably keep it at or below 30.
+        </p>
+        <p>
+            <b>Also note:</b> The visual sine waves are 'stretched' by a significant
+            amount so the visualization can work in real time, but it still does not
+            give an accurate representation of the wave above ~4kHz.
+        </p>
+    </article>
+    
+    <article>
+        <div id="container" style="width:30rem;"></div>
+    </article>
+    
+</body>
+</html>
