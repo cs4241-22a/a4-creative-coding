@@ -11,17 +11,13 @@ const BOID_COUNT = 200;
 // **************************
 
 // create the canvas html element and attach it to the webpage
-var canvas = document.createElement("canvas");
-canvas.style.width = "100%";
-canvas.style.height = "100%";
-canvas.id = "gameCanvas";
-document.body.appendChild(canvas);
+const canvas = <HTMLCanvasElement>document.getElementById("main-canvas");
 
 // initialize babylon scene and engine
 const engine = new Engine(canvas, true);
 const scene = new Scene(engine);
 
-const camera: ArcRotateCamera = new ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, Vector3.Zero(), scene);
+const camera: ArcRotateCamera = new ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 100, Vector3.Zero(), scene);
 camera.attachControl(canvas, true);
 
 // Add lighting

@@ -19,7 +19,7 @@ class Boid {
         this.forceMultiplier = 0.25; // Multiplies all of the following forces
         this.separationMultiplier = 1; // Forces boids to separate to desiredSeparation
         this.cohesionMultiplier = 0.1; // Forces boids towards one another when within neighborDist
-        this.alignmentMultiplier = 3; // Forces boids to turn in the same direction as those within neighborDist
+        this.alignmentMultiplier = 2.5; // Forces boids to turn in the same direction as those within neighborDist
         this.cursorMultiplier = 0.3; // Forces boids away from the mouse. Make negative to attract them to the mouse
     }
     get position() { return this.mesh.position; }
