@@ -1,0 +1,160 @@
+body
+{
+    background-color: #C6E2E9;
+}
+
+#launchpad
+{
+    margin: auto;
+    background-color: #28282B;
+    width: 80vh;
+    height: 80vh;
+    border-radius: 5vw;
+    align-items: center;
+    text-align: center;
+}
+
+.pushable {
+    background-color: #CCCCCC;
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    margin: 20px;
+    cursor: pointer;
+}
+
+.front {
+    display: block;
+    padding: 10vh 10vh;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    background-color: #EFF2EF;
+    color: white;
+    transform: translateY(-7px);
+}
+
+
+
+.front {
+    will-change: transform;
+    transition: transform 250ms;
+  }
+
+.pushable:hover .front {
+    transform: translateY(-6px);
+}
+  
+.pushable:active .front {
+    transform: translateY(-2px);
+}
+
+#btn9 .front:active
+{
+    background-color: #e8edbe;
+}
+
+#btn9:active
+{
+    background-color: #babe98;
+}
+
+#btn8 .front:active 
+{
+    background-color: #ccedbe;
+}
+
+#btn8:active 
+{
+    background-color: #8fa685;
+}
+
+#btn7 .front:active 
+{
+    background-color: #beedd7;
+}
+
+#btn7:active 
+{
+    background-color: #98beac;
+}
+
+#btn6 .front:active 
+{
+    background-color: #bec9ed;
+}
+
+#btn6:active 
+{
+    background-color: #98a1be;
+}
+
+#btn5 .front:active 
+{
+    background-color: #dcbeed;
+}
+
+#btn5:active 
+{
+    background-color: #b098be;
+}
+
+#btn4 .front:active 
+{
+    background-color: #edbedd;
+}
+
+#btn4:active 
+{
+    background-color: #be98b1;
+}
+
+#btn3 .front:active 
+{
+    background-color: #edc4be;
+}
+
+#btn3:active 
+{
+    background-color: #be9d98;
+}
+
+#btn2 .front:active 
+{
+    background-color: #ede6be;
+}
+
+#btn2:active 
+{
+    background-color: #beb898;
+}
+
+#btn1 .front:active 
+{
+    background-color: #beedd5;
+}
+
+#btn1:active 
+{
+    background-color: #98beaa;
+}
+
+
+#information
+{
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    align-items: center;
+    text-align: center;
+
+    background-color: #ECB16D;
+    border-radius: 56px;
+    filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 25%));
+    color: white;
+
+}
+
+/*# sourceMappingURL=main.css.map*/
