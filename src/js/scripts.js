@@ -1,6 +1,8 @@
 import { ArcRotateCamera, Engine, MeshBuilder, Scene, Vector3, GizmoManager, HemisphericLight } from "babylonjs";
 import Flock from "./boids/Flock.js";
 import Boid from "./boids/Boid.js";
+const AREA_SIZE = 200;
+const BOID_COUNT = 200;
 // **************************
 // * Setup Babylon JS Scene *
 // **************************
@@ -27,13 +29,12 @@ gizmoManager.positionGizmoEnabled = true;
 gizmoManager.enableAutoPicking = false;
 gizmoManager.attachToMesh(cursor);
 // Make flock and bounding box for flock
-const areaSize = Vector3.One().scale(200);
+const areaSize = Vector3.One().scale(AREA_SIZE);
 const flock = new Flock(scene, cursor, areaSize.scale(-0.5), areaSize);
 // Spawn agents in the center
 let spawnArea = Vector3.One().scale(20);
-let boidCount = 100;
-for (let i = 0; i < boidCount; i++) {
-    let newBoid = new Boid(scene, i, new Vector3(Math.random() * spawnArea.x, Math.random() * spawnArea.y, Math.random() * spawnArea.z), MeshBuilder.CreateBox('Boid', { size: 1 }, scene));
+for (let i = 0; i < BOID_COUNT; i++) {
+    let newBoid = new Boid(scene, i, new Vector3(Math.random() * spawnArea.x, Math.random() * spawnArea.y, Math.random() * spawnArea.z), MeshBuilder.CreateCylinder('Boid', { diameterTop: 0, diameterBottom: 1 }, scene));
     // Set the velocity in a random direction
     let newVel = new Vector3(Math.random(), Math.random(), Math.random());
     newVel.normalize().scaleInPlace(newBoid.maxSpeed);
