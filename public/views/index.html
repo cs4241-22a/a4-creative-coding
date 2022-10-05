@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Music Visualizer</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Audio visualizer" />
+  </head>
+  <body style="overflow: hidden">
+    <link href="css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <canvas id="canvas"></canvas>
+
+    <main>
+      <div class="" id="deleteMe">
+        <button
+          class="column is-5-tablet is-4-desktop is-3-widescreen is-centered"
+          id="START"
+        >
+          CLICK TO START. Click/Tap anywhere to show/hide settings.
+        </button>
+        <div id="player" class="m-3">
+          <div
+            id="options"
+            style="visibility: hidden;"
+            class="columns p-0 is-variable is-desktop is-1-mobile is-1-tablet is-3-desktop is-8-widescreen is-2-fullhd"
+          >
+            <div id="" class="column"> </div>
+            <div id="songsDiv" class="column box p-3 mx-1">
+              <label class="label">Songs</label>
+                <div class="is-flex is-flex-direction-row is-justify-content-flex-start is-flex-wrap-wrap">
+                <div class="select">
+                  <select onchange="changeSong(this.selectedIndex);">
+                    <option>Frank Sinatra - Fly Me To the Moon</option>
+                    <option>LAKEY INSPIRED - Better Days</option>
+                    <option>Glass Animals - Heat Waves</option>
+                  </select>
+                </div>
+              <div class="mx-3">Visualizer by Mark Renzi</div>
+              </div>
+              
+            </div>
+            <div id="colorDiv" class="column box p-3 is-flex is-flex-direction-column mx-1">
+              <div class="is-flex is-flex-direction-column">
+              <label class="label">Customize</label>
+                <div class="is-flex is-flex-direction-row">
+              <input
+                id="visColor"
+                type="color"
+                class="card"
+                oninput="front(this.value)"
+                value="#ffffff"
+              />
+              <input
+                id="backgroundColor"
+                type="color"
+                class="card"
+                oninput="back(this.value)"
+                value="#000000"
+              />
+                </div>
+              </div>
+              <label class="aside mt-3">Theme</label>
+              <div>
+              <div class="select">
+                  <select onchange="changeTheme(this.selectedIndex);">
+                    <option>Smooth</option>
+                    <option>Hi-res, no smoothing</option>
+                    <option>Smooth outline</option>
+                    <option>Blobs</option>
+                    <option>Stylized</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="column box is-flex p-3 mx-1 mb-0">
+              <div id="settingsDiv">
+                <div class="is-flex is-flex-direction-row">
+                <label class="label">Settings&nbsp</label>
+                <button id="pauseBtn" class="icon m-0"><span style="filter: saturate(0%) brightness(50%);" class="icon"> |&nbsp| </span></button>
+                </div>
+                <div class="is-flex is-flex-direction-row">
+                <label class="aside">Volume</label>
+                <input
+                  class=""
+                  type="range"
+                  min="0"
+                  max="1"
+                  value="1"
+                  step="0.01"
+                  oninput="vol(this.value)"
+                  onchange="vol(this.value)"
+                  id="volume"
+                />
+                </div>
+                <div class="is-flex is-flex-direction-row">
+                <label class="aside">Center</label>
+                <input
+                  class=""
+                  type="range"
+                  min="-100"
+                  max="-1"
+                  value="-10"
+                  step="0.1"
+                  oninput="center(this.value)"
+                  onchange="center(this.value)"
+                  id="center"
+                />
+                </div>
+                <div class="is-flex is-flex-direction-row">
+                <label class="aside">Amplitude</label>
+                <input
+                  class=""
+                  type="range"
+                  min="-2000"
+                  max="-1"
+                  value="-1000"
+                  step="1"
+                  oninput="amplitude(this.value)"
+                  onchange="amplitude(this.value)"
+                  id="amplitude"
+                />
+                </div>
+                <div class="is-flex is-flex-direction-row">
+                  <div></div>
+                <label class="aside">Hide ends</label>
+                <input
+                  class=""
+                  type="range"
+                  min="0"
+                  max="35"
+                  value="30"
+                  step="1"
+                  oninput="ends(this.value)"
+                  onchange="ends(this.value)"
+                  id="unhide"
+                />
+                </div>
+              </div>
+            </div>
+            <div id="" class="column"> </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: 100%; width: 100%" id="clickArea"></div>
+    </main>
+  </body>
+  <script>
+    window.addEventListener("load", (event) => {
+      const canvas = document.getElementById("canvas");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      document.getElementById("START").onclick = start;
+    });
+
+    ///
+    var int = null;
+    var amount = 240;
+    var time = 1000;
+    var size = Math.max(window.innerWidth, window.innerHeight) * 1.3;
+    var t = -1;
+    let canvas2;
+    let ctx2;
+    ///
+    
+    let THEME = 0;
+    let cutoff = 0.3;
+    let startOffset1 = 10;
+    let startOffset2 = 1000;
+    let showClicks = 1;
+    let started = false;
+    let showHUD = false;
+    let playing = true;
+    let backColor = "#000000";
+    let frontColor = "#ffffff";
+    const pauseBtn = document.getElementById("pauseBtn"),
+      volume = document.getElementById("volume"),
+      HUD = document.getElementById("options"),
+      clickArea = document.getElementById("clickArea");
+
+    var audioCtx;
+    var audioElement;
+
+    //songs
+    const songs = ["./assets/a.mp3", "./assets/b.mp3", "./assets/c.mp3"];
+
+    pauseBtn.addEventListener("click", function () {
+      if (playing) {
+        audioElement.pause();
+        playing = !playing;
+      } else {
+        audioElement.play();
+        playing = !playing;
+      }
+    });
+    
+    
+    document.body.addEventListener("click", function () {
+      if (started) {
+        if (!showHUD) {
+           if (showClicks < 1) {showClicks++} else {
+            //HUD.style.visibility = "visible";
+            HUD.style = "visibility: visible; opacity: 1; transition: visibility 120ms, linear 120ms, opacity 120ms;";
+            showHUD = true;
+           }
+        }
+      }
+    });
+    clickArea.addEventListener("click", function () {
+      if (started) {
+        if (showHUD) {
+          //HUD.style.visibility = "hidden";
+          HUD.style = "visibility: hidden; opacity: 0; transition: visibility 0s, linear 120ms, opacity 120ms;";
+          showHUD = false;
+          showClicks = 0;
+        }
+      }
+    });
+    const changeSong = function (index){
+      audioElement.src = songs[index];
+      audioElement.play();
+    };
+    const changeTheme = function (index){
+      THEME = index;
+      if (index == 0){
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 128; // 64 bins
+        results = new Uint8Array(analyser.frequencyBinCount);
+        //smoothed = new Array(analyser.frequencyBinCount * 4);
+        player.connect(analyser);
+      }
+      else if (index == 1) {
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 2048; // 1024 bins
+        results = new Uint8Array(analyser.frequencyBinCount);
+        smoothed = new Array(analyser.frequencyBinCount * 4);
+        player.connect(analyser);
+      }
+      else if (index == 2) {
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 128; // 64 bins
+        results = new Uint8Array(analyser.frequencyBinCount);
+        //smoothed = new Array(analyser.frequencyBinCount * 4);
+        player.connect(analyser);
+      } else if (index == 3){
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 8192; // 4096 bins
+        results = new Uint8Array(analyser.frequencyBinCount);
+        //smoothed = new Array(analyser.frequencyBinCount * 4);
+        player.connect(analyser);
+      } else if (index == 4){
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 128; // 64 bins
+        results = new Uint8Array(analyser.frequencyBinCount);
+        smoothed = new Array(analyser.frequencyBinCount * 4);
+        player.connect(analyser);
+      }
+    };
+    const vol = function (value) {
+      audioElement.volume = value;
+    };
+    const center = function (value) {
+      if (value == -100){
+        startOffset1 = 500000000000
+      } else {
+        startOffset1 = Math.abs(value);
+      }
+    };
+    const amplitude = function (value) {
+      startOffset2 = Math.abs(value);
+    };
+    const back = function (value) {
+      backColor = value;
+    };
+    const front = function (value) {
+      frontColor = value;
+    };
+    const ends = function (value) {
+      cutoff = value/100;
+    };
+    
+    var player
+    var analyser;
+    var results;
+    var smoothed;
+    
+    const start = function () {
+      ///
+      canvas2 = document.createElement("canvas");
+      canvas2.width = window.innerWidth;
+      canvas2.height = window.innerHeight;
+      document.body.insertBefore(canvas2, document.body.firstChild);
+      //document.body.appendChild(canvas2);
+      canvas2.id = "circle";
+      ctx2 = canvas2.getContext("2d");
+      int = setInterval(update, time / amount);
+      ///
+
+      var START = document.getElementById("START");
+      START.parentNode.removeChild(START);
+      const ctx = canvas.getContext("2d");
+
+      // audio init
+      audioCtx = new AudioContext();
+      audioElement = document.createElement("audio");
+      document.body.appendChild(audioElement);
+
+      // audio graph setup
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 128; // 64 bins
+      //const deginc = 360 / analyser.frequencyBinCount;
+      player = audioCtx.createMediaElementSource(audioElement);
+      player.connect(audioCtx.destination);
+      player.connect(analyser);
+
+      // make sure, for this example, that your audiofile is accesssible
+      // from your server's root directory... here we assume the file is
+      // in the ssame location as our index.html file
+      audioElement.src = "./assets/a.mp3";
+      audioElement.play();
+
+      results = new Uint8Array(analyser.frequencyBinCount);
+      smoothed = new Array(analyser.frequencyBinCount * 4);
+
+      draw = function () {
+        // temporal recursion, call the function in the future
+        window.requestAnimationFrame(draw);
+
+        ctx.canvas.width = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
+        let middle = [window.innerWidth / 2, window.innerHeight / 2];
+        let offset = window.innerWidth / startOffset1;
+        let offset2 = window.innerWidth / startOffset2;
+        let ranges = [Math.floor(cutoff*analyser.frequencyBinCount), Math.ceil(analyser.frequencyBinCount - cutoff*analyser.frequencyBinCount)]
+        // fill our canvas with a black box
+        // by doing this every frame we 'clear' the canvas
+        ctx.fillStyle = backColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        analyser.getByteFrequencyData(results);
+
+        //console.log(analyser.frequencyBinCount);
+
+        //ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.translate(middle[0], middle[1]);
+        // for (let i = 0; i < analyser.frequencyBinCount; i++) {
+        //   ctx.rotate(radinc);
+        //   ctx.fillStyle = "white";
+        //   ctx.fillRect(0, offset, 1, results[i]*offset2);
+        // }
+        // for (let i = analyser.frequencyBinCount; i > 0; i--) {
+        //   ctx.rotate(radinc);
+        //   ctx.fillStyle = "white";
+        //   ctx.fillRect(0, offset, 1, results[i - 1]*offset2);
+        // }
+        let radinc = Math.PI / (analyser.frequencyBinCount - (ranges[0] * 2 - 0.5 ) );
+        
+        if (THEME != 3){
+          if (analyser.fftSize > 512) {
+            ctx.fillStyle = frontColor;
+            let region = new Path2D();
+            let theta = (90 * Math.PI) / 180;
+            let i = ranges[0];
+            region.moveTo(i, results[i] * offset2 + offset);
+            for (i = ranges[0]; i < ranges[1]; i++) {
+              theta += radinc;
+              region.lineTo(
+                (results[i] * offset2 + offset) * Math.cos(theta),
+                (results[i] * offset2 + offset) * Math.sin(theta)
+              );
+            }
+            for (i = ranges[1]; i > ranges[0]; i--) {
+              theta += radinc;
+              region.lineTo(
+                (results[i - 1] * offset2 + offset) * Math.cos(theta),
+                (results[i - 1] * offset2 + offset) * Math.sin(theta)
+              );
+            }
+            region.closePath();
+            ctx.fill(region);
+          } else { /////////////////////////////////////////////////////////////////
+            if (THEME == 2) {
+              ctx.lineWidth = 4;
+              ctx.strokeStyle = frontColor;
+            } else if (THEME == 4) {
+              ctx.fillStyle = "white";
+            } else {
+              ctx.fillStyle = frontColor;
+            }
+
+            let region = new Path2D();
+
+            let theta = (90 * Math.PI) / 180;
+            let i = ranges[0];
+            let j = ranges[0] * 2;
+            //region.moveTo(i, results[i] * offset2 + offset);
+            for (i = ranges[0]; i < ranges[1]; i++) {
+              theta -= radinc;
+              smoothed[j] = (results[i] * offset2 + offset) * Math.cos(theta);
+              smoothed[j + 1] = (results[i] * offset2 + offset) * Math.sin(theta);
+              j += 2;
+            }
+            for (i = ranges[1]; i > ranges[0]; i--) {
+              theta -= radinc;
+              smoothed[j] = (results[i - 1] * offset2 + offset) * Math.cos(theta);
+              smoothed[j + 1] =
+                (results[i - 1] * offset2 + offset) * Math.sin(theta);
+              j += 2;
+            }
+
+            // console.log("results: ", results)
+            // console.log("smoothed: ", smoothed)
+            //console.log(i, ranges[0] * 2, j, ranges[1] * 4 - 2)
+            let temp = j - 2;
+            // region.moveTo (smoothed[0], smoothed[1]);
+            // for (let i = 0; i < smoothed.length; i += 2) {
+            //   theta += radinc; // 0.01 for cool stuff
+            //   region.lineTo(
+            //     smoothed[i],
+            //     smoothed[i+1]
+            //   );
+            // }
+
+            i = ranges[0] * 2;
+            region.moveTo(
+              (smoothed[temp] + smoothed[ranges[0] * 2]) / 2,
+              (smoothed[temp + 1] + smoothed[ranges[0] * 2 + 1]) / 2
+            );
+            region.quadraticCurveTo(
+              smoothed[i],
+              smoothed[i + 1],
+              (smoothed[i] + smoothed[i + 2]) / 2,
+              (smoothed[i + 1] + smoothed[i + 1 + 2]) / 2
+            );
+            for (i = ranges[0] * 2 + 2; i < temp; i += 2) {
+              var xc = (smoothed[i] + smoothed[i + 2]) / 2;
+              var yc = (smoothed[i + 1] + smoothed[i + 1 + 2]) / 2;
+              region.quadraticCurveTo(smoothed[i], smoothed[i + 1], xc, yc);
+            }
+            // curve through the last two points
+            region.quadraticCurveTo(
+              smoothed[i],
+              smoothed[i + 1],
+              (smoothed[i] + smoothed[ranges[0] * 2]) / 2,
+              (smoothed[i + 1] + smoothed[ranges[0] * 2 + 1]) / 2
+            );
+            region.closePath();
+
+            if (THEME == 2) {
+              ctx.stroke(region);
+            } else if (THEME == 4) {
+              ///////////////////////////////////////
+              
+              let region2 = new Path2D();
+              
+              let theme4offset = offset * 0.9;
+              let theme4offset2 = offset2 * 1.1;
+              
+              theta = (90 * Math.PI) / 180;
+              i = ranges[0];
+              j = ranges[0] * 2;
+              for (i = ranges[0]; i < ranges[1]; i++) {
+                theta -= radinc;
+                smoothed[j] = (results[i] * theme4offset2 + theme4offset) * Math.cos(theta);
+                smoothed[j + 1] = (results[i] * theme4offset2 + theme4offset) * Math.sin(theta);
+                j += 2;
+              }
+              for (i = ranges[1]; i > ranges[0]; i--) {
+                theta -= radinc;
+                smoothed[j] = (results[i - 1] * theme4offset2 + theme4offset) * Math.cos(theta);
+                smoothed[j + 1] =
+                  (results[i - 1] * theme4offset2 + theme4offset) * Math.sin(theta);
+                j += 2;
+              }
+
+              temp = j - 2;
+              
+              i = ranges[0] * 2;
+              region2.moveTo(
+                (smoothed[temp] + smoothed[ranges[0] * 2]) / 2,
+                (smoothed[temp + 1] + smoothed[ranges[0] * 2 + 1]) / 2
+              );
+              region2.quadraticCurveTo(
+                smoothed[i],
+                smoothed[i + 1],
+                (smoothed[i] + smoothed[i + 2]) / 2,
+                (smoothed[i + 1] + smoothed[i + 1 + 2]) / 2
+              );
+              for (i = ranges[0] * 2 + 2; i < temp; i += 2) {
+                var xc = (smoothed[i] + smoothed[i + 2]) / 2;
+                var yc = (smoothed[i + 1] + smoothed[i + 1 + 2]) / 2;
+                region2.quadraticCurveTo(smoothed[i], smoothed[i + 1], xc, yc);
+              }
+              // curve through the last two points
+              region2.quadraticCurveTo(
+                smoothed[i],
+                smoothed[i + 1],
+                (smoothed[i] + smoothed[ranges[0] * 2]) / 2,
+                (smoothed[i + 1] + smoothed[ranges[0] * 2 + 1]) / 2
+              );
+              region2.closePath();
+              
+              let region3 = new Path2D();
+              
+              let theme42offset = offset * 0.8;
+              let theme42offset2 = offset2 * 1.2;
+              
+              theta = (90 * Math.PI) / 180;
+              i = ranges[0];
+              j = ranges[0] * 2;
+              for (i = ranges[0]; i < ranges[1]; i++) {
+                theta -= radinc;
+                smoothed[j] = (results[i] * theme42offset2 + theme42offset) * Math.cos(theta);
+                smoothed[j + 1] = (results[i] * theme42offset2 + theme42offset) * Math.sin(theta);
+                j += 2;
+              }
+              for (i = ranges[1]; i > ranges[0]; i--) {
+                theta -= radinc;
+                smoothed[j] = (results[i - 1] * theme42offset2 + theme42offset) * Math.cos(theta);
+                smoothed[j + 1] =
+                  (results[i - 1] * theme42offset2 + theme42offset) * Math.sin(theta);
+                j += 2;
+              }
+
+              temp = j - 2;
+              
+              i = ranges[0] * 2;
+              region3.moveTo(
+                (smoothed[temp] + smoothed[ranges[0] * 2]) / 2,
+                (smoothed[temp + 1] + smoothed[ranges[0] * 2 + 1]) / 2
+              );
+              region3.quadraticCurveTo(
+                smoothed[i],
+                smoothed[i + 1],
+                (smoothed[i] + smoothed[i + 2]) / 2,
+                (smoothed[i + 1] + smoothed[i + 1 + 2]) / 2
+              );
+              for (i = ranges[0] * 2 + 2; i < temp; i += 2) {
+                var xc = (smoothed[i] + smoothed[i + 2]) / 2;
+                var yc = (smoothed[i + 1] + smoothed[i + 1 + 2]) / 2;
+                region3.quadraticCurveTo(smoothed[i], smoothed[i + 1], xc, yc);
+              }
+              // curve through the last two points
+              region3.quadraticCurveTo(
+                smoothed[i],
+                smoothed[i + 1],
+                (smoothed[i] + smoothed[ranges[0] * 2]) / 2,
+                (smoothed[i + 1] + smoothed[ranges[0] * 2 + 1]) / 2
+              );
+              region3.closePath();
+              
+              ctx.fillStyle = "red";
+              ctx.fill(region3);
+              ctx.fillStyle = "yellow";
+              ctx.fill(region2);
+              ctx.fillStyle = "white";
+              ctx.fill(region);
+              ///////////////////////////////////////
+            } else {
+              ctx.fill(region);
+            }
+          }
+        } else { //THEME 3
+          ctx.fillStyle = frontColor;
+          let region = new Path2D();
+          let theta = (90 * Math.PI) / 180;
+          let i = 0;
+          region.moveTo(i, results[i] * offset2);
+          for (i = 0; i < analyser.frequencyBinCount; i++) {
+            theta += 0.1;
+            region.lineTo(
+              (results[i] * offset2) * Math.cos(theta),
+              (results[i] * offset2) * Math.sin(theta)
+            );
+          }
+          for (i = analyser.frequencyBinCount; i > ranges[0]; i--) {
+            theta += 0.1;
+            region.lineTo(
+              (results[i - 1] * offset2) * Math.cos(theta),
+              (results[i - 1] * offset2) * Math.sin(theta)
+            );
+          }
+          region.closePath();
+          ctx.fill(region);
+          
+        }
+        
+      };
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(draw, ms));
+      }
+      sleep(10);
+    };
+
+    function update() {
+      if (++t >= amount) {
+        clearInterval(int);
+        canvas2.parentNode.removeChild(canvas2);
+        started = true;
+      }
+      ctx2.fillStyle = "white";
+      ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+      ctx2.beginPath();
+      ctx2.arc(
+        canvas2.width / 2,
+        canvas2.height / 2,
+        size / 2 - (t * (size / 2)) / amount,
+        0,
+        Math.PI * 2,
+        false
+      );
+      ctx2.fill();
+    }
+
+    //window.onload = () => (document.querySelector("button").onclick = start);
+  </script>
+</html>
