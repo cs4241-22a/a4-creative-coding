@@ -1,4 +1,4 @@
-import BoidChunk from "./BoidChunk";
+import BoidChunk from "./BoidChunk.js";
 import { Vector3 } from "babylonjs";
 class Flock {
     constructor(scene, cursor, pos, size) {
@@ -59,7 +59,7 @@ class Flock {
         const endingSlice = Math.min(chunkSlice + 1, this.numSlices - 1);
         for (let row = beginningRow; row <= endingRow; row++) {
             for (let col = beginningCol; col <= endingCol; col++) {
-                for (let slice = beginningSlice; col <= endingSlice; slice++) {
+                for (let slice = beginningSlice; slice <= endingSlice; slice++) {
                     localChunks.push(this.getChunk(row, col, slice));
                     if (this.getChunk(row, col, slice) === undefined)
                         console.log(`Chunk [${row}] [${col}] [${slice}] is undefined`);
@@ -79,8 +79,8 @@ class Flock {
         return boids;
     }
     getChunk(row, column, slice) {
-        const rowOffset = row * this.numRows * this.numCols * this.numSlices;
-        const colOffset = column * this.numCols * this.numSlices;
+        const rowOffset = row * this.numCols * this.numSlices;
+        const colOffset = column * this.numSlices;
         return this.chunks[rowOffset + colOffset + slice];
     }
     addBoid(boid) {
@@ -99,10 +99,12 @@ class Flock {
         this.chunkSize = chunkSize;
         this.numRows = Math.ceil(this.height / this.chunkSize);
         this.numCols = Math.ceil(this.width / this.chunkSize);
+        this.numSlices = Math.ceil(this.depth / this.chunkSize);
         for (let row = 0; row < this.numRows; row++) {
             for (let col = 0; col < this.numCols; col++) {
-                for (let slice = 0; col < this.numSlices; col++) {
-                    this.chunks.push(new BoidChunk(this.scene, new Vector3(row, col, slice), this.chunkSize, this));
+                for (let slice = 0; slice < this.numSlices; slice++) {
+                    const newChunk = new BoidChunk(this.scene, new Vector3(row, col, slice), this.chunkSize, this);
+                    this.chunks.push(newChunk);
                 }
             }
         }

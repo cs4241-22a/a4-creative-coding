@@ -1,19 +1,20 @@
-import Flock from "./Flock";
-import Boid from "./Boid";
+import Flock from "./Flock.js";
+import Boid from "./Boid.js";
 import {Scene, Vector3} from "babylonjs";
+
 
 class BoidChunk {
 
     // Coordinate Properties
-    coordinate: Vector3
-    get row(): number { return this.coordinate.x }
-    set row(val) { this.coordinate.x = val }
+    coordinates: Vector3
+    get row(): number { return this.coordinates.x }
+    set row(val) { this.coordinates.x = val }
 
-    get column(): number { return this.coordinate.y }
-    set column(val) { this.coordinate.y = val }
+    get column(): number { return this.coordinates.y }
+    set column(val) { this.coordinates.y = val }
 
-    get slice(): number { return this.coordinate.z }
-    set slice(val) { this.coordinate.z = val }
+    get slice(): number { return this.coordinates.z }
+    set slice(val) { this.coordinates.z = val }
 
 
     // Size Properties
@@ -40,7 +41,7 @@ class BoidChunk {
         this.flock = flock;
 
         this.scene = scene;
-        this.coordinate = coordinate;
+        this.coordinates = coordinate;
     }
 
     // Remove a specified boid by the boid id
@@ -65,8 +66,9 @@ class BoidChunk {
     contains(coordinates: Vector3) {
         let xContained = (coordinates.x >= this.width*this.row) && (coordinates.x < this.width*(this.row+1));
         let yContained = (coordinates.y >= this.height*this.column) && (coordinates.y < this.height*(this.column+1));
+        let zContained = (coordinates.z >= this.depth*this.slice) && (coordinates.z < this.depth*(this.slice+1));
 
-        return xContained && yContained;
+        return xContained && yContained && zContained;
     }
 
     position() {

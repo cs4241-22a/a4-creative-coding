@@ -1,38 +1,29 @@
-import { MeshBuilder, Vector3 } from "babylonjs";
-import { distance, limit } from "../Utils";
+import { Vector3 } from "babylonjs";
+import { distance, limit } from "../Utils.js";
+import { deltaTime } from "../scripts.js";
 class Boid {
-    constructor(scene, id, pos) {
+    constructor(scene, id, pos, mesh) {
         this.id = id;
+        this.scene = scene;
+        this.mesh = mesh;
         this.position = pos;
         this.velocity = Vector3.Zero();
         this.acceleration = Vector3.Zero();
         this.neighbors = [];
         this.chunk = {};
         // Constraints
-        this.r = 7;
-        this.maxSpeed = 3;
+        this.maxSpeed = 0.3;
         this.maxForce = 0.03;
-        this.neighborDist = 50;
-        this.desiredSeparation = 25; // Should be less than neighborDist
-        this.forceMultiplier = 1; // Multiplies all of the following forces
-        this.separationMultiplier = 2; // Forces boids to separate to desiredSeparation
-        this.cohesionMultiplier = 0.5; // Forces boids towards one another when within neighborDist
-        this.alignmentMultiplier = 1; // Forces boids to turn in the same direction as those within neighborDist
-        this.mouseMultiplier = 10; // Forces boids away from the mouse. Make negative to attract them to the mouse
-        this.scene = scene;
-        this.mesh = MeshBuilder.CreateBox('newBox', { size: 0.5 }, this.scene);
+        this.neighborDist = 10;
+        this.desiredSeparation = 2; // Should be less than neighborDist
+        this.forceMultiplier = 0.25; // Multiplies all of the following forces
+        this.separationMultiplier = 1; // Forces boids to separate to desiredSeparation
+        this.cohesionMultiplier = 0.1; // Forces boids towards one another when within neighborDist
+        this.alignmentMultiplier = 2; // Forces boids to turn in the same direction as those within neighborDist
+        this.cursorMultiplier = 0.3; // Forces boids away from the mouse. Make negative to attract them to the mouse
     }
-    // Draw lines between all boids in range with alphas inversely proportional to their distance
-    // renderLines() {
-    //     this.neighbors.forEach((boid, i) => {
-    //         // Need to check if their in range again because it may not have been updated
-    //         if (this.position.dist(boid.position) < this.neighborDist) {
-    //             let lineColor = this.p5.color(`rgba(255, 128, 26, ${10 / distance(this.position, boid.position)})`);
-    //             this.p5.stroke(lineColor);
-    //             this.p5.line(this.renderPosition().x, this.renderPosition().y, boid.renderPosition().x, boid.renderPosition().y);
-    //         }
-    //     });
-    // }
+    get position() { return this.mesh.position; }
+    set position(val) { this.mesh.position = val; }
     renderPosition() {
         return this.position.add(this.chunk.flock.position);
     }
@@ -47,9 +38,9 @@ class Boid {
         if (this.chunk !== undefined && !this.chunk.contains(this.position)) {
             let flock = this.chunk.flock;
             // Calculate the new chunk coordinate based on the position
-            let newRow = Math.floor(this.position.y / flock.chunkSize);
-            let newCol = Math.floor(this.position.x / flock.chunkSize);
-            let newSlice = Math.floor(this.position.z / flock.chunkSize);
+            let newRow = Math.floor((this.position.x - flock.position.x) / flock.chunkSize);
+            let newCol = Math.floor((this.position.y - flock.position.y) / flock.chunkSize);
+            let newSlice = Math.floor((this.position.z - flock.position.z) / flock.chunkSize);
             let newChunk = flock.getChunk(newRow, newCol, newSlice);
             // Remove this boid from the old chunk and add it to the new one
             this.chunk.removeBoid(this.id);
@@ -61,19 +52,25 @@ class Boid {
         // Set velocity to max speed
         this.velocity.normalize();
         this.velocity.scaleInPlace(this.maxSpeed);
-        this.position.addInPlace(this.velocity.scale(this.scene.deltaTime * 0.05));
+        this.position.addInPlace(this.velocity.scale(deltaTime * 0.05));
         this.acceleration.scaleInPlace(0);
     }
     // Wraps position to the other side when moving offscreen
     borders() {
-        if (this.position.x < 0)
-            this.position.x = this.chunk.flock.width - 1;
-        if (this.position.y < 0)
-            this.position.y = this.chunk.flock.height - 1;
-        if (this.position.x > this.chunk.flock.width)
-            this.position.x = 0;
-        if (this.position.y > this.chunk.flock.height)
-            this.position.y = 0;
+        const flock = this.chunk.flock;
+        const offset = 0.01;
+        if (this.position.x < flock.position.x)
+            this.position.x = flock.position.x + flock.width - offset;
+        if (this.position.y < flock.position.y)
+            this.position.y = flock.position.y + flock.height - offset;
+        if (this.position.z < flock.position.z)
+            this.position.z = flock.position.z + flock.depth - offset;
+        if (this.position.x > flock.position.x + flock.width)
+            this.position.x = flock.position.x + offset;
+        if (this.position.y > flock.position.y + flock.height)
+            this.position.y = flock.position.y + offset;
+        if (this.position.z > flock.position.z + flock.depth)
+            this.position.z = flock.position.z + offset;
     }
     applyForce(force) {
         this.acceleration.addInPlace(force);
@@ -92,13 +89,13 @@ class Boid {
         // Get mouse position and calculate a repulsion vector
         let cursor = Vector3.Zero();
         let cursorPos = this.chunk.flock.cursor.position;
-        if (distance(this.position, cursorPos) < 200)
+        if (distance(this.position, cursorPos) < 40)
             cursor = this.seek(cursorPos).scale(-1);
         // Force weights
         sep.scaleInPlace(this.forceMultiplier * this.separationMultiplier);
         ali.scaleInPlace(this.forceMultiplier * this.alignmentMultiplier);
         coh.scaleInPlace(this.forceMultiplier * this.cohesionMultiplier);
-        cursor.scaleInPlace(this.forceMultiplier * this.mouseMultiplier);
+        cursor.scaleInPlace(this.forceMultiplier * this.cursorMultiplier);
         // Apply forces
         this.applyForce(sep);
         this.applyForce(ali);
@@ -107,14 +104,14 @@ class Boid {
         this.applyForce(this.forward());
     }
     forward() {
-        let velCopy = this.velocity.clone();
+        const velCopy = this.velocity.clone();
         velCopy.normalize();
         return velCopy;
     }
     seek(target) {
         // Normalized vector pointing towards the target
         let targetVel = target.subtract(this.position);
-        targetVel.normalize().scaleInPlace(1 / this.maxSpeed);
+        targetVel.normalize().scaleInPlace(this.maxSpeed);
         // Delta vector to targetVel to apply an appropriate force
         let steer = targetVel.subtract(this.velocity);
         steer = limit(steer, this.maxForce);

@@ -5,14 +5,14 @@ class BoidChunk {
         this.boids = [];
         this.flock = flock;
         this.scene = scene;
-        this.coordinate = coordinate;
+        this.coordinates = coordinate;
     }
-    get row() { return this.coordinate.x; }
-    set row(val) { this.coordinate.x = val; }
-    get column() { return this.coordinate.y; }
-    set column(val) { this.coordinate.y = val; }
-    get slice() { return this.coordinate.z; }
-    set slice(val) { this.coordinate.z = val; }
+    get row() { return this.coordinates.x; }
+    set row(val) { this.coordinates.x = val; }
+    get column() { return this.coordinates.y; }
+    set column(val) { this.coordinates.y = val; }
+    get slice() { return this.coordinates.z; }
+    set slice(val) { this.coordinates.z = val; }
     get width() { return this.size.x; }
     set width(val) { this.size.x = val; }
     get height() { return this.size.y; }
@@ -39,7 +39,8 @@ class BoidChunk {
     contains(coordinates) {
         let xContained = (coordinates.x >= this.width * this.row) && (coordinates.x < this.width * (this.row + 1));
         let yContained = (coordinates.y >= this.height * this.column) && (coordinates.y < this.height * (this.column + 1));
-        return xContained && yContained;
+        let zContained = (coordinates.z >= this.depth * this.slice) && (coordinates.z < this.depth * (this.slice + 1));
+        return xContained && yContained && zContained;
     }
     position() {
         return this.flock.position.add(new Vector3(this.flock.position.x + (this.column * this.flock.chunkSize), this.flock.position.y + (this.row * this.flock.chunkSize), this.flock.position.z + (this.slice * this.flock.chunkSize)));
