@@ -1,9 +1,9 @@
 ## Audio Visualizer
 
-[ hosting link ]
+https://a4-ryan-darcey.glitch.me/
 
-[ Include a very brief summary of your project here. Images are encouraged when needed, along with concise, high-level text. Be sure to include:
+This project is an audio visualizer that visualizes the sine waves of the tones that are playing using Tweakpane and the WebAudioAPI. It allows the user to play up to three different sine waves at once, visually displaying them each separately, as well as the resulting combined sine wave of all the tones playing.
 
-- the goal of the application
-This tool visualizes audio represented by sine waves using Tweakpane monitors and the WebAudio API. - challenges you faced in realizing the application
-- the instructions you present in the website should be clear enough to use the application, but if you feel any need to provide additional instructions please do so here. ]
+The user can adjust the frequency of each tone in several ways as well as control whether each is active or not, turn on/off all active tones, and adjust the volume/gain of the tones.
+
+The main challenge came from using the Tweakpane monitors to visualize the sine waves rather than using the WebAudioAPI itself or some other tool better suited for that.
