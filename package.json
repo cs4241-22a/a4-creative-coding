@@ -1,0 +1,25 @@
+{
+  "name": "Shiyue(Vanessa) Wang",
+  "version": "",
+  "description": "",
+  "author": "Vanessa W.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "14.17.5"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bootstrap": "^5.1.1",
+    "cookie-session": "^1.4.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "mime": "^2.4.4",
+    "mongodb": "^4.1.1",
+    "morgan": "^1.10.0",
+    "serve": "^14.0.1",
+    "serve-favicon": "^2.5.0",
+    "serve-static": "^1.15.0"
+  }
+}
