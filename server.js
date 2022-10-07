@@ -25,12 +25,12 @@ app.get('/scripts.js', (req, res) => {
     res.sendFile(path.join(__dirname + '/js/scripts.js'));
 })
 
-app.get('/noggin.wav', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/16-EY_Monster_01.wav'));
+app.get('/sound1.ogg', (req, res) => {
+    res.sendFile(path.join(__dirname + '/assets/03-A_Monster_01.ogg'));
 })
 
-app.get('/shrubb.ogg', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/01-BC_Monster_01.ogg'));
-})
+// app.get('/shrubb.ogg', (req, res) => {
+//     res.sendFile(path.join(__dirname + '/assets/01-BC_Monster_01.ogg'));
+// })
 
 app.listen(process.env.PORT || port);
