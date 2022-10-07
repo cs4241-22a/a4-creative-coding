@@ -46,6 +46,7 @@
                     <option>Frank Sinatra - Fly Me To the Moon</option>
                     <option>LAKEY INSPIRED - Better Days</option>
                     <option>Glass Animals - Heat Waves</option>
+                    <option>EXPERIMENTAL user input</option>
                   </select>
                 </div>
                 <div class="mx-3 mt-3">Visualizer by Mark Renzi</div>
@@ -82,6 +83,7 @@
                     <option>Hi-res, no smoothing</option>
                     <option>Smooth outline</option>
                     <option>Blobs</option>
+                    <option>Smoothed Blobs</option>
                     <option>Stylized</option>
                   </select>
                 </div>
@@ -176,6 +178,8 @@
     let ctx2;
     ///
 
+    let str;
+    let currentSong = 0;
     let THEME = 0;
     let cutoff = 0.3;
     let startOffset1 = 10;
@@ -212,13 +216,16 @@
     });
     
     pauseBtn.addEventListener("click", function () {
-      if (playing) {
-        audioElement.pause();
-        playing = !playing;
-      } else {
-        audioElement.play();
-        playing = !playing;
+      if (currentSong != 3){
+        if (playing) {
+          audioElement.pause();
+          playing = !playing;
+        } else {
+          audioElement.play();
+          playing = !playing;
+        }
       }
+      
     });
 
     document.body.addEventListener("click", function () {
@@ -247,40 +254,110 @@
       }
     });
     const changeSong = function (index) {
-      audioElement.src = songs[index];
-      audioElement.play();
+      //console.log(str.getTracks());
+      if (str != undefined){
+        str.getTracks().forEach(function(track) {
+          track.stop();
+        });
+      }
+      
+      
+      currentSong = index;
+      if (index != 3) {
+        audioElement.src = songs[index];
+        audioElement.play();
+        playing = true;
+      } else {
+        function getUserMedia(dictionary, callback) {
+            navigator.mediaDevices.getUserMedia(dictionary)
+            .then((stream) => {
+              gotStream(stream);
+            })
+            .catch((err) => {
+            });
+        }
+        
+        audioElement.pause();
+        //playing = false;
+        getUserMedia({audio:true}, gotStream);
+        
+        function gotStream(stream) {
+          str = stream;
+//             audioCtx = new AudioContext();
+
+//             let num = analyser.frequencyBinCount*2;
+
+//             analyser = audioCtx.createAnalyser();
+//             analyser.fftSize = num;
+
+          // Connect audio processing graph:
+          // live-input -> analyser -> destination
+
+          // Create an AudioNode from the stream.
+          
+          player = audioCtx.createMediaStreamSource(stream);    
+          player.connect(analyser);
+
+          // console.log(navigator.mediaDevices);
+
+
+
+          //analyser.connect(audioCtx.destination);
+
+        }
+
+      }
     };
     const changeTheme = function (index) {
       THEME = index;
+      // if (player == undefined) {
+      //   // Build element
+      //   player = audioCtx.createMediaElementSource(audioElement);
+      //   player.connect(analyser);
+      // }
       if (index == 0) {
-        analyser = audioCtx.createAnalyser();
+        console.log(player);
+        
+        //player = audioCtx.createMediaElementSource(audioElement);
+        //analyser = audioCtx.createAnalyser();
         analyser.fftSize = 128; // 64 bins
         results = new Uint8Array(analyser.frequencyBinCount);
         //smoothed = new Array(analyser.frequencyBinCount * 4);
         player.connect(analyser);
       } else if (index == 1) {
-        analyser = audioCtx.createAnalyser();
+        //player = audioCtx.createMediaElementSource(audioElement);
+        //analyser = audioCtx.createAnalyser();
         analyser.fftSize = 2048; // 1024 bins
         results = new Uint8Array(analyser.frequencyBinCount);
         smoothed = new Array(analyser.frequencyBinCount * 4);
         player.connect(analyser);
       } else if (index == 2) {
-        analyser = audioCtx.createAnalyser();
+        //player = audioCtx.createMediaElementSource(audioElement);
+        //analyser = audioCtx.createAnalyser();
         analyser.fftSize = 128; // 64 bins
         results = new Uint8Array(analyser.frequencyBinCount);
         //smoothed = new Array(analyser.frequencyBinCount * 4);
         player.connect(analyser);
       } else if (index == 3) {
-        analyser = audioCtx.createAnalyser();
+        //player = audioCtx.createMediaElementSource(audioElement);
+        //analyser = audioCtx.createAnalyser();
         analyser.fftSize = 8192; // 4096 bins
         results = new Uint8Array(analyser.frequencyBinCount);
         //smoothed = new Array(analyser.frequencyBinCount * 4);
         player.connect(analyser);
-      } else if (index == 4) {
-        analyser = audioCtx.createAnalyser();
+      } else if (index == 5) {
+        //player = audioCtx.createMediaElementSource(audioElement);
+        //analyser = audioCtx.createAnalyser();
         analyser.fftSize = 128; // 64 bins
         results = new Uint8Array(analyser.frequencyBinCount);
         smoothed = new Array(analyser.frequencyBinCount * 4);
+        player.connect(analyser);
+      } else if (index == 4) {
+        //player = audioCtx.createMediaElementSource(audioElement);
+        //analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 8192; // 4096 bins
+        results = new Uint8Array(analyser.frequencyBinCount);
+        smoothed = new Array(analyser.frequencyBinCount * 2);
         player.connect(analyser);
       }
     };
@@ -389,7 +466,7 @@
         let radinc =
           Math.PI / (analyser.frequencyBinCount - (ranges[0] * 2 - 0.5));
 
-        if (THEME != 3) {
+        if (THEME != 3 && THEME != 4) {
           if (analyser.fftSize > 512) {
             ctx.fillStyle = frontColor;
             let region = new Path2D();
@@ -417,7 +494,7 @@
             if (THEME == 2) {
               ctx.lineWidth = 4;
               ctx.strokeStyle = frontColor;
-            } else if (THEME == 4) {
+            } else if (THEME == 5) {
               ctx.fillStyle = "white";
             } else {
               ctx.fillStyle = frontColor;
@@ -485,7 +562,7 @@
 
             if (THEME == 2) {
               ctx.stroke(region);
-            } else if (THEME == 4) {
+            } else if (THEME == 5) {
               ///////////////////////////////////////
 
               let region2 = new Path2D();
@@ -609,7 +686,7 @@
               ctx.fill(region);
             }
           }
-        } else {
+        } else if (THEME == 3){
           //THEME 3
           ctx.fillStyle = frontColor;
           let region = new Path2D();
@@ -632,7 +709,64 @@
           }
           region.closePath();
           ctx.fill(region);
-        }
+        } else { /////////////////////////////THEME 4
+          ctx.fillStyle = frontColor;
+
+          let region = new Path2D();
+
+          let theta = (90 * Math.PI) / 180;
+          let i = 0;
+          let j = 0;
+          //region.moveTo(i, results[i] * offset2 + offset);
+          for (i = 0; i < analyser.frequencyBinCount; i++) {
+            theta += 0.1;
+            smoothed[j] = (results[i] * offset2) * Math.cos(theta);
+            smoothed[j + 1] =
+              (results[i] * offset2) * Math.sin(theta);
+            j += 2;
+          }
+          
+
+          // console.log("results: ", results)
+          // console.log("smoothed: ", smoothed)
+          //console.log(i, ranges[0] * 2, j, ranges[1] * 4 - 2)
+          let temp = j - 2;
+          // region.moveTo (smoothed[0], smoothed[1]);
+          // for (let i = 0; i < smoothed.length; i += 2) {
+          //   theta += radinc; // 0.01 for cool stuff
+          //   region.lineTo(
+          //     smoothed[i],
+          //     smoothed[i+1]
+          //   );
+          // }
+
+          i = 0;
+          region.moveTo(
+            (smoothed[temp] + smoothed[0]) / 2,
+            (smoothed[temp + 1] + smoothed[1]) / 2
+          );
+          region.quadraticCurveTo(
+            smoothed[i],
+            smoothed[i + 1],
+            (smoothed[i] + smoothed[i + 2]) / 2,
+            (smoothed[i + 1] + smoothed[i + 1 + 2]) / 2
+          );
+          for (i = 2; i < temp; i += 2) {
+            var xc = (smoothed[i] + smoothed[i + 2]) / 2;
+            var yc = (smoothed[i + 1] + smoothed[i + 1 + 2]) / 2;
+            region.quadraticCurveTo(smoothed[i], smoothed[i + 1], xc, yc);
+          }
+          // curve through the last two points
+          region.quadraticCurveTo(
+            smoothed[i],
+            smoothed[i + 1],
+            (smoothed[i] + smoothed[0]) / 2,
+            (smoothed[i + 1] + smoothed[1]) / 2
+          );
+          region.closePath();
+
+          ctx.fill(region);
+        } /////////////////////////////THEME 5
       };
       function sleep(ms) {
         return new Promise((resolve) => setTimeout(draw, ms));
