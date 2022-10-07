@@ -7,7 +7,7 @@ window.onload = function() {
 };
 
 var Visualizer = function() {
-    this.appName='HTML5 3D Audio Spectrum Visualizer';
+    this.appName='Music Visualizer';
     this.audioContext;
     this.source;
     this.url = 'sources/bbc_sherlock_london.mp3';
