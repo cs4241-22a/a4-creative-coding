@@ -13,24 +13,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/index.html'));
 })
 
-app.get('/style.css', (req, res) => {
-    res.sendFile(path.join(__dirname + '/css/style.css'));
-})
-
-app.get('/mysingingmonsters.jpg', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/mysingingmonsters.jpg'));
-})
-
 app.get('/scripts.js', (req, res) => {
     res.sendFile(path.join(__dirname + '/js/scripts.js'));
 })
-
-app.get('/sound1.ogg', (req, res) => {
-    res.sendFile(path.join(__dirname + '/assets/03-A_Monster_01.ogg'));
-})
-
-// app.get('/shrubb.ogg', (req, res) => {
-//     res.sendFile(path.join(__dirname + '/assets/01-BC_Monster_01.ogg'));
-// })
 
 app.listen(process.env.PORT || port);
