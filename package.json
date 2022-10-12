@@ -1,0 +1,18 @@
+{
+  "name": "Audio visualizer",
+  "version": "0.1",
+  "description": "Visualize audio of different songs",
+  "author": "Alexandra McFann",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "mime": "^3.0.0",
+    "three": "^0.145.0",
+    "webaudio": "^1.0.1"
+  },
+  "engines": {
+    "node": "12.x"
+  }
+}
