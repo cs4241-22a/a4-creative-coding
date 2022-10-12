@@ -1,0 +1,25 @@
+body{
+  background-color:#F0F4EF;
+  color: #0D1821;
+  text-align: center;
+  font-family: "Kanit", sans-serif;
+}
+h1{
+  font-size: 2.5em;
+}
+label{
+  font-size: 1.5em;
+}
+input[type=checkbox]{
+  padding: 5px, 15px;
+  cursor: pointer;
+}
+button{
+  padding: 5px, 15px;
+  cursor: pointer;
+  font-family: "Kanit", sans-serif;
+  background: #B4CDED;
+  border: 1;
+  border-radius: 6px;
+  font-size: 1em;
+}
