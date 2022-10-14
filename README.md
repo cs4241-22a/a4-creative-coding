@@ -1,30 +1,19 @@
-# hello-express
+Assignment 4 - Creative Coding: Interactive Multimedia Experiences
 
-A server that serves a webpage, its resources, and some data
+## Sketchy Me
 
+My hosting link https://a4-vishnupriyadendukuri.glitch.me/
 
-## Your Project
+- the goal of the application
+the goal of the application is to give other a ncice drawing board where they can have some fun drawing and creatign random stuff
 
-On the front-end,
-
-- Edit `views/index.html` to change the content of the webpage
-- `public/client.js` is the javacript that runs when you load the webpage
-- `public/style.css` is the styles for `views/index.html`
-- Drag in `assets`, like images or music, to add them to your project
-
-On the back-end,
-
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
-
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy.
+The users can
+* Change the pen color to what they want
+* Change the thickness of the pen they are using
+* Add these blue circles randomly on their page when they click on the "Random Blue Circle". I did this one because I see that it is fun due to uncertainity
+* Clear their whole page that that drew if they don't like it
+* Additionally I have also implemented a method where they can download whatever they drew.
 
 
-## Made by [Glitch](https://glitch.com/)
+The most difficult part was the download. the first function I implemented wasn't working because the method I call wasn't supported by chrome and IE. I then changed my method and it works now.The circles that are randmly generated are dont by Math.random so sometimes they go out of the frame. I don't have the time to fix that but I would like to. I would also want to add animation if I had the time.
 
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
-
-Find out more [about Glitch](https://glitch.com/about).
-
-( ᵔ ᴥ ᵔ )
