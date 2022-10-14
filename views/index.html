@@ -1,0 +1,47 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sketchy Me</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="Author: Vishnu Priya Dendukuri,
+    Illustrator: Vishnu Priya Dendukuri, Category: drSk, Price: free,
+    A website where you can scketch"
+    />
+
+    <!--     <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon"> -->
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- import the webpage's client-side javascript file -->
+  </head>
+  <body>
+    <section class="container">
+      <div id="bar">
+        <h1>Sketchy Me</h1>
+        <p>
+          This is Vishnu! I created this sketchbook where you can create some
+          amazing things. You just have to keep pressing to draw and once you
+          release, the line stops. Hope you have fun! Good Luck :)
+        </p>
+        <label for="colorme">Choose a color:</label>
+        <!--         this helps the user choose a color -->
+        <input id="colorme" name="colorme" type="color" />
+        <label for="thickness">Choose the thickness</label>
+        <input id="thickness" name="thickness" type="number" value="5" />
+        <button id="randomCircle">Random Blue Circle</button>
+<!--         <button id="randomRect">Random Green Rectangle</button> -->
+        <button id="erase">erase</button>
+        <button id="download">Download</button>
+      </div>
+      <div class="board">
+        <canvas id="board"></canvas>
+      </div>
+    </section>
+    <script src="./script.js"></script>
+  </body>
+</html>
