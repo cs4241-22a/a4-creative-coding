@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="scripts.js"></script>
+    <title>Visualizer</title>
+</head>
+<body>
+   <div id="content">
+  <input type="file" id="thefile" accept="audio/*" />
+  <canvas id="canvas"></canvas>
+  <audio id="audio" controls></audio>
+<div>
+  <input type="range" id="id1" name="R"
+         value = "250" min="0" max="255">
+  <label for="R" id="id1l">R</label>
+</div>
+     <div>
+  <input type="range" id="id2" name="G"
+         value = "250" min="0" max="255">
+  <label for="G" id="id2l">G</label>
+</div>
+     <div>
+  <input type="range" id="id3" name="B"
+         value = "250" min="0" max="255">
+  <label for="B" id="id3l">B</label>
+</div>
+</div>
+</body>
+  
+  <script>
+  window.onload = function() {
+  
+  var file = document.getElementById("thefile");
+  var audio = document.getElementById("audio");
+  
+  file.onchange = function() {
+    var files = this.files;
+    audio.src = URL.createObjectURL(files[0]);
+    audio.load();
+    audio.play();
+    var context = new AudioContext();
+    var src = context.createMediaElementSource(audio);
+    var analyser = context.createAnalyser();
+
+    var canvas = document.getElementById("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = canvas.getContext("2d");
+
+    src.connect(analyser);
+    analyser.connect(context.destination);
+
+    analyser.fftSize = 256;
+
+    var bufferLength = analyser.frequencyBinCount;
+    console.log(bufferLength);
+
+    var dataArray = new Uint8Array(bufferLength);
+
+    var WIDTH = canvas.width;
+    var HEIGHT = canvas.height;
+
+    var barWidth = (WIDTH / bufferLength) * 2.5;
+    var barHeight;
+    var x = 0;
+
+    function renderFrame() {
+      requestAnimationFrame(renderFrame);
+
+      x = 0;
+
+      analyser.getByteFrequencyData(dataArray);
+
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+      for (var i = 0; i < bufferLength; i++) {
+        barHeight = dataArray[i];
+        
+        let r = document.getElementById('id1').value;
+        let g = document.getElementById("id2").value; 
+        let b = document.getElementById("id3").value; 
+        
+        var r2 = barHeight + (r * (i/bufferLength));
+        var g2 = g * (i/bufferLength);
+        var b2 = b;
+        
+        ctx.fillStyle = "rgb(" + r2 + "," + g2 + "," + b2 + ")";
+        ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+        
+        x += barWidth + 1;
+      }
+    }
+    audio.play();
+    renderFrame();
+  };
+};
+  
+  </script>
+</html>
