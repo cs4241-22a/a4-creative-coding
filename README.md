@@ -6,18 +6,16 @@ Note: The project name is a4-cindy-trac. However, codesandbox does not allow me 
 
 ## Goal
 
-My main goal with this application was to explore existing libraries and experiment with how to implement them into a creative coding project. The application ended up becoming a visualizer that allows users to have an interactive experience. The user is able to view and edit a geometric shape. 
+I used the following frameworks and libraries to a visualizer that allows users to have an interactive experience. The user is able to view and edit a geometric shape. 
+- [Three.js](https://threejs.org/): a library for 3D graphics / VR experiences
+- [Tweakpane](https://cocopon.github.io/tweakpane/): a compact pane library to edit parameters and monitor value changes
+- [WebGL (Web Graphics Library)](https://cocopon.github.io/tweakpane/): a library for rendering interactive 2D and 3D graphics
 
 The user can:
 - drag to move the shape
 - adjust where the camera is
 - change the shape color and toggle its wireframe mode
 - adjust the position, rotation, and scale of the shape
-
-I used the following frameworks and libraries:
-- [Three.js](https://threejs.org/): a library for 3D graphics / VR experiences
-- [Tweakpane](https://cocopon.github.io/tweakpane/): a compact pane library to edit parameters and monitor value changes
-- [WebGL (Web Graphics Library)](https://cocopon.github.io/tweakpane/): a library for rendering interactive 2D and 3D graphics
 
 ## Challenges
 
